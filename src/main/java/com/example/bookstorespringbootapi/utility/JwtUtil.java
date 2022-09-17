@@ -1,0 +1,61 @@
+package com.example.bookstorespringbootapi.utility;
+
+
+import com.example.bookstorespringbootapi.security.ApplicationUserDetails;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Slf4j
+@Component
+public class JwtUtil {
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.expiry}")
+    private int expiry;
+
+    public String generateToken(Authentication authentication){
+        ApplicationUserDetails userDetails = (ApplicationUserDetails) authentication.getPrincipal();
+        Date date = new Date();
+        Date expiryDate = new Date(date.getTime() + expiry);
+
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
+
+    public String getUsernameFromToken(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
+    }
+
+    public boolean validateToken(String token){
+        try{
+            Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
+            return true;
+        } catch (SignatureException |
+                 MalformedJwtException |
+                 UnsupportedJwtException |
+                 IllegalArgumentException ex) {
+            log.info("Invalid token was provided.");
+        } catch (ExpiredJwtException ex){
+            log.info("The provided token is expired.");
+        }
+        return false;
+    }
+
+}
