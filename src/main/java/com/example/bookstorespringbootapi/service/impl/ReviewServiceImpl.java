@@ -56,4 +56,9 @@ public class ReviewServiceImpl implements ReviewService {
     public boolean reviewExists(int userId, int bookId) {
         return reviewRepository.checkIfReviewExists(userId, bookId);
     }
+
+    @Override
+    public void deleteReview(int reviewId) {
+        reviewRepository.deleteById(reviewId);
+    }
 }

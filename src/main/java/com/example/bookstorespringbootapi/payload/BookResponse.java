@@ -1,6 +1,7 @@
 package com.example.bookstorespringbootapi.payload;
 
 import com.example.bookstorespringbootapi.entity.Book;
+import com.example.bookstorespringbootapi.entity.BookDetail;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class BookResponse {
     private double price;
     private String shortDesc;
     private String imgPath;
+    private BookDetail bookDetail;
 
     public BookResponse(Book book) {
         this.id = book.getId();
@@ -23,5 +25,6 @@ public class BookResponse {
         this.price = book.getPrice();
         this.shortDesc = book.getShortDesc();
         this.imgPath = book.getImgPath();
+        this.bookDetail = book.getBookDetail();
     }
 }

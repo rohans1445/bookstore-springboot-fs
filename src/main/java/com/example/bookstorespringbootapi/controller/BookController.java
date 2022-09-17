@@ -2,7 +2,6 @@ package com.example.bookstorespringbootapi.controller;
 
 import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.payload.BookResponse;
-import com.example.bookstorespringbootapi.payload.DetailedBookResponse;
 import com.example.bookstorespringbootapi.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,9 +38,15 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
-    public ResponseEntity<DetailedBookResponse> getBookById(@PathVariable("id") int id){
-        DetailedBookResponse res = new DetailedBookResponse(bookService.getBookById(id));
+    public ResponseEntity<BookResponse> getBookById(@PathVariable("id") int id){
+        BookResponse res = new BookResponse(bookService.getBookById(id));
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PutMapping("/books/{id}")
+    public ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable("id") int id){
+        Book savedBook = bookService.saveBook(book);
+        return new ResponseEntity<>(savedBook, HttpStatus.OK);
     }
 
 }
