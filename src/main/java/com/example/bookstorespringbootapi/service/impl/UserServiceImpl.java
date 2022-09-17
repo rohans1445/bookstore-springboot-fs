@@ -1,6 +1,7 @@
 package com.example.bookstorespringbootapi.service.impl;
 
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
+import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
 import com.example.bookstorespringbootapi.payload.RegistrationRequest;
 import com.example.bookstorespringbootapi.repository.ApplicationUserRepository;
 import com.example.bookstorespringbootapi.security.ApplicationUserDetails;
@@ -63,5 +64,11 @@ public class UserServiceImpl implements UserService {
         String username = auth.getName();
         Optional<ApplicationUser> userOptional = applicationUserRepository.findByUserName(username);
         return userOptional.orElseThrow(() -> new UsernameNotFoundException("No user found with username: "+ username));
+    }
+
+    @Override
+    public ApplicationUser getUserByUserName(String username) {
+        return applicationUserRepository.findByUserName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
     }
 }

@@ -15,4 +15,5 @@ public interface ReviewService {
 
     boolean reviewExists(int userId, int bookId);
 
+    void deleteReview(int reviewId);
 }

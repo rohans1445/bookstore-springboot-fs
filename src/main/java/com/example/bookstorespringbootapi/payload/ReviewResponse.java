@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class ReviewResponse {
 
     private int reviewId;
+    private int bookId;
     private String username;
     private String title;
     private String content;
@@ -21,10 +22,12 @@ public class ReviewResponse {
 
     public ReviewResponse(Review review){
         this.reviewId = review.getId();
+        this.bookId = review.getBook().getId();
         this.username = review.getUser().getUserName();
         this.title = review.getTitle();
         this.content = review.getContent();
         this.rating = review.getRating();
+        this.timestamp = review.getTimestamp();
     }
 
 }

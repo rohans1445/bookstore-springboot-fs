@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -60,4 +61,7 @@ public class ApplicationUser {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Review> reviews;
 
+    public List<Review> getReviews() {
+        return reviews == null ? Collections.emptyList() : Collections.unmodifiableList(reviews);
+    }
 }

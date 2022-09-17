@@ -12,4 +12,6 @@ public interface UserService extends UserDetailsService {
     boolean isEmailTaken(String email);
 
     ApplicationUser getCurrentUser();
+
+    ApplicationUser getUserByUserName(String username);
 }
