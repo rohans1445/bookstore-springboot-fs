@@ -1,1 +1,157 @@
 /* You can add global styles to this file, and also import other style files */
+
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bg-custom-orange {
+    background-color: #e54624 !important;
+}
+
+.bg-custom-teal {
+    background-color: #40bf77;
+}
+
+.text-custom-orange {
+    color: #e54624 !important;
+}
+
+.btn-custom-orange {
+    background-color: #e54624 !important;
+    color: #fff !important;
+}
+.btn-custom-orange:hover {
+    background-color: #b5351a !important;
+}
+.btn-custom-orange:focus {
+    box-shadow: 0 0 0 .25rem rgba(219, 43, 2, 0.2) !important;
+    border-color: rgb(177, 48, 21) !important;
+}
+
+.border-custom-orange {
+    border-bottom: 3px solid #e54624;
+}
+
+.border-custom-orange-top {
+    border-top: 3px solid #e54624;
+}
+
+.form-control-custom-orange:focus {
+    box-shadow: 0 0 0 .25rem rgba(219, 43, 2, 0.2) !important;
+    border-color: rgb(177, 48, 21) !important;
+}
+
+.active-custom {
+    background-color: #e54624 !important;
+    border-color: #e54624 !important;
+}
+
+#userimage {
+    border-radius: 50%;
+    border: 3px solid #e54624;
+}
+
+#expandContractBtn:hover {
+    background-color: #d1d6d3;
+    border-color: #999999 !important;
+    cursor: pointer;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff !important;
+    background-color: #e54624 !important;
+    border-color: rgb(177, 48, 21) !important;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d !important;
+}
+
+.page-link {
+    color: #e54624 !important;
+}
+
+.user-badge {
+    border: 1px solid #6c757d;
+    color: #6c757d !important;
+    border-radius: 5px;
+    margin: 2px 2px;
+    padding: 1px 5px;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    text-decoration: none;
+}
+
+.user-badge:hover {
+    background-color: #dbdbdb;
+    transition: all 0.2s ease-in;
+}
+
+td {
+    vertical-align: middle;
+}
+
+#rnd {
+    color: #dddddd;
+}
+
+#rnd:hover {
+    color: #a3a3a3;
+}
+
+.table th {
+  text-align: center !important;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid rgb(26, 24, 24);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative;
+    animation: pulse 1s linear infinite;
+  }
+.loader:after {
+    content: '';
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border: 5px solid rgb(70, 70, 70);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    animation: scaleUp 1s linear infinite;
+}
+  
+@keyframes scaleUp {
+    0% { transform: translate(-50%, -50%) scale(0) }
+    60% , 100% { transform: translate(-50%, -50%)  scale(1)}
+}
+
+@keyframes pulse {
+    0% , 60% , 100%{ transform:  scale(1) }
+    80% { transform:  scale(1.2)}
+}
+  
+
+
+
+
+
+
+
+
+
+
