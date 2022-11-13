@@ -1,0 +1,124 @@
+<div *ngIf="isLoading" class="mt-5 text-center">
+    <span  class="loader"></span>
+</div>
+<section class="p-0 pt-3 p-sm-5 text-center text-md-start" *ngIf="!isError && !isLoading">
+    <div class="container" id="book-container">
+        <div>
+            <form method="get">
+                <div class="d-flex col-lg-4 col-md-6 col-sm-8 col-12 ms-auto mb-2">
+                    <input name="search" type="text" id="search" class="form-control form-control-custom-orange" placeholder="Search">
+                    <button type="submit" class="btn btn-sm btn-custom-orange  ms-2 d-flex justify-content-center">
+                        <i class="bi bi-search text-secondary text-white fs-5 mx-1"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <ul class="list-group">
+            <!-- <div th:if="${param.orderSuccess}" class="alert alert-success" role="alert">
+                <i class="bi bi-info-circle me-2"></i> Order placed successfully!
+            </div>
+            <div th:if="${param.alreadyOwned}" class="alert alert-warning" role="alert">
+                <i class="bi bi-info-circle me-2"></i> You already own this book.
+            </div>
+            <div th:if="${param.invalid}" class="alert alert-danger" role="alert">
+                <i class="bi bi-info-circle me-2"></i> Invalid request
+            </div>
+            <div th:if="${param.unauthorized}" class="alert alert-danger" role="alert">
+                <i class="bi bi-info-circle me-2"></i> Unauthorized request
+            </div>
+            <div th:if="${param.saved}" class="alert alert-success" role="alert">
+                <i class="bi bi-info-circle me-2"></i> Book saved
+            </div>
+            <div th:if="${param.generatedB}" class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle me-2"></i> <span th:text="|Generated ${param.generatedB} book(s)|"></span>
+            </div>
+            <div th:if="${param.generatedU}" class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle me-2"></i> <span th:text="|Generated ${param.generatedB} user(s)|"></span>
+            </div> -->
+            
+            <li class="list-group-item bg-light">
+                <h4 class="p-0 text-start m-0" th:text="${param.search == null ? 'All' : 'Search results'}">All</h4>
+            </li>
+            <li *ngFor="let book of books" class="list-group-item p-2">
+                <div class="d-sm-flex justify-content-between">
+                    <div class="d-sm-flex">
+                        <!--image-->
+                        <div class="align-self-center">
+                            <img [src]="book.imgPath" class="img-thumbnail" style="max-height: 200px;max-width: 150px;min-height: 150px;min-width: 100px;">
+                        </div>
+                        <!--title, author, description-->
+                        <div class="col ps-0 px-sm-3">
+                            <h5 class="m-0">
+                                <span>{{ book.title }} </span>
+                                <span class="fst-italic fw-light">by <span>{{ book.author }}</span></span>
+                            </h5>
+                            <div class="d-sm-flex pt-1">
+                                <div class="d-flex justify-content-center">
+                                    <h6 class="text-warning align-self-center">
+                                        <div th:with="avgRating=${avgRatings.get(__${book.id}__)}">
+                                            <small th:if="${avgRating == 5.0}">
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                            </small>
+                                        </div>
+                                    </h6>
+                                    <h6 class="ms-2 text-muted"><span th:text="${#lists.size(book.reviews)}">146</span> reviews</h6>
+                                </div>
+                                <h6 class="ms-0 ms-sm-3 text-success"><i class="bi bi-clipboard2-check-fill me-1"></i><span th:text="${#lists.size(book.orderItems)}">31</span> sold</h6>
+                            </div>
+                            <p class="m-0 text-muted d-none d-sm-block" align="justify" th:text="${book.shortDesc}">
+                                {{ book.shortDesc }}
+                            </p>
+                            <div class="pt-4 d-none d-sm-block" th:with="tagList=${#strings.arraySplit(book.bookDetail.tags,',')}">
+                                <span th:each="tag : ${tagList}" class="badge bg-custom-orange rounded-pill m-1">
+                                    <a th:text="${tag}" class="text-decoration-none text-light" href="">Java</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="fw-bold" th:text="|$${book.price}|">${{ book.price }}</h5>
+                        <div class="pt-3">
+                            <a class="btn btn-custom-orange"><strong>Buy Now</strong></a>
+                            <a class="btn btn-outline-secondary ms-1" [routerLink]="[book.id]"><strong>Details</strong></a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="pb-3">
+            <div sec:authorize="hasRole('ADMIN')" class="col p-5 mt-3 text-center" style="border: dashed; border-width: thin; border-color: darkgray; border-radius: 3px;">
+                <h4>
+                    <a class="text-muted text-decoration-none p-5 mb-3" th:href="@{/books/add}">+ Add a book</a>
+                </h4>
+            </div>
+        </div>
+    </div>
+    <!-- <nav class="pt-3">
+        <ul class="pagination justify-content-center">
+            <li th:if="${currentPage != 1}" class="page-item">
+                <a class="page-link" th:href="@{/books/list(page=${currentPage-1})}">Previous</a>
+            </li>
+            <li th:if="${currentPage == 1}" class="page-item disabled" >
+                <a class="page-link">Previous</a>
+            </li>
+            <li th:each="pageNo : ${#numbers.sequence(1,__${totalPages}__,1)}" class="page-item" th:class="${currentPage == pageNo}? 'page-item active' : 'page-item'">
+                <a class="page-link" th:href="@{/books/list(page=${pageNo})}" th:text="${pageNo}">1</a>
+            </li>
+            <li th:if="${currentPage != totalPages}" class="page-item">
+                <a class="page-link" th:href="@{/books/list(page=${currentPage+1})}">Next</a>
+            </li>
+            <li th:if="${currentPage} == ${totalPages}" class="page-item disabled">
+                <a class="page-link">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <div th:class="text-center">
+        <small class="text-muted" th:text="|Total results: ${totalResults}|"></small>
+    </div> -->
+</section>
+<app-error class="p-0 pt-3 p-sm-5" *ngIf="isError"></app-error>
+<router-outlet></router-outlet>
