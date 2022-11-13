@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-error',
   template: `
-  <div class="alert alert-danger" role="alert">
+  <div class="alert alert-danger col-md-4" role="alert">
     <i class="bi bi-info-circle me-2"></i> <span>Error fetching content.</span>
   </div>
   `,

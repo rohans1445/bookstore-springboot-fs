@@ -1,5 +1,5 @@
 <div *ngIf="isLoading" class="mt-5 text-center">
-    <span  class="loader"></span>
+    <span class="loader"></span>
 </div>
 <section class="p-0 pt-3 p-sm-5 text-center text-md-start" *ngIf="!isError && !isLoading">
     <div class="container" id="book-container">
@@ -83,7 +83,7 @@
                         <h5 class="fw-bold" th:text="|$${book.price}|">${{ book.price }}</h5>
                         <div class="pt-3">
                             <a class="btn btn-custom-orange"><strong>Buy Now</strong></a>
-                            <a class="btn btn-outline-secondary ms-1" [routerLink]="[book.id]"><strong>Details</strong></a>
+                            <a class="btn btn-outline-secondary ms-1" [routerLink]="['/books', book.id]"><strong>Details</strong></a>
                         </div>
                     </div>
                 </div>
@@ -121,4 +121,3 @@
     </div> -->
 </section>
 <app-error class="p-0 pt-3 p-sm-5" *ngIf="isError"></app-error>
-<router-outlet></router-outlet>

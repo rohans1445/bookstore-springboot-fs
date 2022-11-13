@@ -10,14 +10,19 @@ import { Book } from './book.model';
 export class BookService {
 
   private baseUrl: string = environment.baseUrl;
-  private token: string = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY2ODM0Mzk2NSwiZXhwIjoxNjY4MzUxMTY1fQ.CCvPgWSyrNZrC1nW_-6XP-974iWXVMLkE4xmtde4sD4MORapVgZnXKFiLZgjxCmW6ho1mjF2b9H4Iif5Gjcm9Q';
+  private token: string = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY2ODM1NzcxNywiZXhwIjoxNjY4MzY0OTE3fQ.prW36r5cqWSiyPi-qNhzjIejVk2y9fFD81Td6HysplB3BFUf4sHg_2xrz9aiYw01xsqbFFD1xpTmPlCNy_a9WQ'
+  private authHeader: HttpHeaders = new HttpHeaders({
+    'Authorization': `Bearer ${this.token}`
+  })
 
   constructor(private http: HttpClient) {}
 
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(`${this.baseUrl}/books`, {headers: new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
-    })});
+    return this.http.get<Book[]>(`${this.baseUrl}/books`, {headers: this.authHeader});
+  }
+
+  getBookById(id: number): Observable<Book> {
+    return this.http.get<Book>(`${this.baseUrl}/books/${id}`, {headers: this.authHeader});
   }
 
 }
