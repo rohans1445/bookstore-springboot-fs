@@ -10,7 +10,7 @@ import { Book } from './book.model';
 export class BookService {
 
   private baseUrl: string = environment.baseUrl;
-  private token: string = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTY2ODM1NzcxNywiZXhwIjoxNjY4MzY0OTE3fQ.prW36r5cqWSiyPi-qNhzjIejVk2y9fFD81Td6HysplB3BFUf4sHg_2xrz9aiYw01xsqbFFD1xpTmPlCNy_a9WQ'
+  private token: string | null = localStorage.getItem('token');
   private authHeader: HttpHeaders = new HttpHeaders({
     'Authorization': `Bearer ${this.token}`
   })

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-books',
-  template: `<router-outlet></router-outlet>`,
+  templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
 export class BooksComponent implements OnInit {

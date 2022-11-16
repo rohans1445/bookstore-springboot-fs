@@ -11,6 +11,10 @@ import { ErrorComponent } from './error/error.component';
 import { FooterComponent } from './footer/footer.component';
 import { BooksComponent } from './books/books.component';
 import { ReviewsComponent } from './books/reviews/reviews.component';
+import { AuthComponent } from './auth/auth.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,12 +25,16 @@ import { ReviewsComponent } from './books/reviews/reviews.component';
     ErrorComponent,
     FooterComponent,
     BooksComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    AuthComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

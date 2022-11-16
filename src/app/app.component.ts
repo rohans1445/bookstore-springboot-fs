@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Book } from './book.model';
 import { BookService } from './book.service';
 
@@ -10,10 +11,12 @@ import { BookService } from './book.service';
 })
 export class AppComponent implements OnInit{
   title = 'bookstore-springboot';
+  isAuthPage: boolean = false;
 
-  constructor(){}
+  constructor(private currentRoute: ActivatedRoute){}
 
   ngOnInit() {
+    console.log(this.currentRoute.pathFromRoot);
   }
 
 }

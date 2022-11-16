@@ -1,4 +1,7 @@
-<section class="p-2 pt-3 pb-3 pt-sm-5 p-sm-5 text-center text-md-start">
+<div class="text-center mt-5" *ngIf="isLoading">
+    <span class="loader"></span>
+</div>
+<section class="p-2 pt-3 pb-3 pt-sm-5 p-sm-5 text-center text-md-start" *ngIf="!isLoading">
     <div class="container">
         <div class="col-lg-10 mx-auto">
             <!-- <div th:if="${param.alreadyInCart}" class="alert alert-danger" role="alert">
