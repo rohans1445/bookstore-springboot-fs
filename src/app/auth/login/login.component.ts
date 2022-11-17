@@ -24,9 +24,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userLogoutSubscription = this.authService.userHasLoggedOut.subscribe({
       next: loggedOut => {
-        console.log("Logged out: " + loggedOut);
         this.userLoggedOut = loggedOut;
-        console.log(this.userLoggedOut);
+        setTimeout(()=>{
+          if(this.userLoggedOut) this.userLoggedOut = false;
+        }, 3000);
       }
     });
 
@@ -53,7 +54,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: res => {
         this.isLoading = false;
         localStorage.setItem('token', res.token);
-        this.authService.getExpiration();
+
+        this.authService.fetchCurrentUserDetails().subscribe({
+          next: res => {
+            this.authService.currentUser = res;
+          }
+        })
+
         this.router.navigate(['/books/list']);
       },
       error: res => {

@@ -16,7 +16,6 @@ export class AppComponent implements OnInit{
   constructor(private currentRoute: ActivatedRoute){}
 
   ngOnInit() {
-    console.log(this.currentRoute.pathFromRoot);
   }
 
 }

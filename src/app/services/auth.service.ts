@@ -13,24 +13,49 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  currentUser: User = new User();
+
   userHasLoggedOut = new BehaviorSubject<boolean>(false);
 
   login(usernamePassword: object): Observable<any>{
     return this.http.post<any>(`${environment.baseUrl}/auth/login`, usernamePassword);
   }
 
-  getCurrentUserDetails(): Observable<User>{
+  fetchCurrentUserDetails(): Observable<User>{
     return this.http.get<User>(`${environment.baseUrl}/api/user/me`, {headers: this.getAuthHeader()});
   }
 
-  isLoggedIn(){
-    return moment().isBefore(this.getExpiration());
+  isLoggedIn(): boolean{
+    return !this.isTokenExpired();
+  }
+
+  setLoggedInUser(){
+    if(this.isLoggedIn()){
+      this.fetchCurrentUserDetails().subscribe(res=>{
+        this.currentUser = res;
+      })
+    }
   }
 
   getExpiration(){
+    try {
+      const bearerToken = localStorage.getItem('token');
+      const decodedJWT: {iat: number, sub: string, exp: number } = jwtDecode(bearerToken!);
+      return moment.unix(decodedJWT.exp);
+    } catch(error) {
+      console.log('Error decoding token.');
+      return;
+    }
+  }
+  
+  isTokenExpired(){
     const bearerToken = localStorage.getItem('token');
-    const decodedJWT: {iat: number, sub: string, exp: number } = jwtDecode(!!bearerToken ? bearerToken : '');
-    return moment.unix(decodedJWT.exp);
+    if(bearerToken === null){
+      return true;
+    }
+
+    const decodedJWT: {iat: number, sub: string, exp: number } = jwtDecode(bearerToken);
+    return moment().isAfter(moment.unix(decodedJWT.exp)); 
   }
 
   logout() {
@@ -43,6 +68,5 @@ export class AuthService {
       'Authorization': `Bearer ${bearerToken}`
     });
   }
-
 
 }
