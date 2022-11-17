@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Book } from './book.model';
+import { Book } from './models/book.model';
 import { BookService } from './services/book.service';
 
 @Component({

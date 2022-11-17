@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Review } from 'src/app/review.model';
+import { Review } from 'src/app/models/review.model';
 import { ReviewService } from 'src/app/services/review.service';
 
 @Component({

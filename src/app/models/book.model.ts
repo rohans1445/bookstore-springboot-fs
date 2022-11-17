@@ -1,4 +1,4 @@
-import { BookDetail } from "./bookDetail.model";
+import { BookDetail } from "../bookDetail.model";
 
 export interface Book {
     id: number,

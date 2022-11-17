@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../user.model';
+import { User } from '../models/user.model';
 import jwtDecode from 'jwt-decode';
 import * as moment from 'moment';
 
@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   fetchCurrentUserDetails(): Observable<User>{
-    return this.http.get<User>(`${environment.baseUrl}/api/user/me`, {headers: this.getAuthHeader()});
+    return this.http.get<User>(`${environment.baseUrl}/user/me`, {headers: this.getAuthHeader()});
   }
 
   isLoggedIn(): boolean{

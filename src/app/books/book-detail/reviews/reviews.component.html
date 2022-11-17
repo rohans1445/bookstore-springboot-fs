@@ -1,5 +1,5 @@
 <app-loader *ngIf="isLoading && !isError"></app-loader>
-<app-error class="p-5 text-center" *ngIf="isError"></app-error>
+<app-error [message]="'Error loading reviews.'" *ngIf="isError"></app-error>
 <div class="pt-3" *ngIf="!isLoading && !isError">
     <ul class="list-group">
         <li class="list-group-item bg-light">
