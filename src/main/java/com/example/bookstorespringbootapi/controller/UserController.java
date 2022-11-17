@@ -38,26 +38,4 @@ public class UserController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @PostMapping("/me/cart")
-    public ResponseEntity<ApiResponse> addBookToCart(@RequestBody CartRequest cartRequest){
-        userService.addBookToCart(cartRequest.getBookId());
-        ApiResponse res = new ApiResponse(HttpStatus.OK.value(), "Item added to cart.");
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
-
-    @GetMapping("/me/cart")
-    public ResponseEntity<List<BookResponse>> getUsersCart(){
-        ApplicationUser user = userService.getCurrentUser();
-        List<Book> cart = user.getCart();
-        List<BookResponse> res = cart.stream().map(BookResponse::new).collect(Collectors.toList());
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/me/cart/{bookId}")
-    public ResponseEntity<ApiResponse> deleteCartItem(@PathVariable("bookId") int bookId){
-        userService.removeItemFromCart(bookId);
-        ApiResponse res = new ApiResponse(HttpStatus.OK.value(), "Removed item from cart.");
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
-
 }

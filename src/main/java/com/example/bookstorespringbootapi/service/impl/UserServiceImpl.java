@@ -2,6 +2,7 @@ package com.example.bookstorespringbootapi.service.impl;
 
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Book;
+import com.example.bookstorespringbootapi.exception.InvalidInputException;
 import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
 import com.example.bookstorespringbootapi.payload.RegistrationRequest;
 import com.example.bookstorespringbootapi.repository.ApplicationUserRepository;
@@ -83,6 +84,11 @@ public class UserServiceImpl implements UserService {
     public void addBookToCart(int bookId) {
         ApplicationUser user = getCurrentUser();
         Book book = bookService.getBookById(bookId);
+
+        if(user.getCart().contains(book)){
+            throw new InvalidInputException("Item is already in cart.");
+        }
+
         user.getCart().add(book);
         applicationUserRepository.save(user);
     }
