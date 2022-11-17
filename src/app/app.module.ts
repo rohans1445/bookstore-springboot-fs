@@ -10,7 +10,7 @@ import { BookDetailComponent } from './books/book-detail/book-detail.component';
 import { ErrorComponent } from './error/error.component';
 import { FooterComponent } from './footer/footer.component';
 import { BooksComponent } from './books/books.component';
-import { ReviewsComponent } from './books/reviews/reviews.component';
+import { ReviewsComponent } from './books/book-detail/reviews/reviews.component';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
