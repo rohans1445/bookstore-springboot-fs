@@ -53,7 +53,7 @@ public class JwtUtil {
                  IllegalArgumentException ex) {
             log.info("Invalid token was provided.");
         } catch (ExpiredJwtException ex){
-            log.info("The provided token is expired.");
+            log.warn(ex.getMessage());
         }
         return false;
     }

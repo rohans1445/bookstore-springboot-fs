@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public class BookDetail {
 //    @Column(name = "long_desc")
 //    private String longDesc;
 
-    //    @NotEmpty(message = "ISBN cannot be empty")
+    @NotBlank(message = "ISBN cannot be empty")
     @Column(name = "isbn")
     private String isbn;
 
