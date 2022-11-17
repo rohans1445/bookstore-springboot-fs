@@ -1,6 +1,4 @@
-<div class="text-center mt-5" *ngIf="isLoading">
-    <span class="loader"></span>
-</div>
+<app-loader *ngIf="isLoading"></app-loader>
 <section class="p-2 pt-3 pb-3 pt-sm-5 p-sm-5 text-center text-md-start" *ngIf="!isLoading">
     <div class="container">
         <div class="col-lg-10 mx-auto">
@@ -100,6 +98,7 @@
                                                 <div class="d-flex">
                                                     <div class="align-self-center">
                                                         <strong>Avg. Rating:</strong>
+                                                        <span>Is logged in: {{authService.isLoggedIn()}}</span>
                                                     </div>
                                                     <div class="ps-2">
                                                         <a th:if="${avgRating == 0}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 0-star"></div></a>

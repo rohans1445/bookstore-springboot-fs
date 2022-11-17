@@ -24,17 +24,15 @@
             <span class="me-3">roles</span>
           </div>
           <div class="pt-3 pt-md-0 d-flex">
-            <a class="btn btn-primary me-2" routerLink="/login">Login</a>
-            <a class="btn btn-primary " routerLink="/register">Register</a>
+            <a *ngIf="!loggedIn" class="btn btn-primary me-2" routerLink="/login">Login</a>
+            <a *ngIf="!loggedIn" class="btn btn-primary " routerLink="/register">Register</a>
             <div *ngIf="loggedIn">
               <a class="btn btn-outline-secondary me-1"><i class="bi bi-cart4"></i></a>
-              <a class="btn btn-outline-primary me-2"><i class="bi bi-person-circle"></i> My Profile</a>
-              <a  class="btn btn-outline-primary me-2"><i class="bi bi-person-circle"></i> Admin Panel</a>
+              <a class="btn btn-outline-primary me-1"><i class="bi bi-person-circle"></i> My Profile</a>
+              <a *ngIf="isAdmin" class="btn btn-outline-primary me-2"><i class="bi bi-person-circle"></i> Admin Panel</a>
             </div>
             <div *ngIf="loggedIn">
-              <form method="post">
-                <button class="btn btn-outline-danger bi bi-box-arrow-right" type="submit"></button>
-              </form>
+              <button (click)="onLogout()" class="btn btn-outline-danger bi bi-box-arrow-right" type="submit"></button>
             </div>
           </div>
         </div>

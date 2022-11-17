@@ -1,6 +1,4 @@
-<div *ngIf="isLoading" class="mt-5 text-center">
-    <span class="loader"></span>
-</div>
+<app-loader *ngIf="isLoading"></app-loader>
 <section class="p-0 pt-3 p-sm-5 text-center text-md-start" *ngIf="!isError && !isLoading">
     <div class="container" id="book-container">
         <div>

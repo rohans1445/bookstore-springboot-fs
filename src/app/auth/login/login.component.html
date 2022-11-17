@@ -13,14 +13,14 @@
             <div class="bg-white col-xl-4 col-lg-5 col-md-7 col-sm-9" style="box-shadow: 0 0 25px 0 #a0331b; border-radius: 0.5rem;">
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()" class="p-4 ps-3 pe-3 p-sm-5 pb-sm-4">
                     <h4 class="fw-normal text-center text-custom-orange pb-5">Log in to your account</h4>
-                    <!-- <div class="text-center"> -->
-                        <!-- <div th:if="${param.logout}" class="alert alert-secondary p-2 border border-secondary rounded rounded-3 text-secondary" style="border-radius: 0.5rem !important;" role="alert">
+                    <div class="text-center">
+                        <div *ngIf="userLoggedOut" class="alert alert-secondary p-2 border border-secondary rounded rounded-3 text-secondary" style="border-radius: 0.5rem !important;" role="alert">
                             You have been logged out
                         </div>
-                        <div th:if="${param.error}" class="alert alert-danger p-2 border border-danger rounded rounded-3 text-danger" style="border-radius: 0.5rem !important;" role="alert">
+                        <div *ngIf="invalidCredentials" class="alert alert-danger p-2 border border-danger rounded rounded-3 text-danger" style="border-radius: 0.5rem !important;" role="alert">
                             Invalid username/password
-                        </div> -->
-                    <!-- </div> -->
+                        </div>
+                    </div>
                     <div>
                         <label class="form-label pb-0 mb-0"><small class="fw-bold text-muted">Username</small></label>
                         <div class="input-group pb-3">
@@ -36,12 +36,15 @@
                         </div>
                     </div>
                     <div class="d-grid text-center pt-4">
-                        <button type="submit" class="btn btn-custom-orange  p-2" style="border-radius: 0.5rem !important;" [disabled]="!loginForm.valid">Login</button>
+                        <button type="submit" class="btn btn-custom-orange  p-2" style="border-radius: 0.5rem !important;" [disabled]="!loginForm.valid || isLoading">
+                            {{isLoading ? 'Logging in' : 'Login'}}
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </button>
                     </div>
                 </form>
                 <div class="text-center p-4 pt-3 mt-2 bg-light" style="border-top: 1px solid #c4c4c4; border-bottom-left-radius: 0.5rem; border-bottom-right-radius: 0.5rem;">
                     <h5 class="pb-0 mb-0">
-                        <a th:href="@{/register}" class="text-custom-orange">Sign Up</a>
+                        <a routerLink="/register" class="text-custom-orange">Sign Up</a>
                     </h5>
                 </div>
             </div>

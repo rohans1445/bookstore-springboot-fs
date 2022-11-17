@@ -1,37 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm!: FormGroup;
+  isLoading: boolean = false;
+  invalidCredentials: boolean = false;
+  userLoggedOut: boolean = false;
+  userLogoutSubscription!: Subscription;
+
 
   constructor(private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+    this.userLogoutSubscription = this.authService.userHasLoggedOut.subscribe({
+      next: loggedOut => {
+        console.log("Logged out: " + loggedOut);
+        this.userLoggedOut = loggedOut;
+        console.log(this.userLoggedOut);
+      }
+    });
+
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
   }
 
+  ngOnDestroy(): void {
+    this.userLogoutSubscription.unsubscribe();
+  }
+
   onSubmitLogin(){
+    this.isLoading = true;
     const formValue = this.loginForm.value;
-    this.authService.login({
+
+    this.authService
+    .login({
       username: formValue.username,
       password: formValue.password,
-    }).subscribe({
+    })
+    .subscribe({
       next: res => {
-        console.log(res);
+        this.isLoading = false;
         localStorage.setItem('token', res.token);
+        this.authService.getExpiration();
         this.router.navigate(['/books/list']);
+      },
+      error: res => {
+        if(res.message.indexOf("403")){
+          this.isLoading = false;
+          this.invalidCredentials = true;
+          setTimeout(()=>{this.invalidCredentials = false}, 3000)
+        }
       }
     });
   }

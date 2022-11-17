@@ -3,7 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Book } from 'src/app/book.model';
-import { BookService } from 'src/app/book.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { BookService } from 'src/app/services/book.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -18,7 +19,8 @@ export class BookDetailComponent implements OnInit, OnDestroy {
 
   constructor(private bookService: BookService,
     private router: Router,
-    private currentRoute: ActivatedRoute) { }
+    private currentRoute: ActivatedRoute,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     this.currentRoute.params.subscribe({
