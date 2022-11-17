@@ -24,13 +24,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidInputException.class)
     public ResponseEntity<ApiResponse> handleRegistrationException(InvalidInputException e){
-        ApiResponse res = new ApiResponse(HttpStatus.BAD_REQUEST, e.getMessage());
+        ApiResponse res = new ApiResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage());
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse> handleResourceNotFoundException(ResourceNotFoundException e){
-        ApiResponse res = new ApiResponse(HttpStatus.NOT_FOUND, e.getMessage());
+        ApiResponse res = new ApiResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
     }
 

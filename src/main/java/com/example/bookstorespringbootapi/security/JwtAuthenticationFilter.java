@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 ApplicationUserDetails userDetails = (ApplicationUserDetails) userService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                logger.error("Error occurred while authenticating with JWT");
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         } catch (Exception e){

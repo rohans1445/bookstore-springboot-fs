@@ -1,5 +1,6 @@
 package com.example.bookstorespringbootapi.service.impl;
 
+import com.example.bookstorespringbootapi.dto.ReviewCreateDTO;
 import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.exception.InvalidInputException;
 import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
@@ -37,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review saveReview(ReviewRequest reviewRequest, int bookId) {
+    public Review saveReview(ReviewCreateDTO reviewRequest, int bookId) {
 
         if(reviewExists(userService.getCurrentUser().getId(), bookId)){
             throw new InvalidInputException("User has already posted review for book id: " + bookId);
