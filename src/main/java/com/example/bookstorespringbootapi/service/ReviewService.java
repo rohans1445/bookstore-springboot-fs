@@ -1,5 +1,6 @@
 package com.example.bookstorespringbootapi.service;
 
+import com.example.bookstorespringbootapi.dto.ReviewCreateDTO;
 import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.payload.ReviewRequest;
 
@@ -11,7 +12,7 @@ public interface ReviewService {
 
     Review getReview(int reviewId);
 
-    Review saveReview(ReviewRequest review, int bookId);
+    Review saveReview(ReviewCreateDTO review, int bookId);
 
     boolean reviewExists(int userId, int bookId);
 

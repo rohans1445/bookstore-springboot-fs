@@ -1,5 +1,6 @@
 package com.example.bookstorespringbootapi.service;
 
+import com.example.bookstorespringbootapi.dto.BookDTO;
 import com.example.bookstorespringbootapi.entity.Book;
 
 import java.util.List;
@@ -10,6 +11,6 @@ public interface BookService {
 
     Book getBookById(int id);
 
-    Book saveBook(Book book);
+    Book saveBook(BookDTO book);
 
 }

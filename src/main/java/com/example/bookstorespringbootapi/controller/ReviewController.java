@@ -1,13 +1,17 @@
 package com.example.bookstorespringbootapi.controller;
 
+import com.example.bookstorespringbootapi.dto.ReviewCreateDTO;
+import com.example.bookstorespringbootapi.dto.ReviewResponseDTO;
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.exception.InvalidInputException;
+import com.example.bookstorespringbootapi.mapper.ReviewMapper;
 import com.example.bookstorespringbootapi.payload.ApiResponse;
 import com.example.bookstorespringbootapi.payload.ReviewRequest;
 import com.example.bookstorespringbootapi.payload.ReviewResponse;
 import com.example.bookstorespringbootapi.service.ReviewService;
 import com.example.bookstorespringbootapi.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,31 +22,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
     private final UserService userService;
-
-    public ReviewController(ReviewService reviewService, UserService userService) {
-        this.reviewService = reviewService;
-        this.userService = userService;
-    }
+    private final ReviewMapper reviewMapper;
 
 
     @GetMapping("/books/{bookId}/reviews")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<ReviewResponse>> getAllReviewsForBook(@PathVariable("bookId") int bookId){
+    public ResponseEntity<List<ReviewResponseDTO>> getAllReviewsForBook(@PathVariable("bookId") int bookId){
         List<Review> reviews = reviewService.getAllReviewsForBook(bookId);
-        List<ReviewResponse> res = reviews.stream().map(ReviewResponse::new).collect(Collectors.toList());
-
+        List<ReviewResponseDTO> res = reviewMapper.toReviewResponseDTOs(reviews);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping("/books/{bookId}/reviews")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<ReviewResponse> saveReview(@Valid @RequestBody ReviewRequest reviewRequest, @PathVariable("bookId") int bookId){
-        Review newReview = reviewService.saveReview(reviewRequest, bookId);
-        ReviewResponse res = new ReviewResponse(newReview);
+    public ResponseEntity<ReviewResponseDTO> saveReview(@Valid @RequestBody ReviewCreateDTO reviewCreateDTO, @PathVariable("bookId") int bookId){
+        Review newReview = reviewService.saveReview(reviewCreateDTO, bookId);
+        ReviewResponseDTO res = reviewMapper.toReviewResponseDTO(newReview);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
@@ -54,7 +55,7 @@ public class ReviewController {
             throw new InvalidInputException("Cannot delete review as it is not made by the current user.");
         }
         reviewService.deleteReview(reviewId);
-        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, "Review deleted successfully."), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK.value(), "Review deleted successfully."), HttpStatus.OK);
     }
 
 }

@@ -14,4 +14,8 @@ public interface UserService extends UserDetailsService {
     ApplicationUser getCurrentUser();
 
     ApplicationUser getUserByUserName(String username);
+
+    void addBookToCart(int bookId);
+
+    void removeItemFromCart(int bookId);
 }

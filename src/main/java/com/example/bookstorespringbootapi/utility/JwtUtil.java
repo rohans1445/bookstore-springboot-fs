@@ -47,13 +47,8 @@ public class JwtUtil {
                     .setSigningKey(secret)
                     .parseClaimsJws(token);
             return true;
-        } catch (SignatureException |
-                 MalformedJwtException |
-                 UnsupportedJwtException |
-                 IllegalArgumentException ex) {
-            log.info("Invalid token was provided.");
-        } catch (ExpiredJwtException ex){
-            log.info("The provided token is expired.");
+        } catch (Exception e) {
+            log.info(":::::::: Error validating the token.");
         }
         return false;
     }

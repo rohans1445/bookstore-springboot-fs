@@ -1,52 +1,55 @@
 package com.example.bookstorespringbootapi.controller;
 
+import com.example.bookstorespringbootapi.dto.BookDTO;
 import com.example.bookstorespringbootapi.entity.Book;
+import com.example.bookstorespringbootapi.mapper.BookMapper;
 import com.example.bookstorespringbootapi.payload.BookResponse;
 import com.example.bookstorespringbootapi.service.BookService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
-
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
-
+    private final BookMapper bookMapper;
 
     @PostMapping("/books")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Book> saveBook(@RequestBody Book book){
+    public ResponseEntity<BookDTO> saveBook(@Valid @RequestBody BookDTO book){
         Book savedBook = bookService.saveBook(book);
-        return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
+        BookDTO res = bookMapper.toBookDTO(savedBook);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     @GetMapping("/books")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<BookResponse>> getAllBooks(){
-        List<BookResponse> bookResponseList = bookService.getAllBooks()
-                .stream()
-                .map(BookResponse::new).collect(Collectors.toList());
-        return new ResponseEntity<>(bookResponseList, HttpStatus.OK);
+    public ResponseEntity<List<BookDTO>> getAllBooks(){
+        List<Book> allBooks = bookService.getAllBooks();
+        List<BookDTO> res = bookMapper.toBookDTOs(allBooks);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @GetMapping("/books/{id}")
-    public ResponseEntity<BookResponse> getBookById(@PathVariable("id") int id){
-        BookResponse res = new BookResponse(bookService.getBookById(id));
+    public ResponseEntity<BookDTO> getBookById(@PathVariable("id") int id){
+        BookDTO res = bookMapper.toBookDTO(bookService.getBookById(id));
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PutMapping("/books/{id}")
-    public ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable("id") int id){
+    public ResponseEntity<BookDTO> updateBook(@Valid @RequestBody BookDTO book, @PathVariable("id") int id){
         Book savedBook = bookService.saveBook(book);
-        return new ResponseEntity<>(savedBook, HttpStatus.OK);
+        BookDTO res = bookMapper.toBookDTO(savedBook);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 }

@@ -1,10 +1,12 @@
 package com.example.bookstorespringbootapi.service.impl;
 
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
+import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
 import com.example.bookstorespringbootapi.payload.RegistrationRequest;
 import com.example.bookstorespringbootapi.repository.ApplicationUserRepository;
 import com.example.bookstorespringbootapi.security.ApplicationUserDetails;
+import com.example.bookstorespringbootapi.service.BookService;
 import com.example.bookstorespringbootapi.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,17 +15,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final ApplicationUserRepository applicationUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final BookService bookService;
 
-    public UserServiceImpl(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder, BookService bookService) {
         this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.bookService = bookService;
     }
 
     @Override
@@ -70,5 +77,20 @@ public class UserServiceImpl implements UserService {
     public ApplicationUser getUserByUserName(String username) {
         return applicationUserRepository.findByUserName(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+    }
+
+    @Override
+    public void addBookToCart(int bookId) {
+        ApplicationUser user = getCurrentUser();
+        Book book = bookService.getBookById(bookId);
+        user.getCart().add(book);
+        applicationUserRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void removeItemFromCart(int bookId) {
+        ApplicationUser user = getCurrentUser();
+        user.getCart().removeIf(b -> b.getId() == bookId);
     }
 }
