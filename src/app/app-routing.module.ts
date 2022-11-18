@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { BookDetailComponent } from './books/book-detail/book-detail.component';
+import { BookFormComponent } from './books/book-form/book-form.component';
 import { BookListComponent } from './books/book-list/book-list.component';
 import { BooksComponent } from './books/books.component';
 
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'books', redirectTo: 'books/list'},
   {path: 'books', component: BooksComponent, children: [
     {path: 'list', component: BookListComponent},
+    {path: 'add', component: BookFormComponent},
     {path: ':id', component: BookDetailComponent},
   ]},
   {path: 'login', component: LoginComponent},

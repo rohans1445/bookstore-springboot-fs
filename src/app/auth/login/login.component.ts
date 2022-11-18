@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  loginForm!: FormGroup;
+  loginForm: FormGroup = new FormGroup({});
   isLoading: boolean = false;
   invalidCredentials: boolean = false;
   userLoggedOut: boolean = false;

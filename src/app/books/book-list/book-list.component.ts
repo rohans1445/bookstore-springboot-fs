@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/user.model';
-import { Book } from '../../book.model';
+import { User } from 'src/app/models/user.model';
+import { Book } from '../../models/book.model';
 import { BookService } from '../../services/book.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class BookListComponent implements OnInit {
   books: Book[] = [];
   isError: boolean = false;
   isLoading: boolean = true;
+  isAdding: boolean = false;
 
   constructor(private bookService: BookService) { }
 
@@ -34,6 +35,15 @@ export class BookListComponent implements OnInit {
         this.isLoading = false;
       }
     })
+  }
+
+  onCloseModal(){
+    this.isAdding = false;
+  }
+
+  onOpenModal() {
+    this.isAdding = true;
+    // window.scrollTo(0, 0);
   }
 
 }

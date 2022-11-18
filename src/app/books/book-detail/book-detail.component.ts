@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Book } from 'src/app/book.model';
+import { Book } from 'src/app/models/book.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookService } from 'src/app/services/book.service';
 
@@ -12,9 +12,10 @@ import { BookService } from 'src/app/services/book.service';
   styleUrls: ['./book-detail.component.css']
 })
 export class BookDetailComponent implements OnInit, OnDestroy {
-  book!: Book;
-  isLoading: Boolean = true;
-  isError: Boolean = false;
+  book: Book = new Book();
+  isLoading: boolean = true;
+  isError: boolean = false;
+  isEditing: boolean = false;
   getBookSubscription: Subscription = new Subscription;
 
   constructor(private bookService: BookService,
@@ -29,7 +30,6 @@ export class BookDetailComponent implements OnInit, OnDestroy {
           next: (response: Book)=>{
             this.book = response;
             this.isLoading = false;
-            console.log(response);
           },
           error: (error: HttpErrorResponse)=>{
             this.isError = true;
@@ -38,6 +38,11 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         });
       }
     })
+  }
+
+  onCloseModal(){
+    this.isEditing = false;
+    this.ngOnInit();
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { User } from '../user.model';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +11,6 @@ export class HeaderComponent implements OnInit {
 
   loggedIn: boolean = false;
   isAdmin: boolean = false;
-  currentUser!: User;
 
   constructor(public authService: AuthService, private router: Router) { }
 
