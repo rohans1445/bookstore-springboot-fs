@@ -16,6 +16,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
+import { BookFormComponent } from './books/book-form/book-form.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { LoaderComponent } from './loader/loader.component';
     AuthComponent,
     LoginComponent,
     RegisterComponent,
-    LoaderComponent
+    LoaderComponent,
+    BookFormComponent
   ],
   imports: [
     BrowserModule,

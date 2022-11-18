@@ -1,4 +1,5 @@
 <app-loader *ngIf="isLoading"></app-loader>
+<app-book-form *ngIf="isEditing" [book]="book" [editMode]="true" (modalClose)="onCloseModal()"></app-book-form>
 <section class="p-2 pt-3 pb-3 pt-sm-5 p-sm-5 text-center text-md-start" *ngIf="!isLoading">
     <div class="container">
         <div class="col-lg-10 mx-auto">
@@ -25,7 +26,7 @@
                 <li class="list-group-item bg-light">
                     <div class="p-0 text-start d-flex align-items-center">
                         <h4 class="m-0">Book details</h4>
-                        <a sec:authorize="hasRole('ADMIN')" th:href="@{/books/edit(id=${book.id})}" class="btn btn-custom-orange  ms-auto">Edit</a>
+                        <a sec:authorize="hasRole('ADMIN')" (click)="isEditing = true" class="btn btn-custom-orange  ms-auto">Edit</a>
                     </div>
                 </li>
                 <li class="list-group-item m-0 p-0">
@@ -35,7 +36,7 @@
                                 <img class="m-3" [src]="book.imgPath" width="200" height="300">
                                 <div class="mx-3">
                                     <div class="col">
-                                        <strong>ISBN: </strong><span th:text="${book.bookDetail.isbn}">{{book.bookDetail.isbn}}</span>
+                                        <strong>ISBN: </strong><span th:text="${book.bookDetail.isbn}">{{book.bookDetail?.isbn}}</span>
                                     </div>
                                     <div class="mt-2 d-flex justify-content-center justify-content-md-start">
                                         <span>Buy new: &nbsp;</span>
@@ -83,7 +84,7 @@
                                                 <strong>Added by:</strong> <a th:href="@{'/user/' + ${book.addedBy.userName}}" th:text="|${book.addedBy.firstName} ${book.addedBy.lastName}|">Firstname Lastname</a>
                                             </li>
                                             <li class="py-1">
-                                                <strong>Publisher:</strong> <span th:text="${book.bookDetail.publisher}">{{book.bookDetail.publisher}}</span>
+                                                <strong>Publisher:</strong> <span th:text="${book.bookDetail.publisher}">{{book.bookDetail?.publisher}}</span>
                                             </li>
                                             <li class="py-1">
                                                 <strong>Language:</strong> <span th:text="${book.bookDetail.language}">English</span>

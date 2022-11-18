@@ -1,0 +1,83 @@
+<div class="backdrop" (click)="onCloseModal()"></div>
+<div class="modal-form">
+    <div class="border border-1 rounded-2 bg-white">
+        <div class="modal-heading bg-light">
+            <div class="d-flex justify-content-between align-items-between p-3">
+                <button (click)="onCloseModal()" class="btn btn-close"></button>
+                <h3 class="m-0 p-0">{{editMode ? 'Edit book' : 'Add a book'}}</h3>
+                <div>
+                    <i *ngIf="!isLoading" class="bi bi-arrow-repeat fs-5" id="rnd" (click)="fetchRandomBook()"></i>
+                    <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" id="book-form" class="p-3 p-sm-5 pt-2">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label class="form-label">Title</label>
+                        <input type="text" id="title" class="form-control" placeholder="Title" name="title" formControlName="title">
+                        <span th:if="${#fields.hasErrors('book.title')}" class="text-danger" th:errors="${book.title}"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Author</label>
+                        <input type="text" id="author" class="form-control" placeholder="Author" formControlName="author">
+                        <span th:if="${#fields.hasErrors('book.author')}" class="text-danger" th:errors="${book.author}"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Price</label>
+                        <input type="number" step="any" id="price" class="form-control" placeholder="Price" formControlName="price">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Short Description <small class="text-muted">(max chars: 250)</small></label>
+                        <textarea type="text" maxlength="250" id="desc" class="form-control form-control-custom-orange" placeholder="Short description for the book" formControlName="shortDesc"></textarea>
+                        <span th:if="${#fields.hasErrors('book.shortDesc')}" class="text-danger" th:errors="${book.shortDesc}"></span>
+                    </div>
+                    <div formGroupName="bookDetail">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">ISBN</label>
+                                <input type="text"  id="isbn" class="form-control" placeholder="ISBN" formControlName="isbn">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Language</label>
+                                <input type="text"  id="language" class="form-control" placeholder="Language" formControlName="language">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Publisher</label>
+                                <input type="text"  id="publisher" class="form-control" placeholder="Publisher" formControlName="publisher">
+                            </div>
+                        </div>
+                        <!-- <div class="col-12">
+                            <label class="form-label">Long Description <small class="text-muted">(max chars: 500)</small></label>
+                            <textarea th:field="${book.bookDetail.longDesc}" type="text" maxlength="500" id="longdesc" class="form-control" placeholder="Long description for the book"></textarea>
+                        </div> -->
+                        <!-- <div class="col-md-6">
+                            <label class="form-label">Page Count</label>
+                            <input th:field="${book.bookDetail.pageCount}" type="text"  id="pagecount" class="form-control" placeholder="Page Count">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Item Weight</label>
+                            <input th:field="${book.bookDetail.itemWeight}" type="number" step="any" id="itemweight" class="form-control" placeholder="Item Weight">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Tags <small class="text-muted">(separated by commas)</small></label>
+                            <input th:field="${book.bookDetail.tags}" type="text"  id="tags" class="form-control" placeholder="Ex. tag1,tag2,tag3">
+                        </div> -->
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Image URL</label>
+                        <input type="text"  id="img" class="form-control" placeholder="Ex. https://www.example.com/img.png" formControlName="imgPath">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer d-flex justify-content-end">
+            <button form="book-form" type="submit" class="btn btn-primary" [disabled]="!bookForm.valid || isSaving">
+                Save
+                <span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-secondary ms-1" (click)="onReset()">Reset</button>
+        </div>
+    </div>
+</div>
