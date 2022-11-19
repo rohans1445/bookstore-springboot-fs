@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-loader',
   template: `
-  <div class="mt-5 text-center">
+  <div class="pt-5 text-center">
     <span class="loader"></span>
   </div>`,
   styleUrls: ['./loader.component.css']

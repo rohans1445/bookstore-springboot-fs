@@ -5,18 +5,19 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { BookListComponent } from './books/book-list/book-list.component';
-import { BookDetailComponent } from './books/book-detail/book-detail.component';
+import { BookListComponent } from './home/books/book-list/book-list.component';
+import { BookDetailComponent } from './home/books/book-detail/book-detail.component';
 import { ErrorComponent } from './error/error.component';
 import { FooterComponent } from './footer/footer.component';
-import { BooksComponent } from './books/books.component';
-import { ReviewsComponent } from './books/book-detail/reviews/reviews.component';
+import { BooksComponent } from './home/books/books.component';
+import { ReviewsComponent } from './home/books/book-detail/reviews/reviews.component';
 import { AuthComponent } from './auth/auth.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
-import { BookFormComponent } from './books/book-form/book-form.component';
+import { BookFormComponent } from './home/books/book-form/book-form.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { BookFormComponent } from './books/book-form/book-form.component';
     LoginComponent,
     RegisterComponent,
     LoaderComponent,
-    BookFormComponent
+    BookFormComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
