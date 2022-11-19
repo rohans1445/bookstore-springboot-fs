@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -14,11 +15,14 @@ export class ReviewsComponent implements OnInit {
   isLoading: boolean = true;
   isError: boolean = false;
   isErrorSavingReview: boolean = false;
-  isAddingReview: boolean = true;
+  isAddingReview: boolean = false;
   isSavingReview: boolean = false;
+  showToast: boolean = false;
+  toastType: string = '';
   reviewForm: FormGroup = new FormGroup({});
   reviews: Review[] = [];
   currentBookId: number = 0;
+  errorCode: number = 0;
 
   constructor(private reviewService: ReviewService, 
     private currentRoute: ActivatedRoute) { }
@@ -56,9 +60,10 @@ export class ReviewsComponent implements OnInit {
         this.isAddingReview = false;
         this.ngOnInit();
       },
-      error: error => {
+      error: (error: HttpErrorResponse) => {
         this.isSavingReview = false;
         this.isErrorSavingReview = true;
+        this.errorCode = error.status;
         console.log(error.message);
       }
     });

@@ -1,0 +1,58 @@
+<section class="p-0 pt-5 p-sm-5 text-center text-md-start">
+    <div class="container" id="cart-container">
+        <ul class="list-group">
+            <li class="list-group-item bg-light">
+                <h4>
+                    <span><i class="bi bi-cart4"></i></span>
+                    <span class="p-0 text-start m-0">Your cart (3)</span>
+                </h4>
+            </li>
+            <li *ngIf="cart.length===0" class="list-group-item bg-light">
+                <div class="p-5 text-center m-0">No items in cart!</div>
+            </li>
+            <li *ngFor="let item of cart" class="list-group-item p-2">
+                <div class="d-sm-flex">
+                    <div class="col-sm-2">
+                        <img [src]="item.imgPath" class="img-thumbnail img-responsive me-0 me-sm-3" width="150" height="200">
+                    </div>
+                    <div class="ms-3 d-flex flex-column col-sm-10">
+
+                        <div class="">
+                            <div class="row">
+                                <h5 class="m-0">
+                                    <span>{{item.title}} </span>
+                                    <span class="fst-italic fw-light">by <span>{{ item.author }}</span></span>
+                                </h5>
+                            </div>
+                            <div class="row">
+                                <p class="m-0 text-break text-muted">
+                                    {{item.shortDesc}}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto mb-2 me-4">
+                            <div class="d-sm-flex mt-4">
+                                <small class="ms-auto">Quantity: 1</small>
+                            </div>
+                            <div class="d-sm-flex mt-1">
+                                <h5 class="p-0 m-0">Item Price: <span>${{item.price}}</span>
+                                </h5>
+                                <a class="ms-auto btn btn-secondary btn-sm" th:href="@{/user/{user}/remove-from-cart(user=${#authentication.name},id=${cartItem.id})}">
+                                    <i class="bi bi-cart-x"></i> Remove from cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div th:if="${!#lists.isEmpty(cart)}" class="ms-3 mt-3 me-3 d-flex justify-content-between">
+            <h4 th:text="|Total: $${total}">Total: $54</h4>
+            <a th:href="@{'/user/' + ${#authentication.name} + '/checkout'}" class="btn btn-primary btn-sm">Checkout</a>
+        </div>
+        <div class="p-5"></div>
+        <div class="p-5"></div>
+
+    </div>
+</section>
