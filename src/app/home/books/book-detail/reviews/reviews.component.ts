@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Review } from 'src/app/models/review.model';
 import { ReviewService } from 'src/app/services/review.service';
@@ -12,20 +13,24 @@ export class ReviewsComponent implements OnInit {
 
   isLoading: boolean = true;
   isError: boolean = false;
+  isErrorSavingReview: boolean = false;
+  isAddingReview: boolean = true;
+  isSavingReview: boolean = false;
+  reviewForm: FormGroup = new FormGroup({});
   reviews: Review[] = [];
+  currentBookId: number = 0;
 
   constructor(private reviewService: ReviewService, 
     private currentRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    let currentBookId = 0;
     this.isLoading = true;
 
     this.currentRoute.params.subscribe({
-      next: (param: Params) => {currentBookId = param['id']}
+      next: (param: Params) => {this.currentBookId = param['id']}
     });
 
-    this.reviewService.getReviewByBookId(currentBookId).subscribe({
+    this.reviewService.getReviewByBookId(this.currentBookId).subscribe({
       next: res => {
         this.reviews = res;
         this.isLoading = false;
@@ -35,6 +40,34 @@ export class ReviewsComponent implements OnInit {
         this.isError = true;
       }
     })
+
+    this.reviewForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      content: new FormControl('', Validators.required),
+      rating: new FormControl('', [Validators.required, Validators.min(1), Validators.max(5)]),
+    })
+  }
+
+  onReviewSubmit(){
+    this.isSavingReview = true;
+    this.reviewService.addReview(this.currentBookId, this.reviewForm.value).subscribe({
+      next: res => {
+        this.isSavingReview = false;
+        this.isAddingReview = false;
+        this.ngOnInit();
+      },
+      error: error => {
+        this.isSavingReview = false;
+        this.isErrorSavingReview = true;
+        console.log(error.message);
+      }
+    });
+  }
+
+  onCloseReviewModal(){
+    this.reviewForm.reset();
+    this.isAddingReview = false;
+    this.isErrorSavingReview = false;
   }
 
 }

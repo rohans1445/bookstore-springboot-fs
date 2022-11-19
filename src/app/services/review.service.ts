@@ -11,7 +11,7 @@ import { AuthService } from './auth.service';
 export class ReviewService {
 
   constructor(private http: HttpClient,
-    private authService: AuthService) { }
+  private authService: AuthService) { }
 
 
   getReviewByBookId(id: number): Observable<Review[]>{
@@ -19,7 +19,7 @@ export class ReviewService {
   }
 
   addReview(bookId: number, newReview: {title: string, content: string, rating: number}){
-    return this.http.post<Review>(`${environment.baseUrl}/books/${bookId}/reviews`, newReview);
+    return this.http.post<Review>(`${environment.baseUrl}/books/${bookId}/reviews`, newReview, {headers: this.authService.getAuthHeader()});
   }
 
 }
