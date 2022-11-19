@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { BookFormComponent } from './home/books/book-form/book-form.component';
 import { HomeComponent } from './home/home.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { HomeComponent } from './home/home.component';
     RegisterComponent,
     LoaderComponent,
     BookFormComponent,
-    HomeComponent
+    HomeComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
