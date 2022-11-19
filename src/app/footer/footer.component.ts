@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-footer',
   template: `
-    <section class="mt-auto">
+    <section class="">
       <footer class="text-center text-white bg-dark border-custom-orange-top footer-bottom">
         <div class="text-center p-2">
           <div class="text-muted">© 2022 bookstore-springboot-NG</div>
