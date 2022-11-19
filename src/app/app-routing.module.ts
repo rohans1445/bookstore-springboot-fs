@@ -2,18 +2,19 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { BookDetailComponent } from './books/book-detail/book-detail.component';
-import { BookFormComponent } from './books/book-form/book-form.component';
-import { BookListComponent } from './books/book-list/book-list.component';
-import { BooksComponent } from './books/books.component';
+import { BookDetailComponent } from './home/books/book-detail/book-detail.component';
+import { BookFormComponent } from './home/books/book-form/book-form.component';
+import { BookListComponent } from './home/books/book-list/book-list.component';
+import { BooksComponent } from './home/books/books.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'books/list', pathMatch: 'full'},
   {path: 'books', redirectTo: 'books/list'},
-  {path: 'books', component: BooksComponent, children: [
-    {path: 'list', component: BookListComponent},
-    {path: 'add', component: BookFormComponent},
-    {path: ':id', component: BookDetailComponent},
+  {path: '', component: HomeComponent, children: [
+    {path: 'books', component: BooksComponent, children: [
+      {path: 'list', component: BookListComponent},
+      {path: ':id', component: BookDetailComponent},
+    ]},  
   ]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
