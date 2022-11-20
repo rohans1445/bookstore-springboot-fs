@@ -18,6 +18,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { BookFormComponent } from './home/books/book-form/book-form.component';
 import { HomeComponent } from './home/home.component';
+import { ModalComponent } from './modal/modal.component';
+import { ToastComponent } from './toast/toast.component';
+import { CartComponent } from './home/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { HomeComponent } from './home/home.component';
     RegisterComponent,
     LoaderComponent,
     BookFormComponent,
-    HomeComponent
+    HomeComponent,
+    ModalComponent,
+    ToastComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

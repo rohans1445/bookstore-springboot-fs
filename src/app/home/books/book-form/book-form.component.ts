@@ -30,7 +30,6 @@ export class BookFormComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.editMode){
-      console.log("book from ngint :"+this.book.author);
       this.bookForm = new FormGroup({
         title: new FormControl(this.book.title, Validators.required),
         author: new FormControl(this.book.author, Validators.required),
