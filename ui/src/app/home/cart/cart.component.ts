@@ -11,12 +11,29 @@ export class CartComponent implements OnInit {
 
   constructor(private cartService: CartService) { }
 
+  toastType: string = '';
+  showToast: boolean = false;
+  toastMessage: string = '';
   cart: Book[] = [];
 
   ngOnInit(): void {
     this.cartService.getUserCart().subscribe({
       next: res => {
         this.cart = res;
+      }
+    });
+  }
+
+  onRemoveFromCart(id: number) {
+    this.cartService.removeFromCart(id).subscribe({
+      next: res => {
+        this.ngOnInit();
+        this.toastType='success';
+        this.toastMessage = 'Removed item from cart';
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+        }, 3000);
       }
     });
   }

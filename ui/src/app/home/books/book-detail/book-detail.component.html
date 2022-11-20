@@ -1,4 +1,5 @@
 <app-loader *ngIf="isLoading"></app-loader>
+<app-toast [type]="toastType" *ngIf="toastDisplay" [message]="toastMessage"></app-toast>
 <app-book-form *ngIf="isEditing" [book]="book" [editMode]="true" (modalClose)="onCloseModal()"></app-book-form>
 <section class="p-2 pt-3 pb-3 pt-sm-5 p-sm-5 text-center text-md-start" *ngIf="!isLoading">
     <div class="container">
@@ -43,7 +44,7 @@
                                         <h4 th:text="|$${book.price}|">${{book.price}}</h4>
                                     </div>
                                     <div class="col mt-2 ">
-                                        <a class="btn btn-primary w-100 rounded-pill" th:href="@{/books/add-to-cart(bookId=${book.id})}" >Add to Cart</a>
+                                        <a class="btn btn-primary w-100 rounded-pill" (click)="onAddToCart()" >Add to Cart</a>
                                     </div>
                                     <div class="col mt-1 mb-2">
                                         <a th:href="@{'/user/'+${#authentication.name}+'/buyNow'(id=${book.id})}" class="btn btn-warning w-100 rounded-pill">Buy now</a>

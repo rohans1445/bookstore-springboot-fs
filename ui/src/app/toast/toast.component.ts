@@ -12,6 +12,9 @@ export class ToastComponent implements OnInit {
   @Input()
   type: string = 'danger';
 
+  @Input()
+  message: string = '';
+
   ngOnInit(): void {
   }
 
