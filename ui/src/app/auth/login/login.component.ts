@@ -1,0 +1,76 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit, OnDestroy {
+
+  loginForm: FormGroup = new FormGroup({});
+  isLoading: boolean = false;
+  invalidCredentials: boolean = false;
+  userLoggedOut: boolean = false;
+  userLogoutSubscription!: Subscription;
+
+
+  constructor(private authService: AuthService,
+    private router: Router) { }
+
+  ngOnInit(): void {
+    this.userLogoutSubscription = this.authService.userHasLoggedOut.subscribe({
+      next: loggedOut => {
+        this.userLoggedOut = loggedOut;
+        setTimeout(()=>{
+          if(this.userLoggedOut) this.userLoggedOut = false;
+        }, 3000);
+      }
+    });
+
+    this.loginForm = new FormGroup({
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userLogoutSubscription.unsubscribe();
+  }
+
+  onSubmitLogin(){
+    this.isLoading = true;
+    const formValue = this.loginForm.value;
+
+    this.authService
+    .login({
+      username: formValue.username,
+      password: formValue.password,
+    })
+    .subscribe({
+      next: res => {
+        this.isLoading = false;
+        localStorage.setItem('token', res.token);
+
+        this.authService.fetchCurrentUserDetails().subscribe({
+          next: res => {
+            this.authService.currentUser = res;
+          }
+        })
+
+        this.router.navigate(['/books/list']);
+      },
+      error: res => {
+        if(res.message.indexOf("403")){
+          this.isLoading = false;
+          this.invalidCredentials = true;
+          setTimeout(()=>{this.invalidCredentials = false}, 3000)
+        }
+      }
+    });
+  }
+
+}
