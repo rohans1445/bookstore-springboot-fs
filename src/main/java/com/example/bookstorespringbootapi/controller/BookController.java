@@ -45,8 +45,8 @@ public class BookController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @PutMapping("/books/{id}")
-    public ResponseEntity<BookDTO> updateBook(@Valid @RequestBody BookDTO book, @PathVariable("id") int id){
+    @PutMapping("/books")
+    public ResponseEntity<BookDTO> updateBook(@Valid @RequestBody BookDTO book){
         Book savedBook = bookService.saveBook(book);
         BookDTO res = bookMapper.toBookDTO(savedBook);
         return new ResponseEntity<>(res, HttpStatus.OK);
