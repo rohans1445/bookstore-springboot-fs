@@ -1,17 +1,12 @@
 package com.example.bookstorespringbootapi.security;
 
-import com.example.bookstorespringbootapi.exception.JwtAuthenticationException;
 import com.example.bookstorespringbootapi.service.UserService;
 import com.example.bookstorespringbootapi.utility.JwtUtil;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 

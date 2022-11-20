@@ -68,6 +68,8 @@ public class ApplicationUser {
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> cart;
 
+//    private double credits;
+
     public List<Review> getReviews() {
         return reviews == null ? Collections.emptyList() : Collections.unmodifiableList(reviews);
     }
