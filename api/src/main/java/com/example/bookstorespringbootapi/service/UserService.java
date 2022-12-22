@@ -15,7 +15,19 @@ public interface UserService extends UserDetailsService {
 
     ApplicationUser getUserByUserName(String username);
 
+    ApplicationUser getUserById(int id);
+
     void addBookToCart(int bookId);
 
     void removeItemFromCart(int bookId);
+
+    boolean isBalanceIsSufficient(ApplicationUser user, double amount);
+
+    void debit(int id, double amount);
+
+    void credit(int id, double amount);
+
+    boolean itemExistsInUserInventory(int bookId);
+
+    void clearCart(int id);
 }
