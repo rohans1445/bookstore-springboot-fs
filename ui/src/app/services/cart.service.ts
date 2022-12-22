@@ -18,5 +18,13 @@ export class CartService {
   getUserCart(): Observable<Book[]>{
     return this.http.get<Book[]>(`${this.baseUrl}/cart`, {headers: this.authService.getAuthHeader()});
   }
+
+  removeFromCart(bookId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/cart/${bookId}`, {headers: this.authService.getAuthHeader()});
+  }
+
+  addToCart(bookId: object): Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/cart`, bookId, {headers: this.authService.getAuthHeader()});
+  }
     
 }

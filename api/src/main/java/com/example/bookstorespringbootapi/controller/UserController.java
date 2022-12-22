@@ -1,6 +1,7 @@
 package com.example.bookstorespringbootapi.controller;
 
 import com.example.bookstorespringbootapi.dto.ReviewResponseDTO;
+import com.example.bookstorespringbootapi.dto.UserCreditDTO;
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.entity.Review;
@@ -30,12 +31,26 @@ public class UserController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @GetMapping("/{username}/credits")
+    public ResponseEntity<UserCreditDTO> getUserCreditBalance(@PathVariable("username") String username){
+        ApplicationUser user = userService.getUserByUserName(username);
+        return new ResponseEntity<>(new UserCreditDTO(user.getCredits()), HttpStatus.OK);
+    }
+
     @GetMapping("/{username}/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> getReviewsOfUser(@PathVariable("username") String username){
         ApplicationUser user = userService.getUserByUserName(username);
         List<Review> reviews = user.getReviews();
         List<ReviewResponseDTO> res = reviewMapper.toReviewResponseDTOs(reviews);
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/{username}/item-owned/{bookId}")
+    public ResponseEntity<?> isItemOwnedByUser(@PathVariable("username") String username, @PathVariable("bookId") int bookId){
+        if(userService.itemExistsInUserInventory(bookId)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

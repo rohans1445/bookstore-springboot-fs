@@ -52,10 +52,15 @@ public class ReviewController {
         Review review = reviewService.getReview(reviewId);
         ApplicationUser user = userService.getCurrentUser();
         if(review.getUser().getId() != user.getId()){
-            throw new InvalidInputException("Cannot delete review as it is not made by the current user.");
+            throw new InvalidInputException("Cannot delete review. Unauthorized operation.");
         }
         reviewService.deleteReview(reviewId);
         return new ResponseEntity<>(new ApiResponse(HttpStatus.OK.value(), "Review deleted successfully."), HttpStatus.OK);
+    }
+
+    @GetMapping("/books/{bookId}/reviews/can-create")
+    public ResponseEntity<?> canCreateReview(@PathVariable("bookId") int bookId){
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

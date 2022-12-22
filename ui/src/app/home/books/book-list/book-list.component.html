@@ -1,4 +1,5 @@
 <app-loader *ngIf="isLoading"></app-loader>
+<app-toast [type]="toastType" *ngIf="toastDisplay" [message]="toastMessage"></app-toast>
 <app-book-form *ngIf="isAdding" [editMode]="false" (modalClose)="onCloseModal()"></app-book-form>
 <section class="p-0 pt-3 p-sm-5 text-center text-md-start" *ngIf="!isError && !isLoading">
     <div class="container" id="book-container">

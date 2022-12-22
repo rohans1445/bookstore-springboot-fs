@@ -1,10 +1,11 @@
+<app-toast [type]="toastType" *ngIf="showToast" [message]="toastMessage"></app-toast>
 <section class="p-0 pt-5 p-sm-5 text-center text-md-start">
     <div class="container" id="cart-container">
         <ul class="list-group">
             <li class="list-group-item bg-light">
                 <h4>
                     <span><i class="bi bi-cart4"></i></span>
-                    <span class="p-0 text-start m-0">Your cart (3)</span>
+                    <span class="p-0 text-start m-0">Your cart ({{cart.length}})</span>
                 </h4>
             </li>
             <li *ngIf="cart.length===0" class="list-group-item bg-light">
@@ -38,18 +39,18 @@
                             <div class="d-sm-flex mt-1">
                                 <h5 class="p-0 m-0">Item Price: <span>${{item.price}}</span>
                                 </h5>
-                                <a class="ms-auto btn btn-secondary btn-sm" th:href="@{/user/{user}/remove-from-cart(user=${#authentication.name},id=${cartItem.id})}">
+                                <button class="ms-auto btn btn-secondary btn-sm" (click)="onRemoveFromCart(item.id!)">
                                     <i class="bi bi-cart-x"></i> Remove from cart
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </li>
         </ul>
-        <div th:if="${!#lists.isEmpty(cart)}" class="ms-3 mt-3 me-3 d-flex justify-content-between">
-            <h4 th:text="|Total: $${total}">Total: $54</h4>
-            <a th:href="@{'/user/' + ${#authentication.name} + '/checkout'}" class="btn btn-primary btn-sm">Checkout</a>
+        <div *ngIf="cart.length !== 0" class="ms-3 mt-3 me-3 d-flex justify-content-between">
+            <h4>Total: {{total | currency}}</h4>
+            <a class="btn btn-primary btn-sm" routerLink="/checkout">Checkout</a>
         </div>
         <div class="p-5"></div>
         <div class="p-5"></div>

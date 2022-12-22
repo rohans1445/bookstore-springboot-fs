@@ -23,7 +23,7 @@ export class BookFormComponent implements OnInit {
   editMode: boolean = false;
 
   @Input()
-  book: Book = new Book();
+  book!: Book;
 
   @Output()
   modalClose = new EventEmitter<void>();
@@ -37,9 +37,9 @@ export class BookFormComponent implements OnInit {
         shortDesc: new FormControl(this.book.shortDesc, Validators.required),
         imgPath: new FormControl(this.book.imgPath, Validators.required),
         bookDetail: new FormGroup({
-          isbn: new FormControl(this.book.bookDetail?.isbn, Validators.required),
-          language: new FormControl(this.book.bookDetail?.language, Validators.required),
-          publisher: new FormControl(this.book.bookDetail?.publisher, Validators.required),
+          isbn: new FormControl(this.book.bookDetail.isbn, Validators.required),
+          language: new FormControl(this.book.bookDetail.language, Validators.required),
+          publisher: new FormControl(this.book.bookDetail.publisher, Validators.required),
         })
       })
     } else {

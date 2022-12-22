@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -28,6 +29,17 @@ export class ReviewsComponent implements OnInit {
     private currentRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    this.getAllReviewsForBook();
+    
+    this.reviewForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      content: new FormControl('', Validators.required),
+      rating: new FormControl('', [Validators.required, Validators.min(1), Validators.max(5)]),
+    })
+  }
+
+  getAllReviewsForBook(){
     this.isLoading = true;
 
     this.currentRoute.params.subscribe({
@@ -43,12 +55,6 @@ export class ReviewsComponent implements OnInit {
       error: error => {
         this.isError = true;
       }
-    })
-
-    this.reviewForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      content: new FormControl('', Validators.required),
-      rating: new FormControl('', [Validators.required, Validators.min(1), Validators.max(5)]),
     })
   }
 

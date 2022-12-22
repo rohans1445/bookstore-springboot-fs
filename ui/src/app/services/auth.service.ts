@@ -47,6 +47,17 @@ export class AuthService {
       return;
     }
   }
+
+  getCurrentLoggedInUsername(): string{
+    try{
+      const bearerToken = localStorage.getItem('token');
+      const decodedJWT: {iat: number, sub: string, exp: number} = jwtDecode(bearerToken!);
+      return decodedJWT.sub;
+    } catch(error){
+      console.log('Error decoding token');
+      return '';
+    }
+  }
   
   isTokenExpired(){
     const bearerToken = localStorage.getItem('token');

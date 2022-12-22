@@ -50,7 +50,7 @@ public class BookstoreFaker {
         u.setEmail(email.toLowerCase());
         u.setRoles("ROLE_USER");
         u.setPassword("1");
-//        u.setCredits(100);
+        u.setCredits(100);
 
         return u;
     }

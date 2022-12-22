@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -81,6 +82,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ApplicationUser getUserById(int id) {
+        return applicationUserRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+    }
+
+    @Override
     public void addBookToCart(int bookId) {
         ApplicationUser user = getCurrentUser();
         Book book = bookService.getBookById(bookId);
@@ -98,5 +105,41 @@ public class UserServiceImpl implements UserService {
     public void removeItemFromCart(int bookId) {
         ApplicationUser user = getCurrentUser();
         user.getCart().removeIf(b -> b.getId() == bookId);
+    }
+
+    @Override
+    public boolean isBalanceIsSufficient(ApplicationUser user, double amount) {
+        return user.getCredits() > amount;
+    }
+
+    @Override
+    @Transactional
+    public void debit(int id, double amount) {
+        ApplicationUser user = getUserById(id);
+        if(amount > user.getCredits())
+            throw new InvalidInputException("Insufficient balance - cannot debit for user with id: " + id);
+
+        user.setCredits(user.getCredits() - amount);
+    }
+
+    @Override
+    @Transactional
+    public void credit(int id, double amount){
+        ApplicationUser user = getUserById(id);
+        user.setCredits(user.getCredits() + amount);
+    }
+
+    @Override
+    public boolean itemExistsInUserInventory(int bookId) {
+        ApplicationUser currentUser = getCurrentUser();
+        Book book = bookService.getBookById(bookId);
+        return currentUser.getUserInventory().contains(book);
+    }
+
+    @Override
+    public void clearCart(int id) {
+        ApplicationUser user = getUserById(id);
+        user.setCart(new ArrayList<>());
+        applicationUserRepository.save(user);
     }
 }
