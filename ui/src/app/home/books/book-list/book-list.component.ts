@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/models/user.model';
 import { Book } from '../../../models/book.model';
 import { BookService } from '../../../services/book.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-book-list',
@@ -16,11 +17,25 @@ export class BookListComponent implements OnInit {
   isError: boolean = false;
   isLoading: boolean = true;
   isAdding: boolean = false;
+  toastMessage: string = '';
+  toastType: string = '';
+  toastDisplay: boolean = false;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService,
+    private currentRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.getAllBooks();
+    this.currentRoute.queryParamMap.subscribe((paramMap: ParamMap) => {
+      if(paramMap.get('orderSuccess') !== null){
+        this.toastMessage = 'Order placed successfully!';
+        this.toastType = 'success';
+        this.toastDisplay = true;
+        setTimeout(() => {
+          this.toastDisplay = false;
+        }, 5000);
+      }
+    })
   }
 
   getAllBooks(){

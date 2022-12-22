@@ -64,10 +64,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigate(['/books/list']);
       },
       error: res => {
-        if(res.message.indexOf("403")){
+        if(res.message.indexOf("403") != -1){
           this.isLoading = false;
           this.invalidCredentials = true;
           setTimeout(()=>{this.invalidCredentials = false}, 3000)
+        } else {
+          console.error(res.message);
         }
       }
     });

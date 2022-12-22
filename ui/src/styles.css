@@ -8,6 +8,10 @@
     background-color: #40bf77;
 }
 
+.bg-light-custom {
+    background-color: #f5f5f5 !important;
+}
+
 .text-custom-orange {
     color: #e54624 !important;
 }

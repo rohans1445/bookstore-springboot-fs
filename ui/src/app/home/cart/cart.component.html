@@ -48,9 +48,9 @@
                 </div>
             </li>
         </ul>
-        <div th:if="${!#lists.isEmpty(cart)}" class="ms-3 mt-3 me-3 d-flex justify-content-between">
-            <h4 th:text="|Total: $${total}">Total: $54</h4>
-            <a th:href="@{'/user/' + ${#authentication.name} + '/checkout'}" class="btn btn-primary btn-sm">Checkout</a>
+        <div *ngIf="cart.length !== 0" class="ms-3 mt-3 me-3 d-flex justify-content-between">
+            <h4>Total: {{total | currency}}</h4>
+            <a class="btn btn-primary btn-sm" routerLink="/checkout">Checkout</a>
         </div>
         <div class="p-5"></div>
         <div class="p-5"></div>

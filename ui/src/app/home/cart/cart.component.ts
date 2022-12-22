@@ -15,11 +15,13 @@ export class CartComponent implements OnInit {
   showToast: boolean = false;
   toastMessage: string = '';
   cart: Book[] = [];
+  total: number = 0;
 
   ngOnInit(): void {
     this.cartService.getUserCart().subscribe({
       next: res => {
         this.cart = res;
+        this.calculateTotal(this.cart);
       }
     });
   }
@@ -36,6 +38,13 @@ export class CartComponent implements OnInit {
         }, 3000);
       }
     });
+  }
+
+  calculateTotal(cart: Book[]){
+    this.total = 0;
+    for(let item of cart){
+      this.total += item.price;
+    }
   }
 
 }
