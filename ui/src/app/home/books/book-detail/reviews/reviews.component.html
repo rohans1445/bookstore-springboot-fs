@@ -26,19 +26,20 @@
                             </div>
                             <small class="text-muted">Reviewed on {{review.timestamp | date:'dd MMMM yyyy'}}</small>
                         </div>
-                        <div th:if="${review.user.userName == #authentication.name}" class="ms-auto">
-                            <a th:href="@{/books/delete-review(reviewId=${review.id})}" class="text-danger">
+                        <div class="ms-auto">
+                            <a class="text-danger">
                                 <i class="bi bi-x-circle-fill"></i>
                             </a>
                         </div>
                     </div>
                     <div class="ps-3 pb-2 text-start">
-                        <div class="col">
-                            <small th:if="${review.rating == 1}" class="text-warning"><div th:replace="fragments/elements :: 1-star"></div></small>
-                            <small th:if="${review.rating == 2}" class="text-warning"><div th:replace="fragments/elements :: 2-star"></div></small>
-                            <small th:if="${review.rating == 3}" class="text-warning"><div th:replace="fragments/elements :: 3-star"></div></small>
-                            <small th:if="${review.rating == 4}" class="text-warning"><div th:replace="fragments/elements :: 4-star"></div></small>
-                            <small th:if="${review.rating == 5}" class="text-warning"><div th:replace="fragments/elements :: 5-star"></div></small>
+                        <div class="col d-flex">
+                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(review.rating); let i = index" class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                            </small>
+                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(5-review.rating!); let i = index" class="text-warning">
+                                <i class="bi bi-star"></i>
+                            </small>
                         </div>
                         <div>
                             <h5 class="p-0 m-0">{{review.title}}</h5>
