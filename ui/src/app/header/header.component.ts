@@ -11,12 +11,14 @@ export class HeaderComponent implements OnInit {
 
   loggedIn: boolean = false;
   isAdmin: boolean = false;
+  currentUsername: string = '';
 
   constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn();
     this.authService.setLoggedInUser();
+    this.currentUsername = this.authService.getCurrentLoggedInUsername();
   }
   
   onLogout(): void {

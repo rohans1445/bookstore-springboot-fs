@@ -1,0 +1,22 @@
+<div class="bg-white p-4 rounded rounded-2 d-sm-flex border">
+    <div class="align-self-center text-center">
+        <img class="rounded-circle" src="https://via.placeholder.com/150" width="150" height="150" alt="userimage" id="user_image">
+    </div>
+    <div class="ps-sm-4 pt-2 text-center text-sm-start">
+        <h2>
+            <span>{{currentUser.firstName + ' ' + currentUser.lastName}}</span>
+            <span class="fst-italic fw-light">({{currentUser.username})</span>
+        </h2>
+        <div class="ps-sm-2 d-flex flex-column text-center text-sm-start">
+            <small class="my-2 mb-0"></small>
+<!--            <small class="my-2">Books owned: 5</small>-->
+            <small class="my-2 mb-1">Reviews made: 10</small>
+            <div th:with="loggedInUser=${'/user/'+ #authentication.name}">
+                <div class="" >
+                    <small class="my-2">You have <span class="bg-warning rounded-3 ps-1 pe-1 fw-bold">{{userCreditBal | currency}}</span> store credits</small>
+                </div>
+            </div>
+            <small th:text="|User since ${#temporals.format(user.registeredOn, 'dd MMMM yyyy')}|" class="my-2">User since 26 February 2021</small>
+        </div>
+    </div>
+</div>
