@@ -20,7 +20,7 @@
                         <img class="rounded-circle align-self-center" src="https://dummyimage.com/50x50/bdbdbd/fff&text=placeholder" width="50" height="50" alt="">
                         <div class="ms-1 row text-start">
                             <div>
-                                <a class="text-black text-decoration-none">
+                                <a [routerLink]="['/user', review.username]" class="text-black text-decoration-none">
                                     <small>{{review.username}}</small>
                                 </a>
                             </div>

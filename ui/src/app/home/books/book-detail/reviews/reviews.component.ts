@@ -50,21 +50,22 @@ export class ReviewsComponent implements OnInit {
 
   getAllReviewsForUser(){
     this.isLoading = true;
-    
-    this.currentRoute.params.subscribe({
-      next: (param: Params) => {this.currentUsername = param['user']}
-    });
-
-    this.userService.getUserReviews(this.authService.getCurrentLoggedInUsername()).subscribe({
-      next: res => {
-        this.reviews = res;
-        this.isLoading = false;
-      },
-      error: error => {
-        this.isError = true;
-        this.isLoading = false;
+    this.currentRoute.parent!.params.subscribe({
+      next: (param: Params) => {
+        this.currentUsername = param['user'];
+        this.userService.getUserReviews(this.currentUsername).subscribe({
+          next: res => {
+            this.reviews = res;
+            this.isLoading = false;
+          },
+          error: error => {
+            this.isError = true;
+            this.isLoading = false;
+          }
+        });
       }
     });
+
   }
 
   getAllReviewsForBook(){
@@ -78,7 +79,6 @@ export class ReviewsComponent implements OnInit {
       next: res => {
         this.reviews = res;
         this.isLoading = false;
-        console.log(res);
       },
       error: error => {
         this.isError = true;

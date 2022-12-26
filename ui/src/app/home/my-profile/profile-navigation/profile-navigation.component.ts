@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,12 +9,18 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ProfileNavigationComponent implements OnInit {
 
-  currentUsername: string = '';
+  currentLoggedInUsername: string = '';
+  currentUrlUsername: string = ''; // for viewing other profiles
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+      private route: ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
-    this.currentUsername = this.authService.getCurrentLoggedInUsername();
+    this.currentLoggedInUsername = this.authService.getCurrentLoggedInUsername();
+    this.route.params.subscribe(param => {
+      this.currentUrlUsername = param['user'];
+    })
   }
 
 }

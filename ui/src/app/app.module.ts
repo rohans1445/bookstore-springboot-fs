@@ -27,6 +27,8 @@ import { MyProfileComponent } from './home/my-profile/my-profile.component';
 import { ProfileNavigationComponent } from './home/my-profile/profile-navigation/profile-navigation.component';
 import { MyReviewsComponent } from './home/my-profile/my-reviews/my-reviews.component';
 import { UserHeaderComponent } from './home/my-profile/user-header/user-header.component';
+import { MyOrdersComponent } from './home/my-profile/my-orders/my-orders.component';
+import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { UserHeaderComponent } from './home/my-profile/user-header/user-header.c
     MyProfileComponent,
     ProfileNavigationComponent,
     MyReviewsComponent,
-    UserHeaderComponent
+    UserHeaderComponent,
+    MyOrdersComponent,
+    OwnedBooksComponent
   ],
   imports: [
     BrowserModule,

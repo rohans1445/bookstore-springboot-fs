@@ -12,7 +12,8 @@
             </li>
             <li class="list-group-item bg-light" *ngIf="promoApplied"> <!-- Promo -->
                 <div class="d-flex text-success">
-                    <h6 class="p-0 m-0">Discount</h6>
+                    <h6 class="p-0 m-0">Discount <i (click)="onRemoveDiscount()" class="bi bi-x-circle-fill text-danger"></i></h6>
+                    
                     <h6 class="m-0 ms-auto fw-light">-{{promo.amount | currency}}</h6>
                 </div>
                 <small class="text-success">{{promo.code}}</small>
