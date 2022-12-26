@@ -1,11 +1,11 @@
 <app-loader *ngIf="isLoading && !isError"></app-loader>
 <app-error [message]="'Error loading reviews.'" *ngIf="isError"></app-error>
-<div class="pt-3 pb-5" *ngIf="!isLoading && !isError">
+<div class="pb-5" [ngClass]="{'pt-3': currentUrl.startsWith('/books')}" *ngIf="!isLoading && !isError">
     <ul class="list-group">
         <li class="list-group-item bg-light">
             <div class="p-0 text-start d-flex align-items-center">
                 <h4 class="m-0" id="reviews">Reviews ({{reviews.length}})</h4>
-                <a class="btn btn-custom-orange  ms-auto" (click)="isAddingReview = true">+ Add Review</a>
+                <a class="btn btn-custom-orange  ms-auto" *ngIf="currentUrl.startsWith('/books')" (click)="isAddingReview = true">+ Add Review</a>
             </div>
         </li>
         <div *ngIf="reviews.length === 0">
@@ -17,28 +17,30 @@
             <div class="bg-white">
                 <div>
                     <div class="p-2 d-flex">
-                        <img class="rounded-circle" th:src="${review.user.image}" src="https://dummyimage.com/50x50/bdbdbd/fff&text=placeholder" width="50" height="50" alt="">
+                        <img class="rounded-circle align-self-center" src="https://dummyimage.com/50x50/bdbdbd/fff&text=placeholder" width="50" height="50" alt="">
                         <div class="ms-1 row text-start">
                             <div>
-                                <a th:href="@{/user/{user}(user = ${review.user.userName})}" class="text-black text-decoration-none">
+                                <a [routerLink]="['/user', review.username]" class="text-black text-decoration-none">
                                     <small>{{review.username}}</small>
                                 </a>
                             </div>
                             <small class="text-muted">Reviewed on {{review.timestamp | date:'dd MMMM yyyy'}}</small>
+                            <small *ngIf="currentUrl.startsWith('/user')" class="text-muted">Review for <a [routerLink]="['/books', review.bookId]">{{review.bookTitle}}</a></small>
                         </div>
-                        <div th:if="${review.user.userName == #authentication.name}" class="ms-auto">
-                            <a th:href="@{/books/delete-review(reviewId=${review.id})}" class="text-danger">
+                        <div class="ms-auto">
+                            <a class="text-danger">
                                 <i class="bi bi-x-circle-fill"></i>
                             </a>
                         </div>
                     </div>
                     <div class="ps-3 pb-2 text-start">
-                        <div class="col">
-                            <small th:if="${review.rating == 1}" class="text-warning"><div th:replace="fragments/elements :: 1-star"></div></small>
-                            <small th:if="${review.rating == 2}" class="text-warning"><div th:replace="fragments/elements :: 2-star"></div></small>
-                            <small th:if="${review.rating == 3}" class="text-warning"><div th:replace="fragments/elements :: 3-star"></div></small>
-                            <small th:if="${review.rating == 4}" class="text-warning"><div th:replace="fragments/elements :: 4-star"></div></small>
-                            <small th:if="${review.rating == 5}" class="text-warning"><div th:replace="fragments/elements :: 5-star"></div></small>
+                        <div class="col d-flex">
+                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(review.rating); let i = index" class="text-warning">
+                                <i class="bi bi-star-fill"></i>
+                            </small>
+                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(5-review.rating!); let i = index" class="text-warning">
+                                <i class="bi bi-star"></i>
+                            </small>
                         </div>
                         <div>
                             <h5 class="p-0 m-0">{{review.title}}</h5>

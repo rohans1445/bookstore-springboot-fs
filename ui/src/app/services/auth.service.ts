@@ -58,6 +58,16 @@ export class AuthService {
       return '';
     }
   }
+
+  getCurrentUser(): User{ 
+    if(localStorage.getItem('currentUser') !== null){
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+      return this.currentUser;
+    } else {
+      console.error('Error getting current user.');
+      return this.currentUser;
+    }
+  }
   
   isTokenExpired(){
     const bearerToken = localStorage.getItem('token');
@@ -71,6 +81,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
   }
 
   getAuthHeader() {

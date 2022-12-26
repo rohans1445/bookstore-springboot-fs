@@ -57,11 +57,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.authService.fetchCurrentUserDetails().subscribe({
           next: res => {
-            this.authService.currentUser = res;
+            localStorage.setItem('currentUser', JSON.stringify(res));
+            this.router.navigate(['/books/list']);
           }
         })
 
-        this.router.navigate(['/books/list']);
       },
       error: res => {
         if(res.message.indexOf("403") != -1){

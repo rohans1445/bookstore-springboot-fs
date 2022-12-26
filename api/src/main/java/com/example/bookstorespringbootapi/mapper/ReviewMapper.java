@@ -12,6 +12,8 @@ public interface ReviewMapper {
 
     @Mapping(source = "user.userName", target = "username")
     @Mapping(source = "id", target = "reviewId")
+    @Mapping(source = "book.title", target = "bookTitle")
+    @Mapping(source = "book.id", target = "bookId")
     ReviewResponseDTO toReviewResponseDTO(Review review);
 
     List<ReviewResponseDTO> toReviewResponseDTOs(List<Review> reviews);

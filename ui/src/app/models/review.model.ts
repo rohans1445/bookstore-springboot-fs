@@ -5,4 +5,6 @@ export class Review {
     content?: string;
     rating?: number;
     timestamp?: Date;
+    bookTitle?: string;
+    bookId?: number;
 }

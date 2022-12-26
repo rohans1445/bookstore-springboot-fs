@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -11,12 +12,13 @@ export class HeaderComponent implements OnInit {
 
   loggedIn: boolean = false;
   isAdmin: boolean = false;
+  currentUser: User = new User();
 
   constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn();
-    this.authService.setLoggedInUser();
+    this.currentUser = this.authService.getCurrentUser();
   }
   
   onLogout(): void {

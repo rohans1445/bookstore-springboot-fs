@@ -23,6 +23,12 @@ import { ModalComponent } from './modal/modal.component';
 import { ToastComponent } from './toast/toast.component';
 import { CartComponent } from './home/cart/cart.component';
 import { CheckoutComponent } from './home/checkout/checkout.component';
+import { MyProfileComponent } from './home/my-profile/my-profile.component';
+import { ProfileNavigationComponent } from './home/my-profile/profile-navigation/profile-navigation.component';
+import { MyReviewsComponent } from './home/my-profile/my-reviews/my-reviews.component';
+import { UserHeaderComponent } from './home/my-profile/user-header/user-header.component';
+import { MyOrdersComponent } from './home/my-profile/my-orders/my-orders.component';
+import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +49,13 @@ import { CheckoutComponent } from './home/checkout/checkout.component';
     ModalComponent,
     ToastComponent,
     CartComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    MyProfileComponent,
+    ProfileNavigationComponent,
+    MyReviewsComponent,
+    UserHeaderComponent,
+    MyOrdersComponent,
+    OwnedBooksComponent
   ],
   imports: [
     BrowserModule,

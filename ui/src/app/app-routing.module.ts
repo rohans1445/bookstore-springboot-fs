@@ -8,6 +8,10 @@ import { BooksComponent } from './home/books/books.component';
 import { CartComponent } from './home/cart/cart.component';
 import { CheckoutComponent } from './home/checkout/checkout.component';
 import { HomeComponent } from './home/home.component';
+import { MyOrdersComponent } from './home/my-profile/my-orders/my-orders.component';
+import { MyProfileComponent } from './home/my-profile/my-profile.component';
+import { MyReviewsComponent } from './home/my-profile/my-reviews/my-reviews.component';
+import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'books/list', pathMatch: 'full'},
@@ -19,6 +23,12 @@ const routes: Routes = [
     ]}, 
     {path: 'cart', component: CartComponent}, 
     {path: 'checkout', component: CheckoutComponent},
+    {path: 'user/:user', redirectTo: 'user/:user/my-reviews'},
+    {path: 'user/:user', component: MyProfileComponent, children: [
+      {path: 'my-reviews', component: MyReviewsComponent},
+      {path: 'my-orders', component: MyOrdersComponent},
+      {path: 'owned-books', component: OwnedBooksComponent}
+    ]}
   ]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},

@@ -28,7 +28,11 @@ export class CheckoutComponent implements OnInit {
   total: number = 0;
   promoApplied: boolean = false;
   invalidPromo: boolean = false;
-  promo!: Promo;
+  promo: Promo = {
+    id: 0,
+    code: '',
+    amount: 0
+  };
   userCredit: number = 0;
   insufficientBalance: boolean = false;
   loadingCart: boolean = true;
@@ -57,6 +61,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   onApplyPromo(form: NgForm){
+    if(this.promo.code === form.value.promo) return;
+    // reset to original price every time user enters new code
+    this.onRemoveDiscount();
     this.promoService.getPromo(form.value.promo).subscribe({
       next: res => {
         this.invalidPromo = false;
@@ -103,6 +110,12 @@ export class CheckoutComponent implements OnInit {
           console.error(res);
         }
       });
+  }
+
+  onRemoveDiscount(){
+    this.promo = {id: 0, amount: 0, code: ''}
+    this.promoApplied = false;
+    this.calculateTotal(this.cart);
   }
 
 }

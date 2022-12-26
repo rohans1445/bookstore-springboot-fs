@@ -15,5 +15,7 @@ public class ReviewResponseDTO {
     private String title;
     private String content;
     private int rating;
+    private String bookTitle;
+    private String bookId;
     private LocalDateTime timestamp;
 }
