@@ -1,5 +1,6 @@
 package com.example.bookstorespringbootapi.entity;
 
+import com.example.bookstorespringbootapi.entity.enums.OrderStatus;
 import com.example.bookstorespringbootapi.entity.enums.PaymentType;
 import lombok.Data;
 import lombok.ToString;
@@ -25,9 +26,15 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Column(name = "receipt_url")
+    private String receiptUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

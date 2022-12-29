@@ -55,4 +55,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(PaymentException.class)
+    public ResponseEntity<ErrorResponse> handlePaymentEx(PaymentException e){
+        ErrorResponse res = new ErrorResponse();
+        res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        res.setMessages(List.of("Error occured while processing payment. " + e));
+        return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

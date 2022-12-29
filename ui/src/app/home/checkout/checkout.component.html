@@ -34,7 +34,7 @@
                             <div class="me-2">
                                 <input type="text" id="promo" name="promo" ngModel class="form-control" placeholder="PROMO">
                             </div>
-                            <button type="submit" class="btn btn-success ms-auto">Apply</button>
+                            <button id="apply-promo" type="submit" class="btn btn-success ms-auto">Apply</button>
                         </div>
                     </form>
                 </li>
@@ -47,17 +47,26 @@
         <div *ngIf="insufficientBalance" class="alert alert-danger" role="alert">
             <i class="bi bi-exclamation-circle me-2"></i> Insufficient balance!
         </div>
+        <div *ngIf="cancelledCardPayment" class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-circle me-2"></i> Your checkout session was cancelled.
+        </div>
         <div class="bg-white border rounded p-5 py-4">
             <h4>Payment</h4>
             <hr class="mt-3 mb-4">
 
-            <div>
+            <form [formGroup]="form" (ngSubmit)="onSubmitPaymentMode()" #f>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="storecredit" id="storecredit" checked>
+                    <input class="form-check-input" type="radio" value="card" name="paymentMode" id="card" formControlName="paymentMode" checked>
+                    <label class="form-check-label" for="card">
+                        Card
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="store-credit" name="paymentMode" formControlName="paymentMode" id="storecredit">
                     <label class="form-check-label" for="storecredit">
                         Store credits
                     </label>
-                    <div class="col-6 col-sm-5 col-md-5 pt-2">
+                    <div *ngIf="f['paymentMode'].value === 'store-credit'" class="col-6 col-sm-5 col-md-5 pt-2">
                         <div class="bg-light border border-2 rounded-3 text-center">
                             <div class="text-muted pb-2">Your Credits</div>
                             <div class="pb-3 text-muted fw-bold">{{userCredit | currency}}</div>
@@ -65,9 +74,16 @@
                     </div>
                 </div>
                 <div class="pt-4">
-                    <button (click)="onPlaceOrder()" class="btn btn-primary" [disabled]="loadingCart && loadingCredit">Place order</button>
+                    <button 
+                    id="proceed-payment"
+                    class="btn btn-primary" 
+                    [ngClass]="{'btn-success': f['paymentMode'].value === 'card', 'btn-primary':f['paymentMode'].value === 'store-credit'}" 
+                    [disabled]="loadingCardCheckout">
+                    <span *ngIf="loadingCardCheckout" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        {{ f['paymentMode'].value === 'card' ? 'Proceed to payment' : 'Place Order' }}
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

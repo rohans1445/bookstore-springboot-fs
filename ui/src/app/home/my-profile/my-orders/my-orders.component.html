@@ -13,7 +13,8 @@
                         <th scope="col"># Order ID</th>
                         <th scope="col">Item(s)</th>
                         <th scope="col">Total (USD)</th>
-                        <th scope="col">Payment Type</th>
+                        <th scope="col">Payment type</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Created at</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -23,12 +24,18 @@
                         <th scope="row">{{order.id}}</th>
                         <td>{{order.orderItems.length}}</td>
                         <td>{{order.total | currency}}</td>
-                        <td class="text-center">
-                            <span class="badge bg-success text-white">{{order.paymentType === 'STORE_CREDIT' ? 'Store Credit' : 'Card'}}</span>
+                        <td class="text-center" [ngSwitch]="order.paymentType">
+                            <span class="badge bg-success text-white" *ngSwitchCase="'CARD'">{{'Card'}}</span>
+                            <span class="badge bg-info text-black" *ngSwitchCase="'STORE_CREDIT'">{{'Store Credit'}}</span>
                         </td>
-                        <td>{{order.createdAt}}</td>
-                        <td>
-    <!--                    <button class="btn btn-sm btn-outline-dark">View</button>-->
+                        <td class="text-center" [ngSwitch]="order.status">
+                            <span class="badge bg-success text-white" *ngSwitchCase="'PAID'">{{'Paid'}}</span>
+                            <span class="badge bg-warning text-black" *ngSwitchCase="'UNPAID'">{{'Unpaid'}}</span>
+                            <span class="badge bg-danger text-white" *ngSwitchCase="'CANCELLED'">{{'Cancelled'}}</span>
+                        </td>
+                        <td>{{order.createdAt | date:'dd MMMM yyyy hh:mm a'}}</td>
+                        <td class="text-center">
+                            <a *ngIf="order.status === 'PAID'" class="btn btn-sm btn-outline-dark" title="View order" [href]="order.receiptUrl" target="_blank">View</a>
                         </td>
                     </tr>
                     <tr *ngIf="orders.length === 0" class="text-center">
