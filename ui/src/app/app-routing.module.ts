@@ -12,6 +12,7 @@ import { MyOrdersComponent } from './home/my-profile/my-orders/my-orders.compone
 import { MyProfileComponent } from './home/my-profile/my-profile.component';
 import { MyReviewsComponent } from './home/my-profile/my-reviews/my-reviews.component';
 import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
+import { PaymentSuccessComponent } from './home/payment-success/payment-success.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'books/list', pathMatch: 'full'},
@@ -28,7 +29,8 @@ const routes: Routes = [
       {path: 'my-reviews', component: MyReviewsComponent},
       {path: 'my-orders', component: MyOrdersComponent},
       {path: 'owned-books', component: OwnedBooksComponent}
-    ]}
+    ]},
+    {path: 'payment/success', component: PaymentSuccessComponent},
   ]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},

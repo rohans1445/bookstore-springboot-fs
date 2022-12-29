@@ -29,6 +29,7 @@ import { MyReviewsComponent } from './home/my-profile/my-reviews/my-reviews.comp
 import { UserHeaderComponent } from './home/my-profile/user-header/user-header.component';
 import { MyOrdersComponent } from './home/my-profile/my-orders/my-orders.component';
 import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
+import { PaymentSuccessComponent } from './home/payment-success/payment-success.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.c
     MyReviewsComponent,
     UserHeaderComponent,
     MyOrdersComponent,
-    OwnedBooksComponent
+    OwnedBooksComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,
