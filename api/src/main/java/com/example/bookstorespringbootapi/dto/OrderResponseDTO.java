@@ -1,6 +1,7 @@
 package com.example.bookstorespringbootapi.dto;
 
 import com.example.bookstorespringbootapi.entity.Book;
+import com.example.bookstorespringbootapi.entity.enums.OrderStatus;
 import com.example.bookstorespringbootapi.entity.enums.PaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,8 @@ public class OrderResponseDTO {
     private int id;
     private double total;
     private PaymentType paymentType;
+    private OrderStatus status;
+    private String receiptUrl;
     private LocalDateTime createdAt;
     private List<BookDTO> orderItems;
 
