@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Book } from '../models/book.model';
 import { Order } from '../models/order.model';
@@ -37,5 +37,9 @@ export class UserService {
   
   getUsersBooks(username: string): Observable<Book[]>{
     return this.http.get<Book[]>(`${environment.baseUrl}/user/${username}/owned-books`, {headers: this.authService.getAuthHeader()});
+  }
+
+  getUserCartCount(username: string): Observable<{cart_items: number}>{
+    return this.http.get<{cart_items:number}>(`${environment.baseUrl}/user/${username}/cart-count`, {headers: this.authService.getAuthHeader()});
   }
 }

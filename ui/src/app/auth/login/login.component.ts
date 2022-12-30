@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginForm: FormGroup = new FormGroup({});
   isLoading: boolean = false;
+  isError: boolean = false;
   invalidCredentials: boolean = false;
   userLoggedOut: boolean = false;
   userLogoutSubscription!: Subscription;
@@ -69,6 +70,11 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.invalidCredentials = true;
           setTimeout(()=>{this.invalidCredentials = false}, 3000)
         } else {
+          this.isLoading = false;
+          this.isError = true;
+          setTimeout(() => {
+            this.isError = false;
+          }, 5000);
           console.error(res.message);
         }
       }

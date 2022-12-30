@@ -88,4 +88,13 @@ public class UserController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @GetMapping("/{username}/cart-count")
+    @PreAuthorize("#username == authentication.name")
+    public ResponseEntity<String> getUserCartCount(@PathVariable("username") String username) throws JsonProcessingException {
+        ApplicationUser user = userService.getUserByUserName(username);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("cart_items", user.getCart().size());
+        return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.OK);
+    }
+
 }
