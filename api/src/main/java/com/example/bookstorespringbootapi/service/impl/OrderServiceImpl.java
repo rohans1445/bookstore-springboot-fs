@@ -77,32 +77,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order fulfillOrder(Integer id) {
-        Order order = getOrderById(id);
+    public Order fulfillOrder(Order order) {
         ApplicationUser user = order.getUser();
 
         // set order status to PAID
         order.setStatus(OrderStatus.PAID);
-
-        // add books to user inventory
-        order.getOrderItems().forEach((book) -> {
-            user.getUserInventory().add(book);
-        });
-
-        // save order and clear users cart
-        orderRepository.save(order);
-        userService.clearCart(user.getId());
-        return order;
-    }
-
-    @Override
-    public Order fulfillOrder(Integer id, String receipt) {
-        Order order = getOrderById(id);
-        ApplicationUser user = order.getUser();
-
-        // set order status to PAID
-        order.setStatus(OrderStatus.PAID);
-        order.setReceiptUrl(receipt);
 
         // add books to user inventory
         order.getOrderItems().forEach((book) -> {
