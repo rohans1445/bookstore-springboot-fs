@@ -10,10 +10,9 @@ import { AuthService } from './auth.service';
 })
 export class OrderService {
 
-  constructor(private http: HttpClient,
-    private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
   createOrder(cart: number[], discount: string){
-    return this.http.post(`${environment.baseUrl}/order`, {cart, discount}, {headers: this.authService.getAuthHeader()});
+    return this.http.post(`${environment.baseUrl}/order`, {cart, discount});
   }
 }

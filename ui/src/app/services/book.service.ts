@@ -12,27 +12,26 @@ export class BookService {
   
   private baseUrl: string = environment.baseUrl;
   
-  constructor(private http: HttpClient,
-    private authService: AuthService) {}
+  constructor(private http: HttpClient) {}
     
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(`${this.baseUrl}/books`, {headers: this.authService.getAuthHeader()});
+    return this.http.get<Book[]>(`${this.baseUrl}/books`);
   }
   
   getBookById(id: number): Observable<Book> {
-    return this.http.get<Book>(`${this.baseUrl}/books/${id}`, {headers: this.authService.getAuthHeader()});
+    return this.http.get<Book>(`${this.baseUrl}/books/${id}`);
   }
 
   getRandomBook(): Observable<Book> {
-    return this.http.get<Book>(`${this.baseUrl}/rnd-book`, {headers: this.authService.getAuthHeader()});
+    return this.http.get<Book>(`${this.baseUrl}/rnd-book`);
   }
   
   saveBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(`${this.baseUrl}/books`, book, {headers: this.authService.getAuthHeader()});
+    return this.http.post<Book>(`${this.baseUrl}/books`, book);
   }
   
   updateBook(book: Book) {
-    return this.http.put<Book>(`${this.baseUrl}/books`, book, {headers: this.authService.getAuthHeader()});
+    return this.http.put<Book>(`${this.baseUrl}/books`, book);
   }
   
 }
