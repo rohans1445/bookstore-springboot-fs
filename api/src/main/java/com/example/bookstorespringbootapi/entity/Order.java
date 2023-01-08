@@ -40,6 +40,9 @@ public class Order {
     @JoinColumn(name = "user_id")
     private ApplicationUser user;
 
+    @Column(name = "stripe_session_id")
+    private String stripeSessionId;
+
     @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
         CascadeType.PERSIST, CascadeType.REFRESH})

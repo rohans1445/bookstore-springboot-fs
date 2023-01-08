@@ -1,0 +1,93 @@
+<div class="p-0 p-sm-3"></div>
+<div class="bg-white border rounded-2">
+    <div>
+        <h2 class="p-3 pb-0"><i class="bi bi-arrow-left-right me-2"></i>Exchanges</h2>
+        <p class="p-3 pt-0 pb-0 text-muted">All exchange requests. Click 'exchange' on the book you would like to exchange with a user.</p>
+        <hr>
+    </div>
+    <div class="pe-4 d-flex">
+        <a class="btn btn-custom-orange btn-sm ms-auto" (click)="isCreatingNewExchange = true">+ New</a>
+    </div>
+    <div class="p-2 p-sm-4 pt-2 table-responsive">
+        <table class="table table-hover text-nowrap table-bordered">
+            <thead class="thead light table-dark">
+            <tr class="text-start text-sm-center">
+                <th scope="col"># Exchange ID</th>
+                <th scope="col">User</th>
+                <th scope="col">Has</th>
+                <th scope="col">Wants</th>
+                <th scope="col">Can exchange</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let exchange of exchanges" class="text-start">
+                <th scope="row">{{ exchange.id }}</th>
+                <td>
+                    <a class="text-decoration-none text-dark" [ngClass]="{'fw-bold':exchange.exchangeOpener === currentUser}">
+                        {{ exchange.exchangeOpener }}
+                    </a>
+                </td>
+                <td>
+                    <a class="text-decoration-none text-dark" [routerLink]="['/books', exchange.openerOwnedBookId]">{{ exchange.openerOwnedBookTitle }}</a>
+                </td>
+                <td>
+                    <a class="text-decoration-none text-dark" [routerLink]="['/books', exchange.openerExchangeBookId]">{{ exchange.openerExchangeBookTitle }}</a>
+                </td>
+                <td class="text-center">
+                    <div *ngIf="exchange.canExchange && exchange.exchangeOpener !== currentUser" >
+                        <span class="text-success">
+                            <i class="bi bi-check-lg"></i>
+                        </span>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div *ngIf="exchange.canExchange && exchange.exchangeOpener !== currentUser">
+                        <a class="btn btn-sm btn-outline-success" (click)="processExchange(exchange.id)">Exchange</a>
+                    </div>
+                    <div *ngIf="exchange.exchangeOpener === currentUser">
+                        <a class="btn btn-sm btn-outline-danger" (click)="onCancelExchange(exchange.id)">Cancel</a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<app-modal *ngIf="isCreatingNewExchange" (onClickBackdrop)="onCloseModal()">
+    <div id="modal-heading">
+        <div class="text-center">
+            <h3 class="m-0 p-0">New exchange</h3>
+        </div>
+    </div>
+    <div id="modal-body">
+        <div class="">
+            <form [formGroup]="exchangeForm" (ngSubmit)="onSubmit()" id="exchange-form">
+
+
+                <label class="form-label">Select a book you own: </label>
+                <select class="form-select form-control-custom-orange" formControlName="openerOwnedBookId" aria-label="select book 1">
+                    <option value="null" selected>None</option>
+                    <option *ngFor="let book of userBooks" [ngValue]="book.id">{{ book.title }}</option>
+                </select>
+
+
+                <label class="form-label pt-4">Select a book you want: </label>
+                <select class="form-select form-control-custom-orange" formControlName="openerExchangeBookId" aria-label="select book 2">
+                    <option value="null" selected>None</option>
+                    <option *ngFor="let book of allBooks" [ngValue]="book.id">{{ book.title }}</option>
+                </select>
+
+
+            </form>
+        </div>
+    </div>
+    <div id="modal-footer">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-dark me-2" (click)="onCloseModal()">Cancel</button>
+            <button type="submit" class="btn btn-custom-orange" form="exchange-form" [disabled]="!exchangeForm.valid">Submit</button>
+        </div>
+    </div>
+</app-modal>
+<!-- <app-toast [message]="toastParams.message!" [type]="toastParams.type!" *ngIf="!toastParams.hidden"></app-toast> -->

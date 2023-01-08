@@ -22,16 +22,25 @@ export class UserHeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentLoggedInUser = this.authService.getCurrentLoggedInUsername();
+    
+    this.getUserDetails();
+
+    this.userService.userUpdated.subscribe(res => {
+      this.getUserDetails();
+    });
+    
+    this.getUserCreditBalance();
+  }
+  
+  getUserDetails(){
     this.route.params.subscribe((param: Params)=>{
       this.userService.getUserByUsername(param['user']).subscribe({
         next: res => {
           this.currentUser = res;
           this.viewingOtherProfile = this.currentUser.username != this.currentLoggedInUser;
-          console.log(this.currentUser.username + " " + this.currentLoggedInUser);
         }
       })
-    })
-    this.getUserCreditBalance();
+    });
   }
   
   getUserCreditBalance(){

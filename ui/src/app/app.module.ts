@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +30,10 @@ import { UserHeaderComponent } from './home/my-profile/user-header/user-header.c
 import { MyOrdersComponent } from './home/my-profile/my-orders/my-orders.component';
 import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
 import { PaymentSuccessComponent } from './home/payment-success/payment-success.component';
+import { AuthIntercepterService } from './services/auth-interceptor.service';
+import { EditProfileComponent } from './home/my-profile/edit-profile/edit-profile.component';
+import { ExchangeComponent } from './home/exchange/exchange.component';
+import { ExchangesComponent } from './home/my-profile/exchanges/exchanges.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +61,10 @@ import { PaymentSuccessComponent } from './home/payment-success/payment-success.
     UserHeaderComponent,
     MyOrdersComponent,
     OwnedBooksComponent,
-    PaymentSuccessComponent
+    PaymentSuccessComponent,
+    EditProfileComponent,
+    ExchangeComponent,
+    ExchangesComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +74,7 @@ import { PaymentSuccessComponent } from './home/payment-success/payment-success.
     FormsModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthIntercepterService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

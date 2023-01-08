@@ -78,6 +78,7 @@ export class BookDetailComponent implements OnInit{
         setTimeout(() => {
           this.toastDisplay = false;
         }, 3000);
+        this.cartService.cartUpdated.next(true);
       },
       error: (error: HttpErrorResponse)=>{
         this.toastDisplay = true;

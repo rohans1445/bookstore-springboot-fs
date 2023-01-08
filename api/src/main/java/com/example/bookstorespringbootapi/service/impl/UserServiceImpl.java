@@ -1,5 +1,6 @@
 package com.example.bookstorespringbootapi.service.impl;
 
+import com.example.bookstorespringbootapi.dto.UserUpdateDTO;
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.exception.InvalidInputException;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -130,8 +132,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean itemExistsInUserInventory(int bookId) {
-        ApplicationUser currentUser = getCurrentUser();
+    public boolean itemExistsInUserInventory(int bookId, int userId) {
+        ApplicationUser currentUser = getUserById(userId);
         Book book = bookService.getBookById(bookId);
         return currentUser.getUserInventory().contains(book);
     }
@@ -142,4 +144,40 @@ public class UserServiceImpl implements UserService {
         user.setCart(new ArrayList<>());
         applicationUserRepository.save(user);
     }
+
+    @Override
+    public void updateUser(String username, UserUpdateDTO userUpdateDTO) {
+        ApplicationUser user = getUserByUserName(username);
+
+        if(StringUtils.hasText(userUpdateDTO.getFirstName())) user.setFirstName(userUpdateDTO.getFirstName());
+        if(StringUtils.hasText(userUpdateDTO.getLastName())) user.setLastName(userUpdateDTO.getLastName());
+        if(StringUtils.hasText(userUpdateDTO.getEmail())) user.setEmail(userUpdateDTO.getEmail());
+        if(StringUtils.hasText(userUpdateDTO.getPassword())) user.setPassword(userUpdateDTO.getPassword());
+        if(StringUtils.hasText(userUpdateDTO.getUserImg())) user.setUserImg(userUpdateDTO.getUserImg());
+        if(StringUtils.hasText(userUpdateDTO.getUsername())){
+            if(isUsernameTaken(userUpdateDTO.getUsername())){
+                throw new InvalidInputException("This username is taken");
+            }
+            user.setUserName(userUpdateDTO.getUsername());
+        }
+        applicationUserRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void removeFromInventory(int userId, int bookId) {
+        ApplicationUser user = getUserById(userId);
+        Book book = bookService.getBookById(bookId);
+        user.getUserInventory().remove(book);
+    }
+
+    @Override
+    @Transactional
+    public void addToInventory(int userId, int bookId) {
+        ApplicationUser user = getUserById(userId);
+        Book book = bookService.getBookById(bookId);
+        user.getUserInventory().add(book);
+    }
+
+
 }

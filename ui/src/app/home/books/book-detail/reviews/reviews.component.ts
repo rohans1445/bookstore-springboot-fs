@@ -28,6 +28,7 @@ export class ReviewsComponent implements OnInit {
   errorCode: number = 0;
   currentUsername: string = '';
   currentUrl: string = '';
+  currentUserHasCreatedReview: boolean = false;
 
   constructor(private reviewService: ReviewService, 
     private currentRoute: ActivatedRoute,
@@ -37,7 +38,11 @@ export class ReviewsComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUrl = this.router.url;
-    if(this.currentUrl.startsWith('/books')) this.getAllReviewsForBook();
+    if(this.currentUrl.startsWith('/books')) {
+      this.getAllReviewsForBook();
+      this.currentUserHasCreatedReview = this.checkIfCurrentUserCreatedReview();
+      console.log(this.currentUserHasCreatedReview);
+    }
     if(this.currentUrl.startsWith('/user')) this.getAllReviewsForUser();
     
 
@@ -107,6 +112,13 @@ export class ReviewsComponent implements OnInit {
     this.reviewForm.reset();
     this.isAddingReview = false;
     this.isErrorSavingReview = false;
+  }
+
+  checkIfCurrentUserCreatedReview(): boolean{
+    for(let review of this.reviews){
+      if(review.username === this.authService.getCurrentLoggedInUsername()) return true;
+    }
+    return false;
   }
 
 }

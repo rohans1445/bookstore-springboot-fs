@@ -39,6 +39,7 @@
                         <button type="submit" class="btn btn-custom-orange  p-2" style="border-radius: 0.5rem !important;" [disabled]="!loginForm.valid || isLoading">
                             {{isLoading ? 'Logging in' : 'Login'}}
                             <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span *ngIf="isError" class="bi bi-exclamation-circle" role="status" aria-hidden="true"></span>
                         </button>
                     </div>
                 </form>

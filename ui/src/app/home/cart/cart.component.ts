@@ -36,6 +36,7 @@ export class CartComponent implements OnInit {
         setTimeout(() => {
           this.showToast = false;
         }, 3000);
+        this.cartService.cartUpdated.next(true);
       }
     });
   }

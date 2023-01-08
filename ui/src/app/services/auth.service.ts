@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   fetchCurrentUserDetails(): Observable<User>{
-    return this.http.get<User>(`${environment.baseUrl}/user/me`, {headers: this.getAuthHeader()});
+    return this.http.get<User>(`${environment.baseUrl}/user/me`);
   }
 
   isLoggedIn(): boolean{

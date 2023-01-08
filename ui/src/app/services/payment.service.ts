@@ -10,11 +10,10 @@ import { AuthService } from './auth.service';
 })
 export class PaymentService {
 
-  constructor(private http: HttpClient,
-    private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
-  processPayment(cart: number[], discount: string, paymentType: PaymentType): Observable<{session_url: string, session_id: string}>{
-    return this.http.post<{session_url: string, session_id: string}>(`${environment.baseUrl}/process-payment`, {cart, discount, "paymentType": paymentType}, {headers: this.authService.getAuthHeader()});
+  processPayment(cart: number[], discount: string, paymentType: PaymentType): Observable<{session_url: string}>{
+    return this.http.post<{session_url: string}>(`${environment.baseUrl}/process-payment`, {cart, discount, "paymentType": paymentType});
   }
 
 }

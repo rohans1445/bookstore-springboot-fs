@@ -16,7 +16,7 @@ export class OwnedBooksComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit(): void {
-    this.userService.getUsersBooks(this.authService.getCurrentUser().username!).subscribe({
+    this.userService.getUsersBooks(this.authService.getCurrentLoggedInUsername()).subscribe({
       next: res => {
         this.ownedBooks = res;
       }

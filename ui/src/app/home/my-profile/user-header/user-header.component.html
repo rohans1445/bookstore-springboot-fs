@@ -8,12 +8,11 @@
             <span class="fst-italic fw-light"> ({{currentUser.username}})</span>
         </h2>
         <div class="ps-sm-2 d-flex flex-column text-center text-sm-start">
-            <small class="my-2 mb-0"></small>
-<!--            <small class="my-2">Books owned: 5</small>-->
-            <small class="my-2 mb-1">Reviews made: 10</small>
+            <small class=" mb-1">{{ currentUser.email }}</small>
+            <small class=" mb-1">Reviews made: 10</small>
             <div *ngIf="!viewingOtherProfile">
                 <div class="" >
-                    <small class="my-2">You have <span class="bg-warning rounded-3 ps-1 pe-1 fw-bold">{{userCreditBal | currency}}</span> store credits</small>
+                    <small class="">You have <span class="bg-warning rounded-3 ps-1 pe-1 fw-bold">{{userCreditBal | currency}}</span> store credits</small>
                 </div>
             </div>
             <small th:text="|User since ${#temporals.format(user.registeredOn, 'dd MMMM yyyy')}|" class="my-2">User since 26 February 2021</small>

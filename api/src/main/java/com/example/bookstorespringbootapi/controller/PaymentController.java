@@ -4,6 +4,7 @@ import com.example.bookstorespringbootapi.dto.OrderCreateDTO;
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Order;
 import com.example.bookstorespringbootapi.entity.enums.PaymentType;
+import com.example.bookstorespringbootapi.repository.OrderRepository;
 import com.example.bookstorespringbootapi.service.OrderService;
 import com.example.bookstorespringbootapi.service.PaymentService;
 import com.example.bookstorespringbootapi.service.UserService;
@@ -19,6 +20,7 @@ import com.stripe.net.Webhook;
 import com.stripe.param.PaymentIntentRetrieveParams;
 import com.stripe.param.checkout.SessionListLineItemsParams;
 import com.stripe.param.checkout.SessionRetrieveParams;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -39,10 +41,12 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final UserService userService;
     private final ObjectMapper objectMapper;
+    private final OrderRepository orderRepository;
 
     @Value("${stripe.webhookEndpointSecret}")
     private String webhookEndpointSecret;
 
+    @Operation(summary = "Initiate payment flow")
     @PostMapping("/process-payment")
     public ResponseEntity<String> processPayment(@RequestBody OrderCreateDTO orderCreateDTO) throws JsonProcessingException {
         ApplicationUser currentUser = userService.getCurrentUser();
@@ -60,7 +64,7 @@ public class PaymentController {
                     return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.BAD_REQUEST);
                 }
 
-                orderService.fulfillOrder(order.getId());
+                orderService.fulfillOrder(order);
                 message = "Order created successfully";
                 map.put("message", message);
                 return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.CREATED);
@@ -72,6 +76,7 @@ public class PaymentController {
                     return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.CREATED);
                 } catch (Exception e){
                     message = "Could not generate checkout session. " + e.getMessage();
+                    orderRepository.delete(order);
                     map.put("message", message);
                     return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.BAD_REQUEST);
                 }
@@ -85,11 +90,14 @@ public class PaymentController {
 
 
     /*
-        Requires STRIPE WEBHOOK running locally (stripe listen --forward-to url)
+        Requires STRIPE WEBHOOK running locally (stripe listen --forward-to <url>)
      */
+    @Operation(summary = "Handle Stripe events")
     @PostMapping("/payment-event-handler")
     public ResponseEntity<String> stripeWebhook(@RequestBody String body, @RequestHeader("Stripe-Signature") String sigHeader) throws StripeException, JsonProcessingException {
         Event event = null;
+
+        // verify event came from stripe
         try {
             event = Webhook.constructEvent(
                     body, sigHeader, webhookEndpointSecret
@@ -110,7 +118,8 @@ public class PaymentController {
             throw new RuntimeException("Deserialization failed");
         }
 
-        if ("checkout.session.completed".equals(event.getType())) { // Event for successful completion of a checkout session
+        // Handle checkout success event
+        if ("checkout.session.completed".equals(event.getType())) {
             Session session = (Session) event.getDataObjectDeserializer().getObject().get();
 
 
@@ -129,8 +138,13 @@ public class PaymentController {
             //get order id from checkout session
             Integer bookstore_order_id = objectMapper.readValue(session.getMetadata().get("bookstore_order_id"), Integer.class);
 
+            //populate order details
+            Order order = orderService.getOrderById(bookstore_order_id);
+            order.setReceiptUrl(receiptUrl);
+            order.setStripeSessionId(session.getId());
+
             //fulfill order
-            orderService.fulfillOrder(bookstore_order_id, receiptUrl);
+            orderService.fulfillOrder(order);
 
             System.out.println(">>>>>>>>>>> Order fulfilled!");
             System.out.println(session);

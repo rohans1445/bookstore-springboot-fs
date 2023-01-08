@@ -8,6 +8,7 @@ import com.example.bookstorespringbootapi.payload.ApiResponse;
 import com.example.bookstorespringbootapi.payload.BookResponse;
 import com.example.bookstorespringbootapi.payload.CartRequest;
 import com.example.bookstorespringbootapi.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class CartController {
     private final UserService userService;
     private final BookMapper bookMapper;
 
+    @Operation(summary = "Add book to cart")
     @PostMapping("/cart")
     public ResponseEntity<ApiResponse> addBookToCart(@RequestBody CartRequest cartRequest){
         userService.addBookToCart(cartRequest.getBookId());
@@ -31,6 +33,7 @@ public class CartController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get a users cart")
     @GetMapping("/cart")
     public ResponseEntity<List<BookDTO>> getUsersCart(){
         ApplicationUser user = userService.getCurrentUser();
@@ -39,6 +42,7 @@ public class CartController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @Operation(summary = "Delete a cart item")
     @DeleteMapping("/cart/{bookId}")
     public ResponseEntity<ApiResponse> deleteCartItem(@PathVariable("bookId") int bookId){
         userService.removeItemFromCart(bookId);

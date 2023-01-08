@@ -81,25 +81,24 @@
 
                                     <ul>
                                         <li th:if="${book.addedBy.roles != 'ROLE_ADMIN'}" class="py-1">
-                                            <strong>Added by:</strong> <a th:href="@{'/user/' + ${book.addedBy.userName}}" th:text="|${book.addedBy.firstName} ${book.addedBy.lastName}|">Firstname Lastname</a>
+                                            <strong>Added by: </strong> <a th:href="@{'/user/' + ${book.addedBy.userName}}" th:text="|${book.addedBy.firstName} ${book.addedBy.lastName}|">Firstname Lastname</a>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Publisher:</strong> <span th:text="${book.bookDetail.publisher}">{{book.bookDetail.publisher}}</span>
+                                            <strong>Publisher: </strong> <span th:text="${book.bookDetail.publisher}">{{book.bookDetail.publisher}}</span>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Language:</strong> <span th:text="${book.bookDetail.language}">English</span>
+                                            <strong>Language: </strong> <span th:text="${book.bookDetail.language}">English</span>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Page Count:</strong> <span th:text="|${book.bookDetail.pageCount} pages|">325 pages</span>
+                                            <strong>Page Count: </strong> <span th:text="|${book.bookDetail.pageCount} pages|">325 pages</span>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Item Weight:</strong> <span th:text="|${book.bookDetail.itemWeight} pounds|">1.56 pounds</span>
+                                            <strong>Item Weight: </strong> <span th:text="|${book.bookDetail.itemWeight} pounds|">1.56 pounds</span>
                                         </li>
                                         <li class="py-1">
                                             <div class="d-flex">
                                                 <div class="align-self-center">
-                                                    <strong>Avg. Rating:</strong>
-                                                    <span>Is logged in: {{authService.isLoggedIn()}}</span>
+                                                    <strong>Avg. Rating: </strong>
                                                 </div>
                                                 <div class="ps-2">
                                                     <a th:if="${avgRating == 0}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 0-star"></div></a>

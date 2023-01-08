@@ -13,4 +13,6 @@ public interface BookService {
 
     Book saveBook(BookDTO book);
 
+    List<Book> searchByTitle(String title);
+
 }
