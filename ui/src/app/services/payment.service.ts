@@ -12,8 +12,8 @@ export class PaymentService {
 
   constructor(private http: HttpClient) { }
 
-  processPayment(cart: number[], discount: string, paymentType: PaymentType): Observable<{session_url: string, session_id: string}>{
-    return this.http.post<{session_url: string, session_id: string}>(`${environment.baseUrl}/process-payment`, {cart, discount, "paymentType": paymentType});
+  processPayment(cart: number[], discount: string, paymentType: PaymentType): Observable<{session_url: string}>{
+    return this.http.post<{session_url: string}>(`${environment.baseUrl}/process-payment`, {cart, discount, "paymentType": paymentType});
   }
 
 }

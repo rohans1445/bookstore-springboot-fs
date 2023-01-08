@@ -31,6 +31,9 @@ import { MyOrdersComponent } from './home/my-profile/my-orders/my-orders.compone
 import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
 import { PaymentSuccessComponent } from './home/payment-success/payment-success.component';
 import { AuthIntercepterService } from './services/auth-interceptor.service';
+import { EditProfileComponent } from './home/my-profile/edit-profile/edit-profile.component';
+import { ExchangeComponent } from './home/exchange/exchange.component';
+import { ExchangesComponent } from './home/my-profile/exchanges/exchanges.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { AuthIntercepterService } from './services/auth-interceptor.service';
     UserHeaderComponent,
     MyOrdersComponent,
     OwnedBooksComponent,
-    PaymentSuccessComponent
+    PaymentSuccessComponent,
+    EditProfileComponent,
+    ExchangeComponent,
+    ExchangesComponent,
   ],
   imports: [
     BrowserModule,

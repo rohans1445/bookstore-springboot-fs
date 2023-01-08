@@ -1,0 +1,107 @@
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="list-group" *ngIf="!isLoading">
+    <li class="list-group-item bg-light">
+        <div class="p-0 text-start d-flex align-items-center">
+            <h4 class="m-0" id="reviews">Edit profile</h4>
+        </div>
+    </li>
+    <li class="list-group-item">
+        <form (ngSubmit)="onSubmitPersonalDetailsForm(detailsForm)" #detailsForm="ngForm" class="ps-3 ps-sm-5 pt-4 pb-5 pe-3" method="post">
+            <div class="row g-3">
+                <div class="col-12">
+                    <h3 class="">Personal details</h3>
+                </div>
+                <div class="col-sm-3">
+                    <label class="form-label">First name</label>
+                    <input type="text" id="firstname" ngModel name="firstname" class="form-control form-control-custom-orange" placeholder="ex. Firstname">
+                </div>
+                <div class="col-sm-3">
+                    <label class="form-label">Last name</label>
+                    <input type="text" id="lastname" ngModel name="lastname" class="form-control form-control-custom-orange" placeholder="ex. Lastname">
+                </div>
+                <div class="w-100 m-0"></div>
+                <div class="col-sm-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="email" name="email" ngModel class="form-control form-control-custom-orange" placeholder="ex. example@mail.com">
+                </div>
+                <div class="">
+                    <button type="submit" class="btn btn-custom-orange  mt-1" [disabled]="!detailsForm.valid">Update profile</button>
+                </div>
+            </div>
+        </form>
+        <form (ngSubmit)="onSubmitPassChangeForm(passChangeForm)" #passChangeForm="ngForm" class="ps-3 ps-sm-5 pt-4 pb-5 pe-3" method="post">
+            <input type="hidden" th:field="${user.id}">
+            <input type="hidden" th:field="${user.userName}">
+            <input type="hidden" th:field="${user.roles}">
+            <input type="hidden" th:field="${user.firstName}">
+            <input type="hidden" th:field="${user.lastName}">
+            <input type="hidden" th:field="${user.email}">
+            <input type="hidden" th:field="${user.image}">
+            <input type="hidden" th:field="${user.registeredOn}">
+            <input type="hidden" th:field="${user.credits}">
+            <input type="hidden" th:field="${user.reviews}">
+            <div class="row g-2">
+                <div class="col-sm-12">
+                    <h3 th:text="|Change your password|" class="">Change your password</h3>
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label">New password</label>
+                    <input th:field="${user.password}" type="password" id="pass" class="form-control form-control-custom-orange" placeholder="ex. password">
+                    <span th:if="${#fields.hasErrors('user.password')}" class="text-danger" th:errors="${user.password}"></span>
+                </div>
+                <div class="">
+                    <button type="submit" class="btn btn-custom-orange  mt-2">Change password</button>
+                </div>
+            </div>
+        </form>
+        <form (ngSubmit)="onSubmitUsernameChangeForm(usernameForm)" #usernameForm="ngForm" th:object="${user}" class="ps-3 ps-sm-5 pt-4 pb-5 pe-3" method="post">
+            <input type="hidden" th:field="${user.id}">
+            <input type="hidden" th:field="${user.roles}">
+            <input type="hidden" th:field="${user.password}">
+            <input type="hidden" th:field="${user.firstName}">
+            <input type="hidden" th:field="${user.lastName}">
+            <input type="hidden" th:field="${user.email}">
+            <input type="hidden" th:field="${user.image}">
+            <input type="hidden" th:field="${user.registeredOn}">
+            <input type="hidden" th:field="${user.credits}">
+            <input type="hidden" th:field="${user.reviews}">
+            <div class="row g-2">
+                <div class="col-sm-12">
+                    <h3 th:text="|Change your username|" class="">Change your username</h3>
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label">New username</label>
+                    <input th:field="*{userName}" type="text" id="uname" class="form-control form-control-custom-orange" placeholder="ex. username123">
+                    <span th:if="${#fields.hasErrors('userName')}" class="text-danger" th:errors="*{userName}"></span>
+                </div>
+                <div class="">
+                    <button type="submit" class="btn btn-custom-orange  mt-2">Change username</button>
+                </div>
+            </div>
+        </form>
+        <form (ngSubmit)="onSubmitImgChangeForm(imgForm)" #imgForm="ngForm" th:object="${user}" class="ps-3 ps-sm-5 pt-4 pb-5 pe-3" method="post">
+            <input type="hidden" th:field="${user.id}">
+            <input type="hidden" th:field="${user.roles}">
+            <input type="hidden" th:field="${user.password}">
+            <input type="hidden" th:field="${user.firstName}">
+            <input type="hidden" th:field="${user.lastName}">
+            <input type="hidden" th:field="${user.userName}">
+            <input type="hidden" th:field="${user.email}">
+            <input type="hidden" th:field="${user.registeredOn}">
+            <input type="hidden" th:field="${user.credits}">
+            <input type="hidden" th:field="${user.reviews}">
+            <div class="row g-2">
+                <div class="col-sm-12">
+                    <h3 th:text="|Set your profile picture|" class="">Set your profile picture</h3>
+                </div>
+                <div class="col-sm-6">
+                    <label class="form-label">New image</label>
+                    <input th:field="*{image}" type="text" id="userImg" class="form-control form-control-custom-orange" placeholder="Link to an image">
+                </div>
+                <div class="">
+                    <button type="submit" class="btn btn-custom-orange  mt-2">Change image</button>
+                </div>
+            </div>
+        </form>
+    </li>
+</div>

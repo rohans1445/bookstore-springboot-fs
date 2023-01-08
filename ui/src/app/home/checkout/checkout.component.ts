@@ -168,8 +168,6 @@ export class CheckoutComponent implements OnInit {
         this.paymentService.processPayment(orderItems, this.promoApplied ? this.promo.code : "", PaymentType.CARD).subscribe({
           next: res => {
             this.loadingCardCheckout = false;
-            console.log(res);
-            localStorage.setItem("payment_session_id", res.session_id);
             window.location.href = res.session_url;
           },
           error: error => {
