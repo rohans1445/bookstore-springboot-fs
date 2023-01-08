@@ -68,6 +68,12 @@ public class ApplicationUser {
         inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> userInventory;
 
+    @Column(name ="user_img")
+    private String userImg;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "exchangeOpener")
+    private List<ExchangeRequest> exchangeRequests;
+
     public List<Review> getReviews() {
         return reviews == null ? Collections.emptyList() : Collections.unmodifiableList(reviews);
     }

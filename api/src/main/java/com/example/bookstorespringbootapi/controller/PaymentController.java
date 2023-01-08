@@ -4,6 +4,7 @@ import com.example.bookstorespringbootapi.dto.OrderCreateDTO;
 import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Order;
 import com.example.bookstorespringbootapi.entity.enums.PaymentType;
+import com.example.bookstorespringbootapi.repository.OrderRepository;
 import com.example.bookstorespringbootapi.service.OrderService;
 import com.example.bookstorespringbootapi.service.PaymentService;
 import com.example.bookstorespringbootapi.service.UserService;
@@ -19,6 +20,7 @@ import com.stripe.net.Webhook;
 import com.stripe.param.PaymentIntentRetrieveParams;
 import com.stripe.param.checkout.SessionListLineItemsParams;
 import com.stripe.param.checkout.SessionRetrieveParams;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -39,10 +41,12 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final UserService userService;
     private final ObjectMapper objectMapper;
+    private final OrderRepository orderRepository;
 
     @Value("${stripe.webhookEndpointSecret}")
     private String webhookEndpointSecret;
 
+    @Operation(summary = "Initiate payment flow")
     @PostMapping("/process-payment")
     public ResponseEntity<String> processPayment(@RequestBody OrderCreateDTO orderCreateDTO) throws JsonProcessingException {
         ApplicationUser currentUser = userService.getCurrentUser();
@@ -72,6 +76,7 @@ public class PaymentController {
                     return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.CREATED);
                 } catch (Exception e){
                     message = "Could not generate checkout session. " + e.getMessage();
+                    orderRepository.delete(order);
                     map.put("message", message);
                     return new ResponseEntity<>(objectMapper.writeValueAsString(map), HttpStatus.BAD_REQUEST);
                 }
@@ -87,6 +92,7 @@ public class PaymentController {
     /*
         Requires STRIPE WEBHOOK running locally (stripe listen --forward-to <url>)
      */
+    @Operation(summary = "Handle Stripe events")
     @PostMapping("/payment-event-handler")
     public ResponseEntity<String> stripeWebhook(@RequestBody String body, @RequestHeader("Stripe-Signature") String sigHeader) throws StripeException, JsonProcessingException {
         Event event = null;

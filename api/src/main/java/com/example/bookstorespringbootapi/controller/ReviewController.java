@@ -11,6 +11,7 @@ import com.example.bookstorespringbootapi.payload.ReviewRequest;
 import com.example.bookstorespringbootapi.payload.ReviewResponse;
 import com.example.bookstorespringbootapi.service.ReviewService;
 import com.example.bookstorespringbootapi.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class ReviewController {
     private final UserService userService;
     private final ReviewMapper reviewMapper;
 
-
+    @Operation(summary = "Get all reviews for a book")
     @GetMapping("/books/{bookId}/reviews")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ReviewResponseDTO>> getAllReviewsForBook(@PathVariable("bookId") int bookId){
@@ -39,6 +40,7 @@ public class ReviewController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @Operation(summary = "Save review")
     @PostMapping("/books/{bookId}/reviews")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<ReviewResponseDTO> saveReview(@Valid @RequestBody ReviewCreateDTO reviewCreateDTO, @PathVariable("bookId") int bookId){
@@ -47,6 +49,7 @@ public class ReviewController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @Operation(summary = "Delete a review")
     @DeleteMapping("/books/{bookId}/reviews/{reviewId}")
     public ResponseEntity<?> deleteReview(@PathVariable("reviewId") int reviewId){
         Review review = reviewService.getReview(reviewId);
@@ -58,9 +61,10 @@ public class ReviewController {
         return new ResponseEntity<>(new ApiResponse(HttpStatus.OK.value(), "Review deleted successfully."), HttpStatus.OK);
     }
 
-    @GetMapping("/books/{bookId}/reviews/can-create")
-    public ResponseEntity<?> canCreateReview(@PathVariable("bookId") int bookId){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//
+//    @GetMapping("/books/{bookId}/reviews/can-create")
+//    public ResponseEntity<?> canCreateReview(@PathVariable("bookId") int bookId){
+//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
 }

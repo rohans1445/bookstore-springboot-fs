@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
         // check if user owns the books
         orderItems.forEach((book) -> {
-            if(userService.itemExistsInUserInventory(book.getId())){
+            if(userService.itemExistsInUserInventory(book.getId(), currentUser.getId())){
                 throw new InvalidInputException("User already owns the book: " + book.getId());
             }
         });
