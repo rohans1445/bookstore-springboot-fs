@@ -58,7 +58,7 @@ export class ExchangeComponent implements OnInit {
   }
 
   getAllBooks(){
-    this.bookService.getBooks().subscribe({
+    this.bookService.getAllBooks().subscribe({
       next: res => {
         this.allBooks = res;
       }

@@ -34,6 +34,7 @@ import { AuthIntercepterService } from './services/auth-interceptor.service';
 import { EditProfileComponent } from './home/my-profile/edit-profile/edit-profile.component';
 import { ExchangeComponent } from './home/exchange/exchange.component';
 import { ExchangesComponent } from './home/my-profile/exchanges/exchanges.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { ExchangesComponent } from './home/my-profile/exchanges/exchanges.compon
     EditProfileComponent,
     ExchangeComponent,
     ExchangesComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

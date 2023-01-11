@@ -16,13 +16,14 @@ import { MyProfileComponent } from './home/my-profile/my-profile.component';
 import { MyReviewsComponent } from './home/my-profile/my-reviews/my-reviews.component';
 import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
 import { PaymentSuccessComponent } from './home/payment-success/payment-success.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'books/list', pathMatch: 'full'},
   {path: 'books', redirectTo: 'books/list'},
   {path: '', component: HomeComponent, children: [
     {path: 'books', component: BooksComponent, children: [
-      {path: 'list', component: BookListComponent},
+      {path: 'list', component: BookListComponent, title: 'Spring Bookstore'},
       {path: ':id', component: BookDetailComponent},
     ]}, 
     {path: 'cart', component: CartComponent}, 
@@ -33,7 +34,7 @@ const routes: Routes = [
       {path: 'my-orders', component: MyOrdersComponent},
       {path: 'owned-books', component: OwnedBooksComponent},
       {path: 'edit-profile', component: EditProfileComponent},
-      {path: 'exchanges', component: ExchangesComponent}
+      {path: 'exchanges', component: ExchangesComponent},
     ]},
     {path: 'payment/success', component: PaymentSuccessComponent},
     {path: 'exchange', component: ExchangeComponent},
