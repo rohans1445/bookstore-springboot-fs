@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
         if(StringUtils.hasText(userUpdateDTO.getFirstName())) user.setFirstName(userUpdateDTO.getFirstName());
         if(StringUtils.hasText(userUpdateDTO.getLastName())) user.setLastName(userUpdateDTO.getLastName());
         if(StringUtils.hasText(userUpdateDTO.getEmail())) user.setEmail(userUpdateDTO.getEmail());
-        if(StringUtils.hasText(userUpdateDTO.getPassword())) user.setPassword(userUpdateDTO.getPassword());
+        if(StringUtils.hasText(userUpdateDTO.getPassword())) user.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
         if(StringUtils.hasText(userUpdateDTO.getUserImg())) user.setUserImg(userUpdateDTO.getUserImg());
         if(StringUtils.hasText(userUpdateDTO.getUsername())){
             if(isUsernameTaken(userUpdateDTO.getUsername())){

@@ -1,27 +1,67 @@
 package com.example.bookstorespringbootapi.service.impl;
 
 import com.example.bookstorespringbootapi.dto.BookDTO;
+import com.example.bookstorespringbootapi.dto.BookListDTO;
+import com.example.bookstorespringbootapi.dto.PagedResponseDTO;
 import com.example.bookstorespringbootapi.entity.Book;
+import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
+import com.example.bookstorespringbootapi.mapper.BookMapper;
 import com.example.bookstorespringbootapi.repository.BookRepository;
 import com.example.bookstorespringbootapi.service.BookService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
-
-    public BookServiceImpl(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    private final BookMapper bookMapper;
 
     @Override
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
+    }
+
+    @Override
+    public PagedResponseDTO<BookListDTO> getPagedResponse(int page, int size){
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<Book> paged = bookRepository.findAll(pageable);
+
+        List<BookListDTO> content = paged.getContent().stream().map(book -> {
+            return BookListDTO.builder()
+                    .id(book.getId())
+                    .bookDetail(book.getBookDetail())
+                    .price(book.getPrice())
+                    .reviewCount(book.getReviews().size())
+                    .imgPath(book.getImgPath())
+                    .author(book.getAuthor())
+                    .shortDesc(book.getShortDesc())
+                    .timesPurchased(0)
+                    .avgReviews(getAvgRatingForABook(book))
+                    .title(book.getTitle())
+                    .build();
+        }).collect(Collectors.toList());
+
+        PagedResponseDTO<BookListDTO> res = new PagedResponseDTO<>();
+        res.setContent(content);
+        res.setPage(page);
+        res.setSize(size);
+        res.setTotalElements(paged.getTotalElements());
+        res.setTotalPages(paged.getTotalPages());
+        res.setLast(paged.isLast());
+
+        return res;
     }
 
     @Override
@@ -54,4 +94,18 @@ public class BookServiceImpl implements BookService {
     public List<Book> searchByTitle(String title) {
         return bookRepository.searchByTitle(title);
     }
+
+    @Override
+    public double getAvgRatingForABook(Book book) {
+        List<Review> reviews = book.getReviews();
+        int sum = 0;
+        double avg = 0;
+        for (Review r: reviews) {
+            sum = sum + r.getRating();
+        }
+        avg = (double)sum/reviews.size();
+
+        return Math.round(avg * 10.0) / 10.0;
+    }
+
 }
