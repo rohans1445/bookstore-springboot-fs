@@ -4,5 +4,5 @@ export interface UpdateUserParams {
     lastName?: string;
     email?: string;
     password?: string;
-    imgUrl?: string;
+    userImg?: string;
 }

@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { UpdateUserParams } from 'src/app/models/UpdateUserParams.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,7 +16,8 @@ export class EditProfileComponent implements OnInit {
   updateUserParams!: UpdateUserParams;
 
   constructor(private userService: UserService,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -35,7 +37,7 @@ export class EditProfileComponent implements OnInit {
     this.updateUserParams = {
       password: form.value.password,
     }
-    
+    console.log(form.value.password)
     this.isLoading = true;
     this.updateUser();
   }
@@ -51,7 +53,7 @@ export class EditProfileComponent implements OnInit {
 
   onSubmitImgChangeForm(form: NgForm){
     this.updateUserParams = {
-      imgUrl: form.value.imgUrl,
+      userImg: form.value.imgUrl
     }
     
     this.isLoading = true;
@@ -63,6 +65,12 @@ export class EditProfileComponent implements OnInit {
       next: (res) => {
         this.isLoading = false;
         this.userService.userUpdated.next(true);
+
+        if(this.updateUserParams.username){
+          this.auth.logout();
+          this.auth.userHasLoggedOut.next(true);
+          this.router.navigate(['/login']);
+        }
       }
     });
   }

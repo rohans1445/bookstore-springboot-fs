@@ -46,7 +46,7 @@
                                     <a class="btn btn-primary w-100 rounded-pill" (click)="onAddToCart()" *ngIf="!bookOwned">Add to Cart</a>
                                 </div>
                                 <div class="col mt-1 mb-2">
-                                    <a th:href="@{'/user/'+${#authentication.name}+'/buyNow'(id=${book.id})}" class="btn btn-warning w-100 rounded-pill" *ngIf="!bookOwned">Buy now</a>
+                                    <a [routerLink]="['/checkout']" [queryParams]="{type: 'instant-checkout', id: book.id}" class="btn btn-warning w-100 rounded-pill" *ngIf="!bookOwned">Buy now</a>
                                 </div>
                                 <div th:if="${itemOwned}" class="col mt-3 mb-3 text-center">
                                     <span class="text-success" *ngIf="bookOwned"><i class="bi bi-check-lg"></i> You own this product</span>
@@ -80,20 +80,17 @@
 
 
                                     <ul>
-                                        <li th:if="${book.addedBy.roles != 'ROLE_ADMIN'}" class="py-1">
-                                            <strong>Added by: </strong> <a th:href="@{'/user/' + ${book.addedBy.userName}}" th:text="|${book.addedBy.firstName} ${book.addedBy.lastName}|">Firstname Lastname</a>
+                                        <li class="py-1">
+                                            <strong>Publisher: </strong> <span>{{book.bookDetail.publisher}}</span>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Publisher: </strong> <span th:text="${book.bookDetail.publisher}">{{book.bookDetail.publisher}}</span>
+                                            <strong>Language: </strong> <span>English</span>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Language: </strong> <span th:text="${book.bookDetail.language}">English</span>
+                                            <strong>Page Count: </strong> <span>325 pages</span>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Page Count: </strong> <span th:text="|${book.bookDetail.pageCount} pages|">325 pages</span>
-                                        </li>
-                                        <li class="py-1">
-                                            <strong>Item Weight: </strong> <span th:text="|${book.bookDetail.itemWeight} pounds|">1.56 pounds</span>
+                                            <strong>Item Weight: </strong> <span>1.56 pounds</span>
                                         </li>
                                         <li class="py-1">
                                             <div class="d-flex">

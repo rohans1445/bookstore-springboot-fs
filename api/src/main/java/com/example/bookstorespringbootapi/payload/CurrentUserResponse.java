@@ -15,6 +15,7 @@ public class CurrentUserResponse {
     private String firstName;
     private String lastName;
     private String email;
+    private String userImg;
 
     public CurrentUserResponse(ApplicationUser user) {
         this.username = user.getUserName();
@@ -22,5 +23,6 @@ public class CurrentUserResponse {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
+        this.userImg = user.getUserImg();
     }
 }

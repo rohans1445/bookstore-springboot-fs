@@ -5,6 +5,7 @@ import { Book } from 'src/app/models/book.model';
 import { PaymentType } from 'src/app/models/PaymentType';
 import { Promo } from 'src/app/models/promo.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { BookService } from 'src/app/services/book.service';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentService } from 'src/app/services/payment.service';
@@ -26,7 +27,8 @@ export class CheckoutComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private paymentService: PaymentService,
-    private currentRoute: ActivatedRoute) { }
+    private currentRoute: ActivatedRoute,
+    private bookService: BookService) { }
     
   total: number = 0;
   promoApplied: boolean = false;
@@ -50,7 +52,19 @@ export class CheckoutComponent implements OnInit {
   })
   
   ngOnInit(): void {
-    this.getUserCart();
+    if(this.currentRoute.snapshot.queryParams['type'] === 'instant-checkout'){
+      let instantCheckoutBookId: number = this.currentRoute.snapshot.queryParams['id'];
+      this.bookService.getBookById(instantCheckoutBookId).subscribe({
+        next: res => {
+          this.cart = [];
+          this.cart.push(res);
+          this.calculateTotal(this.cart);
+        }
+      });
+    } else {
+      this.getUserCart();
+    }
+
     this.getUserCredit(this.authService.getCurrentLoggedInUsername());
 
     this.cancelledCardPayment = this.currentRoute.snapshot.queryParams['cancelled'];
@@ -61,6 +75,7 @@ export class CheckoutComponent implements OnInit {
     setTimeout(() => {
       if(this.cancelledCardPayment) this.cancelledCardPayment = false;
     }, 5000);
+
     
   }
   
