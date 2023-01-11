@@ -30,73 +30,41 @@
             </div>
         </form>
         <form (ngSubmit)="onSubmitPassChangeForm(passChangeForm)" #passChangeForm="ngForm" class="ps-3 ps-sm-5 pt-4 pb-5 pe-3" method="post">
-            <input type="hidden" th:field="${user.id}">
-            <input type="hidden" th:field="${user.userName}">
-            <input type="hidden" th:field="${user.roles}">
-            <input type="hidden" th:field="${user.firstName}">
-            <input type="hidden" th:field="${user.lastName}">
-            <input type="hidden" th:field="${user.email}">
-            <input type="hidden" th:field="${user.image}">
-            <input type="hidden" th:field="${user.registeredOn}">
-            <input type="hidden" th:field="${user.credits}">
-            <input type="hidden" th:field="${user.reviews}">
             <div class="row g-2">
                 <div class="col-sm-12">
-                    <h3 th:text="|Change your password|" class="">Change your password</h3>
+                    <h3>Change your password</h3>
                 </div>
                 <div class="col-sm-6">
                     <label class="form-label">New password</label>
-                    <input th:field="${user.password}" type="password" id="pass" class="form-control form-control-custom-orange" placeholder="ex. password">
-                    <span th:if="${#fields.hasErrors('user.password')}" class="text-danger" th:errors="${user.password}"></span>
+                    <input type="password" id="password" name="password" ngModel class="form-control form-control-custom-orange" placeholder="ex. password">
                 </div>
-                <div class="">
+                <div>
                     <button type="submit" class="btn btn-custom-orange  mt-2">Change password</button>
                 </div>
             </div>
         </form>
         <form (ngSubmit)="onSubmitUsernameChangeForm(usernameForm)" #usernameForm="ngForm" th:object="${user}" class="ps-3 ps-sm-5 pt-4 pb-5 pe-3" method="post">
-            <input type="hidden" th:field="${user.id}">
-            <input type="hidden" th:field="${user.roles}">
-            <input type="hidden" th:field="${user.password}">
-            <input type="hidden" th:field="${user.firstName}">
-            <input type="hidden" th:field="${user.lastName}">
-            <input type="hidden" th:field="${user.email}">
-            <input type="hidden" th:field="${user.image}">
-            <input type="hidden" th:field="${user.registeredOn}">
-            <input type="hidden" th:field="${user.credits}">
-            <input type="hidden" th:field="${user.reviews}">
             <div class="row g-2">
                 <div class="col-sm-12">
-                    <h3 th:text="|Change your username|" class="">Change your username</h3>
+                    <h3>Change your username</h3>
                 </div>
                 <div class="col-sm-6">
                     <label class="form-label">New username</label>
-                    <input th:field="*{userName}" type="text" id="uname" class="form-control form-control-custom-orange" placeholder="ex. username123">
-                    <span th:if="${#fields.hasErrors('userName')}" class="text-danger" th:errors="*{userName}"></span>
+                    <input type="text" id="username" name="username" ngModel class="form-control form-control-custom-orange" placeholder="ex. username123">
                 </div>
-                <div class="">
+                <div>
                     <button type="submit" class="btn btn-custom-orange  mt-2">Change username</button>
                 </div>
             </div>
         </form>
         <form (ngSubmit)="onSubmitImgChangeForm(imgForm)" #imgForm="ngForm" th:object="${user}" class="ps-3 ps-sm-5 pt-4 pb-5 pe-3" method="post">
-            <input type="hidden" th:field="${user.id}">
-            <input type="hidden" th:field="${user.roles}">
-            <input type="hidden" th:field="${user.password}">
-            <input type="hidden" th:field="${user.firstName}">
-            <input type="hidden" th:field="${user.lastName}">
-            <input type="hidden" th:field="${user.userName}">
-            <input type="hidden" th:field="${user.email}">
-            <input type="hidden" th:field="${user.registeredOn}">
-            <input type="hidden" th:field="${user.credits}">
-            <input type="hidden" th:field="${user.reviews}">
             <div class="row g-2">
                 <div class="col-sm-12">
-                    <h3 th:text="|Set your profile picture|" class="">Set your profile picture</h3>
+                    <h3>Set your profile picture</h3>
                 </div>
                 <div class="col-sm-6">
                     <label class="form-label">New image</label>
-                    <input th:field="*{image}" type="text" id="userImg" class="form-control form-control-custom-orange" placeholder="Link to an image">
+                    <input type="text" id="imgUrl" name="imgUrl" ngModel class="form-control form-control-custom-orange" placeholder="Link to an image">
                 </div>
                 <div class="">
                     <button type="submit" class="btn btn-custom-orange  mt-2">Change image</button>

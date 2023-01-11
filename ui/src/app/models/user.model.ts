@@ -4,4 +4,5 @@ export class User {
     lastName?: string
     email?: string
     roles?: string
+    userImg?: string
 }

@@ -1,12 +1,13 @@
 <app-loader *ngIf="isLoading"></app-loader>
 <app-toast [type]="toastType" *ngIf="toastDisplay" [message]="toastMessage"></app-toast>
 <app-book-form *ngIf="isAdding" [editMode]="false" (modalClose)="onCloseModal()"></app-book-form>
-<section class="p-0 pt-3 p-sm-5 text-center text-md-start" *ngIf="!isError && !isLoading">
-    <div class="container" id="book-container">
+<section class="p-0 pt-3 p-sm-5 text-center text-md-start">
+    <!-- Books list -->
+    <div class="container" id="book-container" *ngIf="!isError && !isLoading">
         <div>
-            <form method="get">
+            <form (ngSubmit)="onSearchSubmit(searchForm)" #searchForm="ngForm">
                 <div class="d-flex col-lg-4 col-md-6 col-sm-8 col-12 ms-auto mb-2">
-                    <input name="search" type="text" id="search" class="form-control form-control-custom-orange" placeholder="Search">
+                    <input name="search" type="text" ngModel id="search" class="form-control form-control-custom-orange" placeholder="Search">
                     <button type="submit" class="btn btn-sm btn-custom-orange  ms-2 d-flex justify-content-center">
                         <i class="bi bi-search text-secondary text-white fs-5 mx-1"></i>
                     </button>
@@ -55,17 +56,16 @@
                             <div class="d-sm-flex pt-1">
                                 <div class="d-flex justify-content-center">
                                     <h6 class="text-warning align-self-center">
-                                        <div th:with="avgRating=${avgRatings.get(__${book.id}__)}">
-                                            <small th:if="${avgRating == 5.0}">
+                                        <div class="col d-flex" *ngIf="book.avgReviews !== 0">
+                                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(3); let i = index" class="text-warning">
                                                 <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
-                                                <i class="bi bi-star-fill"></i>
+                                            </small>
+                                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(2); let i = index" class="text-warning">
+                                                <i class="bi bi-star"></i>
                                             </small>
                                         </div>
                                     </h6>
-                                    <h6 class="ms-2 text-muted"><span th:text="${#lists.size(book.reviews)}">146</span> reviews</h6>
+                                    <h6 class="ms-2 text-muted"><span>{{ book.reviewCount }}</span> reviews</h6>
                                 </div>
                                 <h6 class="ms-0 ms-sm-3 text-success"><i class="bi bi-clipboard2-check-fill me-1"></i><span th:text="${#lists.size(book.orderItems)}">31</span> sold</h6>
                             </div>
@@ -82,7 +82,7 @@
                     <div class="col-md-3">
                         <h5 class="fw-bold" th:text="|$${book.price}|">${{ book.price }}</h5>
                         <div class="pt-3">
-                            <a class="btn btn-custom-orange"><strong>Buy Now</strong></a>
+                            <a class="btn btn-custom-orange" [routerLink]="['/checkout']" [queryParams]="{type: 'instant-checkout', id: book.id}"><strong>Buy Now</strong></a>
                             <a class="btn btn-outline-secondary ms-1" [routerLink]="['/books', book.id]"><strong>Details</strong></a>
                         </div>
                     </div>
@@ -90,34 +90,29 @@
             </li>
         </ul>
         <div class="pb-3">
-            <div sec:authorize="hasRole('ADMIN')" class="bg-white col p-5 mt-3 text-center" style="border: dashed; border-width: thin; border-color: darkgray; border-radius: 3px;">
+            <div *ngIf="currentUser.roles?.indexOf('ROLE_ADMIN') !== -1" class="bg-white col p-5 mt-3 text-center" style="border: dashed; border-width: thin; border-color: darkgray; border-radius: 3px;">
                 <h4>
                     <a class="text-muted text-decoration-none p-5 mb-3" (click)="onOpenModal()" style="cursor: pointer;">+ Add a book</a>
                 </h4>
             </div>
         </div>
     </div>
-    <!-- <nav class="pt-3">
+    <!-- Page navigation -->
+    <nav class="pt-3" *ngIf="!isError">
         <ul class="pagination justify-content-center">
-            <li th:if="${currentPage != 1}" class="page-item">
+            <li (click)="previousPage()" class="page-item" [ngClass]="{'disabled': currentPage === 1}" style="cursor: pointer;">
                 <a class="page-link" th:href="@{/books/list(page=${currentPage-1})}">Previous</a>
             </li>
-            <li th:if="${currentPage == 1}" class="page-item disabled" >
-                <a class="page-link">Previous</a>
+            <li (click)="selectPage(i+1)" *ngFor="let item of [].constructor(totalPages); let i = index" style="cursor: pointer;" class="page-item" [ngClass]="{'page-item active': currentPage === i+1}">
+                <a class="page-link">{{i+1}}</a>
             </li>
-            <li th:each="pageNo : ${#numbers.sequence(1,__${totalPages}__,1)}" class="page-item" th:class="${currentPage == pageNo}? 'page-item active' : 'page-item'">
-                <a class="page-link" th:href="@{/books/list(page=${pageNo})}" th:text="${pageNo}">1</a>
-            </li>
-            <li th:if="${currentPage != totalPages}" class="page-item">
+            <li (click)="nextPage()" class="page-item" style="cursor: pointer;" [ngClass]="{'disabled': isLast}">
                 <a class="page-link" th:href="@{/books/list(page=${currentPage+1})}">Next</a>
-            </li>
-            <li th:if="${currentPage} == ${totalPages}" class="page-item disabled">
-                <a class="page-link">Next</a>
             </li>
         </ul>
     </nav>
-    <div th:class="text-center">
-        <small class="text-muted" th:text="|Total results: ${totalResults}|"></small>
-    </div> -->
+    <div class="text-center">
+        <small class="text-muted">{{'Total results: ' + totalResults}}</small>
+    </div>
 </section>
 <app-error class="p-0 pt-3 p-sm-5" *ngIf="isError"></app-error>
