@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
                     .imgPath(book.getImgPath())
                     .author(book.getAuthor())
                     .shortDesc(book.getShortDesc())
-                    .timesPurchased(0)
+                    .timesPurchased(book.getOwnedBy().size())
                     .avgReviews(getAvgRatingForABook(book))
                     .title(book.getTitle())
                     .build();
@@ -105,7 +105,7 @@ public class BookServiceImpl implements BookService {
         }
         avg = (double)sum/reviews.size();
 
-        return Math.round(avg * 10.0) / 10.0;
+        return Math.floor(Math.round(avg * 10.0) / 10.0);
     }
 
 }

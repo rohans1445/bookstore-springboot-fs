@@ -33,7 +33,7 @@ public class ReviewController {
 
     @Operation(summary = "Get all reviews for a book")
     @GetMapping("/books/{bookId}/reviews")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<ReviewResponseDTO>> getAllReviewsForBook(@PathVariable("bookId") int bookId){
         List<Review> reviews = reviewService.getAllReviewsForBook(bookId);
         List<ReviewResponseDTO> res = reviewMapper.toReviewResponseDTOs(reviews);
@@ -42,7 +42,7 @@ public class ReviewController {
 
     @Operation(summary = "Save review")
     @PostMapping("/books/{bookId}/reviews")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<ReviewResponseDTO> saveReview(@Valid @RequestBody ReviewCreateDTO reviewCreateDTO, @PathVariable("bookId") int bookId){
         Review newReview = reviewService.saveReview(reviewCreateDTO, bookId);
         ReviewResponseDTO res = reviewMapper.toReviewResponseDTO(newReview);

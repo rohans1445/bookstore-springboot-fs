@@ -27,7 +27,7 @@
                 <li class="list-group-item bg-light">
                     <div class="p-0 text-start d-flex align-items-center">
                         <h4 class="m-0">Book details</h4>
-                        <a sec:authorize="hasRole('ADMIN')" (click)="isEditing = true" class="btn btn-custom-orange  ms-auto">Edit</a>
+                        <a *ngIf="currentUser.roles?.indexOf('ROLE_ADMIN') !== -1" (click)="isEditing = true" class="btn btn-custom-orange  ms-auto">Edit</a>
                     </div>
                 </li>
                 <li class="list-group-item bg-white m-0 p-0">
@@ -40,7 +40,7 @@
                                 </div>
                                 <div *ngIf="!bookOwned" class="mt-2 d-flex justify-content-center justify-content-md-start">
                                     <span>Buy new: &nbsp;</span>
-                                    <h4 th:text="|$${book.price}|">${{book.price}}</h4>
+                                    <h4>{{book.price | currency}}</h4>
                                 </div>
                                 <div class="col mt-2 ">
                                     <a class="btn btn-primary w-100 rounded-pill" (click)="onAddToCart()" *ngIf="!bookOwned">Add to Cart</a>

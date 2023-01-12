@@ -5,7 +5,7 @@
         <li class="list-group-item bg-light">
             <div class="p-0 text-start d-flex align-items-center">
                 <h4 class="m-0" id="reviews">Reviews ({{reviews.length}})</h4>
-                <a class="btn btn-custom-orange  ms-auto" *ngIf="currentUrl.startsWith('/books')" (click)="isAddingReview = true">+ Add Review</a>
+                <a class="btn btn-custom-orange  ms-auto" *ngIf="currentUrl.startsWith('/books') && canReview" (click)="isAddingReview = true">+ Add Review</a>
             </div>
         </li>
         <div *ngIf="reviews.length === 0">
@@ -28,7 +28,7 @@
                             <small *ngIf="currentUrl.startsWith('/user')" class="text-muted">Review for <a [routerLink]="['/books', review.bookId]">{{review.bookTitle}}</a></small>
                         </div>
                         <div class="ms-auto">
-                            <a class="text-danger">
+                            <a *ngIf="currentUsername === review.username" class="text-danger" title="Delete review" style="cursor: pointer;" (click)="deleteReview(review.reviewId!, review.bookId!)">
                                 <i class="bi bi-x-circle-fill"></i>
                             </a>
                         </div>

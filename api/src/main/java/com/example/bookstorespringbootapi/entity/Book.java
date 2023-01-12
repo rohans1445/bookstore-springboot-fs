@@ -54,6 +54,11 @@ public class Book {
     private List<ApplicationUser> cart_user;
 
     @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "userInventory")
+    private List<ApplicationUser> ownedBy;
+
+    @JsonIgnore
     @CreationTimestamp
     private LocalDateTime createdAt;
 

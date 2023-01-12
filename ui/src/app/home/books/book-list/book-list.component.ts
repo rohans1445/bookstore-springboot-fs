@@ -25,7 +25,7 @@ export class BookListComponent implements OnInit {
   toastDisplay: boolean = false;
   currentPage: number = 1;
   pageSize: number = 5;
-  totalPages: number = -1;
+  totalPages: number = 0;
   isLast: boolean = false;
   totalResults: number = 0;
   currentUser!: User;
@@ -47,12 +47,6 @@ export class BookListComponent implements OnInit {
         }, 5000);
       }
     })
-
-    this.bookService.getBooksPaged(1,10).subscribe({
-      next: res => {
-        console.log(res);
-      }
-    });
   }
 
   getAllBooks(page: number, size: number){

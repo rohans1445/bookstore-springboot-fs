@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
@@ -18,7 +18,8 @@ export class UserHeaderComponent implements OnInit {
 
   constructor(private userService: UserService,
     private authService: AuthService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.currentLoggedInUser = this.authService.getCurrentLoggedInUsername();
@@ -38,6 +39,9 @@ export class UserHeaderComponent implements OnInit {
         next: res => {
           this.currentUser = res;
           this.viewingOtherProfile = this.currentUser.username != this.currentLoggedInUser;
+        },
+        error: res => {
+          this.router.navigate(['/not-found']);
         }
       })
     });

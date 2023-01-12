@@ -56,18 +56,18 @@
                             <div class="d-sm-flex pt-1">
                                 <div class="d-flex justify-content-center">
                                     <h6 class="text-warning align-self-center">
-                                        <div class="col d-flex" *ngIf="book.avgReviews !== 0">
-                                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(3); let i = index" class="text-warning">
+                                        <div class="col d-flex" *ngIf="book.reviewCount !== 0">
+                                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(book.avgReviews); let i = index" class="text-warning">
                                                 <i class="bi bi-star-fill"></i>
                                             </small>
-                                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(2); let i = index" class="text-warning">
+                                            <small class="d-flex" style="padding: 0px 2px;" *ngFor="let item of [].constructor(5 - book.avgReviews); let i = index" class="text-warning">
                                                 <i class="bi bi-star"></i>
                                             </small>
                                         </div>
                                     </h6>
                                     <h6 class="ms-2 text-muted"><span>{{ book.reviewCount }}</span> reviews</h6>
                                 </div>
-                                <h6 class="ms-0 ms-sm-3 text-success"><i class="bi bi-clipboard2-check-fill me-1"></i><span th:text="${#lists.size(book.orderItems)}">31</span> sold</h6>
+                                <h6 class="ms-0 ms-sm-3 text-success"><i class="bi bi-clipboard2-check-fill me-1"></i><span>{{book.timesPurchased}}</span> sold</h6>
                             </div>
                             <p class="m-0 text-muted d-none d-sm-block" align="justify" th:text="${book.shortDesc}">
                                 {{ book.shortDesc }}
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <h5 class="fw-bold" th:text="|$${book.price}|">${{ book.price }}</h5>
+                        <h5 class="fw-bold">{{ book.price | currency}}</h5>
                         <div class="pt-3">
                             <a class="btn btn-custom-orange" [routerLink]="['/checkout']" [queryParams]="{type: 'instant-checkout', id: book.id}"><strong>Buy Now</strong></a>
                             <a class="btn btn-outline-secondary ms-1" [routerLink]="['/books', book.id]"><strong>Details</strong></a>

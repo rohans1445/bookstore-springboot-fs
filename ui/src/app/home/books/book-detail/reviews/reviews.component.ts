@@ -28,7 +28,7 @@ export class ReviewsComponent implements OnInit {
   errorCode: number = 0;
   currentUsername: string = '';
   currentUrl: string = '';
-  currentUserHasCreatedReview: boolean = false;
+  canReview: boolean = false;
 
   constructor(private reviewService: ReviewService, 
     private currentRoute: ActivatedRoute,
@@ -37,11 +37,10 @@ export class ReviewsComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.currentUsername = this.authService.getCurrentLoggedInUsername();
     this.currentUrl = this.router.url;
     if(this.currentUrl.startsWith('/books')) {
       this.getAllReviewsForBook();
-      this.currentUserHasCreatedReview = this.checkIfCurrentUserCreatedReview();
-      console.log(this.currentUserHasCreatedReview);
     }
     if(this.currentUrl.startsWith('/user')) this.getAllReviewsForUser();
     
@@ -84,6 +83,7 @@ export class ReviewsComponent implements OnInit {
       next: res => {
         this.reviews = res;
         this.isLoading = false;
+        this.checkIfCurrentUserCreatedReview();
       },
       error: error => {
         this.isError = true;
@@ -114,11 +114,22 @@ export class ReviewsComponent implements OnInit {
     this.isErrorSavingReview = false;
   }
 
-  checkIfCurrentUserCreatedReview(): boolean{
+  checkIfCurrentUserCreatedReview(){
     for(let review of this.reviews){
-      if(review.username === this.authService.getCurrentLoggedInUsername()) return true;
+      if(review.username === this.authService.getCurrentLoggedInUsername()) {
+        this.canReview = false;
+        return;
+      }
     }
-    return false;
+    this.canReview = true;
+  }
+
+  deleteReview(reviewId: number, bookId: number){
+    this.reviewService.deleteReview(reviewId, bookId).subscribe({
+      next: res => {
+        this.ngOnInit();
+      }
+    });
   }
 
 }

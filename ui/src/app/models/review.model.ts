@@ -1,5 +1,5 @@
 export class Review {
-    id?: number;
+    reviewId?: number;
     username?: string;
     title?: string;
     content?: string;

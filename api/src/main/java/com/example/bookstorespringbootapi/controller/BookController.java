@@ -33,7 +33,7 @@ public class BookController {
 
     @Operation(summary = "Save a book")
     @PostMapping("/books")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<BookDTO> saveBook(@Valid @RequestBody BookDTO book){
         Book savedBook = bookService.saveBook(book);
         BookDTO res = bookMapper.toBookDTO(savedBook);
@@ -53,7 +53,7 @@ public class BookController {
 
     @Operation(summary = "Get all books")
     @GetMapping("/books/all")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<?> getAllBooks(){
         List<Book> allBooks = bookService.getAllBooks();
         List<BookListDTO> res = allBooks.stream().map(book -> {

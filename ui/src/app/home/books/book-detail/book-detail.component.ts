@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Book } from 'src/app/models/book.model';
 import { BookDetail } from 'src/app/models/bookDetail.model';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookService } from 'src/app/services/book.service';
 import { CartService } from 'src/app/services/cart.service';
@@ -23,6 +24,7 @@ export class BookDetailComponent implements OnInit{
   toastType: string = '';
   toastDisplay: boolean = false;
   bookOwned: boolean = false;
+  currentUser!: User;
 
   constructor(private bookService: BookService,
     private router: Router,
@@ -32,6 +34,7 @@ export class BookDetailComponent implements OnInit{
     private userService: UserService) { }
 
   ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
     this.currentRoute.params.subscribe({
       next: (param: Params)=>{
         this.getBookById(param['id']);
@@ -54,6 +57,7 @@ export class BookDetailComponent implements OnInit{
       error: (error: HttpErrorResponse)=>{
         this.isError = true;
         this.isLoading = false;
+        this.router.navigate(['/not-found']);
       }
     });
   }
