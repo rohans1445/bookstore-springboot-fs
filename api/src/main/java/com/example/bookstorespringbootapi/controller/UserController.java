@@ -110,6 +110,7 @@ public class UserController {
 
     @Operation(summary = "Update a user")
     @PutMapping("/{username}")
+    @PreAuthorize("#username == authentication.name")
     public ResponseEntity<ApiResponse> updateUser(@PathVariable("username") String username, @RequestBody UserUpdateDTO userUpdateDTO){
         ApiResponse res = new ApiResponse();
         System.out.println(userUpdateDTO);
@@ -126,6 +127,7 @@ public class UserController {
     }
 
     @GetMapping("/{username}/exchanges")
+    @PreAuthorize("#username == authentication.name")
     public ResponseEntity<List<ExchangeRequestDTO>> getUsersExchanges(@PathVariable("username") String username){
         ApplicationUser user = userService.getUserByUserName(username);
         List<ExchangeRequest> exchangeRequests = user.getExchangeRequests();

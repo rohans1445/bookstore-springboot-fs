@@ -1,5 +1,4 @@
 <app-loader *ngIf="isLoading"></app-loader>
-<app-toast [type]="toastType" *ngIf="toastDisplay" [message]="toastMessage"></app-toast>
 <app-book-form *ngIf="isAdding" [editMode]="false" (modalClose)="onCloseModal()"></app-book-form>
 <section class="p-0 pt-3 p-sm-5 text-center text-md-start">
     <!-- Books list -->
@@ -15,30 +14,8 @@
             </form>
         </div>
         <ul class="list-group">
-            <!-- <div th:if="${param.orderSuccess}" class="alert alert-success" role="alert">
-                <i class="bi bi-info-circle me-2"></i> Order placed successfully!
-            </div>
-            <div th:if="${param.alreadyOwned}" class="alert alert-warning" role="alert">
-                <i class="bi bi-info-circle me-2"></i> You already own this book.
-            </div>
-            <div th:if="${param.invalid}" class="alert alert-danger" role="alert">
-                <i class="bi bi-info-circle me-2"></i> Invalid request
-            </div>
-            <div th:if="${param.unauthorized}" class="alert alert-danger" role="alert">
-                <i class="bi bi-info-circle me-2"></i> Unauthorized request
-            </div>
-            <div th:if="${param.saved}" class="alert alert-success" role="alert">
-                <i class="bi bi-info-circle me-2"></i> Book saved
-            </div>
-            <div th:if="${param.generatedB}" class="alert alert-info" role="alert">
-                <i class="bi bi-info-circle me-2"></i> <span th:text="|Generated ${param.generatedB} book(s)|"></span>
-            </div>
-            <div th:if="${param.generatedU}" class="alert alert-info" role="alert">
-                <i class="bi bi-info-circle me-2"></i> <span th:text="|Generated ${param.generatedB} user(s)|"></span>
-            </div> -->
-            
             <li class="list-group-item bg-light">
-                <h4 class="p-0 text-start m-0" th:text="${param.search == null ? 'All' : 'Search results'}">All</h4>
+                <h4 class="p-0 text-start m-0">All</h4>
             </li>
             <li *ngFor="let book of books" class="list-group-item p-2">
                 <div class="d-sm-flex justify-content-between">
@@ -82,7 +59,8 @@
                     <div class="col-md-3">
                         <h5 class="fw-bold">{{ book.price | currency}}</h5>
                         <div class="pt-3">
-                            <a class="btn btn-custom-orange" [routerLink]="['/checkout']" [queryParams]="{type: 'instant-checkout', id: book.id}"><strong>Buy Now</strong></a>
+                            <a *ngIf="!book.productPurchased" class="btn btn-custom-orange" [routerLink]="['/checkout']" [queryParams]="{type: 'instant-checkout', id: book.id}"><strong>Buy Now</strong></a>
+                            <button *ngIf="book.productPurchased" class="btn btn-success" disabled><strong>Purchased</strong></button>
                             <a class="btn btn-outline-secondary ms-1" [routerLink]="['/books', book.id]"><strong>Details</strong></a>
                         </div>
                     </div>
@@ -101,13 +79,13 @@
     <nav class="pt-3" *ngIf="!isError">
         <ul class="pagination justify-content-center">
             <li (click)="previousPage()" class="page-item" [ngClass]="{'disabled': currentPage === 1}" style="cursor: pointer;">
-                <a class="page-link" th:href="@{/books/list(page=${currentPage-1})}">Previous</a>
+                <a class="page-link">Previous</a>
             </li>
             <li (click)="selectPage(i+1)" *ngFor="let item of [].constructor(totalPages); let i = index" style="cursor: pointer;" class="page-item" [ngClass]="{'page-item active': currentPage === i+1}">
                 <a class="page-link">{{i+1}}</a>
             </li>
             <li (click)="nextPage()" class="page-item" style="cursor: pointer;" [ngClass]="{'disabled': isLast}">
-                <a class="page-link" th:href="@{/books/list(page=${currentPage+1})}">Next</a>
+                <a class="page-link">Next</a>
             </li>
         </ul>
     </nav>

@@ -10,6 +10,7 @@ import com.example.bookstorespringbootapi.repository.ApplicationUserRepository;
 import com.example.bookstorespringbootapi.security.ApplicationUserDetails;
 import com.example.bookstorespringbootapi.service.BookService;
 import com.example.bookstorespringbootapi.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +21,7 @@ import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final BookService bookService;
 
-    public UserServiceImpl(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder, BookService bookService) {
+    public UserServiceImpl(ApplicationUserRepository applicationUserRepository, PasswordEncoder passwordEncoder, @Lazy BookService bookService) {
         this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.bookService = bookService;

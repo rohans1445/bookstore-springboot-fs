@@ -12,4 +12,5 @@ export interface BookList {
     timesPurchased: number;
     avgReviews: number;
     reviewCount: number;
+    productPurchased: boolean;
 }

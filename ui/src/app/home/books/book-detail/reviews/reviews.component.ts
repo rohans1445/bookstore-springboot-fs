@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Review } from 'src/app/models/review.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ReviewService } from 'src/app/services/review.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -34,7 +35,8 @@ export class ReviewsComponent implements OnInit {
     private currentRoute: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private toast: ToastService) { }
 
   ngOnInit(): void {
     this.currentUsername = this.authService.getCurrentLoggedInUsername();
@@ -98,12 +100,13 @@ export class ReviewsComponent implements OnInit {
         this.isSavingReview = false;
         this.isAddingReview = false;
         this.ngOnInit();
+        this.toast.showToast('Review created', 'Your review has been created', 'success');
       },
       error: (error: HttpErrorResponse) => {
         this.isSavingReview = false;
         this.isErrorSavingReview = true;
         this.errorCode = error.status;
-        console.log(error.message);
+        this.toast.showToast('Error', 'Cannot submit review', 'error');
       }
     });
   }
@@ -128,6 +131,7 @@ export class ReviewsComponent implements OnInit {
     this.reviewService.deleteReview(reviewId, bookId).subscribe({
       next: res => {
         this.ngOnInit();
+        this.toast.showToast('Review deleted', 'Your review has been deleted', 'success');
       }
     });
   }

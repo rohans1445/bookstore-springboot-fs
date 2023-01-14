@@ -26,6 +26,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean{
+    if(localStorage.getItem('token') === null) return false;
     return !this.isTokenExpired();
   }
 

@@ -44,9 +44,6 @@
     </div>
     <!-- payment-->
     <div class="col-md-7 col-lg-5 m-2">
-        <div *ngIf="insufficientBalance" class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-circle me-2"></i> Insufficient balance!
-        </div>
         <div *ngIf="cancelledCardPayment" class="alert alert-danger" role="alert">
             <i class="bi bi-exclamation-circle me-2"></i> Your checkout session was cancelled.
         </div>

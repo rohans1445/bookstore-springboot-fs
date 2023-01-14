@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { BookService } from 'src/app/services/book.service';
 import { CartService } from 'src/app/services/cart.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -20,9 +21,6 @@ export class BookDetailComponent implements OnInit{
   isLoading: boolean = true;
   isError: boolean = false;
   isEditing: boolean = false;
-  toastMessage: string = '';
-  toastType: string = '';
-  toastDisplay: boolean = false;
   bookOwned: boolean = false;
   currentUser!: User;
 
@@ -31,7 +29,8 @@ export class BookDetailComponent implements OnInit{
     private currentRoute: ActivatedRoute,
     public authService: AuthService,
     private cartService: CartService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private toast: ToastService) { }
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
@@ -76,21 +75,12 @@ export class BookDetailComponent implements OnInit{
   onAddToCart(){
     this.cartService.addToCart({bookId: this.currentRoute.snapshot.paramMap.get('id')}).subscribe({
       next: res => {
-        this.toastDisplay = true;
-        this.toastMessage = 'Added book to cart';
-        this.toastType = 'success';
-        setTimeout(() => {
-          this.toastDisplay = false;
-        }, 3000);
         this.cartService.cartUpdated.next(true);
+        this.toast.showToast('Item added', 'Item added to cart', 'success');
       },
       error: (error: HttpErrorResponse)=>{
-        this.toastDisplay = true;
-        this.toastMessage = 'Book is already in cart!';
-        this.toastType = 'danger';
-        setTimeout(() => {
-          this.toastDisplay = false;
-        }, 3000);
+        if(error.error.message.indexOf('Item is already in cart') !== -1) this.toast.showToast('Error', 'Book is already in cart', 'error');
+        else this.toast.showToast('Error', 'Error adding to cart', 'error');
       }
     });
   }

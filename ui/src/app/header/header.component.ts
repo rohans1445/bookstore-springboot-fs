@@ -22,8 +22,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn();
-    this.currentUser = this.authService.getCurrentUser();
-    this.getCartCount();
+    if(this.loggedIn) {
+      this.currentUser = this.authService.getCurrentUser();
+      this.getCartCount();
+    }
 
     // update cart count every time cart is updated
     this.cartService.cartUpdated.subscribe({

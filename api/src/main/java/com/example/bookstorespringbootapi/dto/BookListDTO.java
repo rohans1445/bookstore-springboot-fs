@@ -23,6 +23,7 @@ public class BookListDTO{
     private String shortDesc;
     private String imgPath;
     private BookDetail bookDetail;
+    private boolean productPurchased;
     private int reviewCount;
     private double avgReviews;
     private int timesPurchased;

@@ -3,18 +3,26 @@ package com.example.bookstorespringbootapi.service.impl;
 import com.example.bookstorespringbootapi.dto.BookDTO;
 import com.example.bookstorespringbootapi.dto.BookListDTO;
 import com.example.bookstorespringbootapi.dto.PagedResponseDTO;
+import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
 import com.example.bookstorespringbootapi.mapper.BookMapper;
 import com.example.bookstorespringbootapi.repository.BookRepository;
 import com.example.bookstorespringbootapi.service.BookService;
+import com.example.bookstorespringbootapi.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +35,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final UserService userService;
 
     @Override
     public List<Book> getAllBooks() {
@@ -49,6 +58,7 @@ public class BookServiceImpl implements BookService {
                     .shortDesc(book.getShortDesc())
                     .timesPurchased(book.getOwnedBy().size())
                     .avgReviews(getAvgRatingForABook(book))
+                    .productPurchased(checkIfProductPurchased(book))
                     .title(book.getTitle())
                     .build();
         }).collect(Collectors.toList());
@@ -106,6 +116,16 @@ public class BookServiceImpl implements BookService {
         avg = (double)sum/reviews.size();
 
         return Math.floor(Math.round(avg * 10.0) / 10.0);
+    }
+
+    private boolean checkIfProductPurchased(Book book){
+        // check if request is anonymous
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication instanceof AnonymousAuthenticationToken) return false;
+        else {
+            ApplicationUser currentUser = userService.getCurrentUser();
+            return userService.itemExistsInUserInventory(book.getId(), currentUser.getId());
+        }
     }
 
 }

@@ -20,15 +20,12 @@ export class BookListComponent implements OnInit {
   isError: boolean = false;
   isLoading: boolean = true;
   isAdding: boolean = false;
-  toastMessage: string = '';
-  toastType: string = '';
-  toastDisplay: boolean = false;
   currentPage: number = 1;
   pageSize: number = 5;
   totalPages: number = 0;
   isLast: boolean = false;
   totalResults: number = 0;
-  currentUser!: User;
+  currentUser: User = new User();
 
   constructor(private bookService: BookService,
     private currentRoute: ActivatedRoute,
@@ -36,17 +33,7 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBooks(this.currentPage, this.pageSize);
-    this.currentUser = this.auth.getCurrentUser();
-    this.currentRoute.queryParamMap.subscribe((paramMap: ParamMap) => {
-      if(paramMap.get('orderSuccess') !== null){
-        this.toastMessage = 'Order placed successfully!';
-        this.toastType = 'success';
-        this.toastDisplay = true;
-        setTimeout(() => {
-          this.toastDisplay = false;
-        }, 5000);
-      }
-    })
+    if(this.auth.isLoggedIn()) this.currentUser = this.auth.getCurrentUser();
   }
 
   getAllBooks(page: number, size: number){

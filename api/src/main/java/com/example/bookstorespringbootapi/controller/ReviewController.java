@@ -33,7 +33,6 @@ public class ReviewController {
 
     @Operation(summary = "Get all reviews for a book")
     @GetMapping("/books/{bookId}/reviews")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<ReviewResponseDTO>> getAllReviewsForBook(@PathVariable("bookId") int bookId){
         List<Review> reviews = reviewService.getAllReviewsForBook(bookId);
         List<ReviewResponseDTO> res = reviewMapper.toReviewResponseDTOs(reviews);
@@ -42,7 +41,6 @@ public class ReviewController {
 
     @Operation(summary = "Save review")
     @PostMapping("/books/{bookId}/reviews")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<ReviewResponseDTO> saveReview(@Valid @RequestBody ReviewCreateDTO reviewCreateDTO, @PathVariable("bookId") int bookId){
         Review newReview = reviewService.saveReview(reviewCreateDTO, bookId);
         ReviewResponseDTO res = reviewMapper.toReviewResponseDTO(newReview);
@@ -60,11 +58,5 @@ public class ReviewController {
         reviewService.deleteReview(reviewId);
         return new ResponseEntity<>(new ApiResponse(HttpStatus.OK.value(), "Review deleted successfully."), HttpStatus.OK);
     }
-
-//
-//    @GetMapping("/books/{bookId}/reviews/can-create")
-//    public ResponseEntity<?> canCreateReview(@PathVariable("bookId") int bookId){
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
 
 }
