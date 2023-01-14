@@ -17,30 +17,33 @@ import { MyReviewsComponent } from './home/my-profile/my-reviews/my-reviews.comp
 import { OwnedBooksComponent } from './home/my-profile/owned-books/owned-books.component';
 import { PaymentSuccessComponent } from './home/payment-success/payment-success.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   {path: '', redirectTo: 'books/list', pathMatch: 'full'},
-  {path: 'books', redirectTo: 'books/list'},
+  {path: 'books', redirectTo: 'books/list', },
   {path: '', component: HomeComponent, children: [
     {path: 'books', component: BooksComponent, children: [
       {path: 'list', component: BookListComponent, title: 'Spring Bookstore'},
-      {path: ':id', component: BookDetailComponent},
+      {path: ':id', component: BookDetailComponent, canActivate: [AuthGuard]},
     ]}, 
-    {path: 'cart', component: CartComponent}, 
-    {path: 'checkout', component: CheckoutComponent},
+    {path: 'cart', component: CartComponent, canActivate: [AuthGuard]}, 
+    {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
     {path: 'user/:user', redirectTo: 'user/:user/my-reviews'},
-    {path: 'user/:user', component: MyProfileComponent, children: [
+    {path: 'user/:user', component: MyProfileComponent, canActivateChild: [AuthGuard], children: [
       {path: 'my-reviews', component: MyReviewsComponent},
       {path: 'my-orders', component: MyOrdersComponent},
       {path: 'owned-books', component: OwnedBooksComponent},
       {path: 'edit-profile', component: EditProfileComponent},
       {path: 'exchanges', component: ExchangesComponent},
     ]},
-    {path: 'payment/success', component: PaymentSuccessComponent},
-    {path: 'exchange', component: ExchangeComponent},
+    {path: 'payment/success', component: PaymentSuccessComponent, canActivate: [AuthGuard]},
+    {path: 'exchange', component: ExchangeComponent, canActivate: [AuthGuard]},
+    {path: 'not-found', component: NotFoundComponent},
   ]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: '**', redirectTo: '/not-found'}
 ];
 
 @NgModule({

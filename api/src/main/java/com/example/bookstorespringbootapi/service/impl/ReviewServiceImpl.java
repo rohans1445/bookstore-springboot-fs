@@ -1,6 +1,8 @@
 package com.example.bookstorespringbootapi.service.impl;
 
 import com.example.bookstorespringbootapi.dto.ReviewCreateDTO;
+import com.example.bookstorespringbootapi.entity.ApplicationUser;
+import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.exception.InvalidInputException;
 import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
@@ -39,14 +41,20 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review saveReview(ReviewCreateDTO reviewRequest, int bookId) {
+        ApplicationUser currentUser = userService.getCurrentUser();
+        Book book = bookService.getBookById(bookId);
 
-        if(reviewExists(userService.getCurrentUser().getId(), bookId)){
+        if(reviewExists(currentUser.getId(), bookId)){
             throw new InvalidInputException("User has already posted review for book id: " + bookId);
         }
 
+        if(!currentUser.getUserInventory().contains(book)){
+            throw new InvalidInputException("User does not own book");
+        }
+
         Review review = new Review();
-        review.setUser(userService.getCurrentUser());
-        review.setBook(bookService.getBookById(bookId));
+        review.setUser(currentUser);
+        review.setBook(book);
         review.setTitle(reviewRequest.getTitle());
         review.setContent(reviewRequest.getContent());
         review.setRating(reviewRequest.getRating());

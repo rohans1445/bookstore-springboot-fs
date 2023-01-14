@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { UpdateUserParams } from 'src/app/models/UpdateUserParams.model';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -17,7 +18,8 @@ export class EditProfileComponent implements OnInit {
 
   constructor(private userService: UserService,
     private auth: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private toast: ToastService) { }
 
   ngOnInit(): void {
   }
@@ -66,11 +68,18 @@ export class EditProfileComponent implements OnInit {
         this.isLoading = false;
         this.userService.userUpdated.next(true);
 
+        this.toast.showToast('Profile updated', 'Your profile has been updated', 'success');
+
         if(this.updateUserParams.username){
           this.auth.logout();
           this.auth.userHasLoggedOut.next(true);
           this.router.navigate(['/login']);
         }
+      },
+      error: res => {
+        this.isLoading = false;
+        if(res.error.message === 'This username is taken') this.toast.showToast('Error', 'Username is taken', 'error');
+        else this.toast.showToast('Error', 'Error updating profile', 'error');
       }
     });
   }

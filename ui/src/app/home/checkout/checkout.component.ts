@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Book } from 'src/app/models/book.model';
 import { PaymentType } from 'src/app/models/PaymentType';
 import { Promo } from 'src/app/models/promo.model';
@@ -10,6 +11,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 import { PaymentService } from 'src/app/services/payment.service';
 import { PromoService } from 'src/app/services/promo.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -28,7 +30,8 @@ export class CheckoutComponent implements OnInit {
     private authService: AuthService,
     private paymentService: PaymentService,
     private currentRoute: ActivatedRoute,
-    private bookService: BookService) { }
+    private bookService: BookService,
+    private toast: ToastService) { }
     
   total: number = 0;
   promoApplied: boolean = false;
@@ -39,7 +42,6 @@ export class CheckoutComponent implements OnInit {
     amount: 0
   };
   userCredit: number = 0;
-  insufficientBalance: boolean = false;
   loadingCart: boolean = true;
   loadingCredit: boolean = true;
   loadingCardCheckout: boolean = false;
@@ -107,6 +109,7 @@ export class CheckoutComponent implements OnInit {
         this.promo = res;
         this.total -= this.promo.amount;
         if(this.total < 0) this.total = 0;
+        this.toast.showToast('Promo applied', this.promo.code+': '+this.promo.amount+'$ off', 'success');
       },
       error: res => {
         console.error(res);
@@ -162,18 +165,19 @@ export class CheckoutComponent implements OnInit {
     switch (this.form.get('paymentMode')?.value) {
       case 'store-credit':
         if(this.total > this.userCredit) {
-          this.insufficientBalance = true;
+          this.toast.showToast('Insufficient credits', 'You do not have enough credits', 'info');
           return;
         }
         this.paymentService.processPayment(orderItems, this.promoApplied ? this.promo.code : "", PaymentType.STORE_CREDIT)
           .subscribe({
             next: res => {
               this.router.navigate(['/books/list'], {queryParams: {orderSuccess: ''}});
-              console.log(res);
+              this.toast.showToast('Order created', 'Item(s) has been added', 'success');
             },
             error: res => {
               console.error(res);
               this.router.navigate(['/books/list'], {queryParams: {orderFailure: ''}});
+              this.toast.showToast('Error', 'Could not create order', 'error');
             }
           });
         break;

@@ -35,6 +35,7 @@ import { EditProfileComponent } from './home/my-profile/edit-profile/edit-profil
 import { ExchangeComponent } from './home/exchange/exchange.component';
 import { ExchangesComponent } from './home/my-profile/exchanges/exchanges.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthIntercepterService, multi: true}],
   bootstrap: [AppComponent]

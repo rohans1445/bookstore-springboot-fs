@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Review } from 'src/app/models/review.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ReviewService } from 'src/app/services/review.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -28,20 +29,20 @@ export class ReviewsComponent implements OnInit {
   errorCode: number = 0;
   currentUsername: string = '';
   currentUrl: string = '';
-  currentUserHasCreatedReview: boolean = false;
+  canReview: boolean = false;
 
   constructor(private reviewService: ReviewService, 
     private currentRoute: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private toast: ToastService) { }
 
   ngOnInit(): void {
+    this.currentUsername = this.authService.getCurrentLoggedInUsername();
     this.currentUrl = this.router.url;
     if(this.currentUrl.startsWith('/books')) {
       this.getAllReviewsForBook();
-      this.currentUserHasCreatedReview = this.checkIfCurrentUserCreatedReview();
-      console.log(this.currentUserHasCreatedReview);
     }
     if(this.currentUrl.startsWith('/user')) this.getAllReviewsForUser();
     
@@ -84,6 +85,7 @@ export class ReviewsComponent implements OnInit {
       next: res => {
         this.reviews = res;
         this.isLoading = false;
+        this.checkIfCurrentUserCreatedReview();
       },
       error: error => {
         this.isError = true;
@@ -98,12 +100,13 @@ export class ReviewsComponent implements OnInit {
         this.isSavingReview = false;
         this.isAddingReview = false;
         this.ngOnInit();
+        this.toast.showToast('Review created', 'Your review has been created', 'success');
       },
       error: (error: HttpErrorResponse) => {
         this.isSavingReview = false;
         this.isErrorSavingReview = true;
         this.errorCode = error.status;
-        console.log(error.message);
+        this.toast.showToast('Error', 'Cannot submit review', 'error');
       }
     });
   }
@@ -114,11 +117,23 @@ export class ReviewsComponent implements OnInit {
     this.isErrorSavingReview = false;
   }
 
-  checkIfCurrentUserCreatedReview(): boolean{
+  checkIfCurrentUserCreatedReview(){
     for(let review of this.reviews){
-      if(review.username === this.authService.getCurrentLoggedInUsername()) return true;
+      if(review.username === this.authService.getCurrentLoggedInUsername()) {
+        this.canReview = false;
+        return;
+      }
     }
-    return false;
+    this.canReview = true;
+  }
+
+  deleteReview(reviewId: number, bookId: number){
+    this.reviewService.deleteReview(reviewId, bookId).subscribe({
+      next: res => {
+        this.ngOnInit();
+        this.toast.showToast('Review deleted', 'Your review has been deleted', 'success');
+      }
+    });
   }
 
 }

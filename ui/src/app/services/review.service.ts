@@ -21,4 +21,8 @@ export class ReviewService {
     return this.http.post<Review>(`${environment.baseUrl}/books/${bookId}/reviews`, newReview);
   }
 
+  deleteReview(reviewId: number, bookId: number): Observable<any>{
+    return this.http.delete(`${environment.baseUrl}/books/${bookId}/reviews/${reviewId}`)
+  }
+
 }

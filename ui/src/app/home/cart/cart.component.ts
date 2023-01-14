@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from 'src/app/models/book.model';
 import { CartService } from 'src/app/services/cart.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-cart',
@@ -9,11 +10,9 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartComponent implements OnInit {
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService,
+    private toast: ToastService) { }
 
-  toastType: string = '';
-  showToast: boolean = false;
-  toastMessage: string = '';
   cart: Book[] = [];
   total: number = 0;
 
@@ -30,13 +29,11 @@ export class CartComponent implements OnInit {
     this.cartService.removeFromCart(id).subscribe({
       next: res => {
         this.ngOnInit();
-        this.toastType='success';
-        this.toastMessage = 'Removed item from cart';
-        this.showToast = true;
-        setTimeout(() => {
-          this.showToast = false;
-        }, 3000);
+        this.toast.showToast('Item removed', 'Item removed from cart', 'success');
         this.cartService.cartUpdated.next(true);
+      },
+      error: res => {
+        this.toast.showToast('Error', 'Could not remove item from cart', 'error');
       }
     });
   }
