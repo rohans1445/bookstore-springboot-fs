@@ -1,4 +1,11 @@
+import { Expression } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -7,9 +14,67 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService: UserService,
+    private auth: AuthService,
+    private router: Router,
+    private toast: ToastService) { }
+
+  registerForm!: FormGroup;
 
   ngOnInit(): void {
+    this.registerForm = new FormGroup({
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.email, Validators.required])
+    });
+  }
+
+  onRegisterSubmit(){
+    let username = this.registerForm.get('username');
+    let password = this.registerForm.get('password');
+    // this.auth.register(this.registerForm.value).subscribe({
+    //   next: res => {
+    //     this.auth.login({username: this.registerForm.get('username'), password: this.registerForm.get('password')}).subscribe({
+    //       next: res => {
+    //         localStorage.setItem('token', res.token);
+    //         this.auth.fetchCurrentUserDetails().subscribe({
+    //           next: res => {
+    //             localStorage.setItem('currentUser', JSON.stringify(res));
+    //             this.router.navigate(['/books/list']);
+    //           }
+    //         })
+    //       }
+    //     })
+    //   });
+    console.log(this.registerForm.value)
+    this.auth.register(this.registerForm.value).subscribe({
+      next: res => {
+        this.router.navigate(['/login'], {queryParams: {'accCreated':true}});
+      },
+      error: res => {
+        if(res.error.message.indexOf('That username has been taken') !== -1){
+          this.toast.showToast('Username taken', '', 'error');
+        } else if(res.error.message.indexOf('email') !== -1){
+          this.toast.showToast('Email is associated with an existing account', '', 'error')
+        }
+      }
+    });
+  }
+
+  generateUser(){
+    this.userService.getRandomUser().subscribe({
+      next: res => {
+        this.registerForm.setValue({
+          username: res.username,
+          firstName: res.firstName,
+          lastName: res.lastName,
+          email: res.email,
+          password: 'pass'
+        });
+      }
+    });
   }
 
 }

@@ -41,11 +41,9 @@ public class RandomDataGenerator {
         user.setFirstName(extractFromJSONArray(JsonPath.read(data, FIRSTNAME)));
         user.setLastName(extractFromJSONArray(JsonPath.read(data, LASTNAME)));
         user.setEmail(extractFromJSONArray(JsonPath.read(data, EMAIL)).replace("example", "gmail"));
-//        user.setImage(extractFromJSONArray(JsonPath.read(data, PICTURE)));
-//        user.setRegisteredOn(formatDate(extractFromJSONArray(JsonPath.read(data, REGISTERED))));
+        user.setUserImg(extractFromJSONArray(JsonPath.read(data, PICTURE)));
         user.setRoles("ROLE_USER");
-        user.setPassword("1");
-//        user.setCredits(100);
+        user.setPassword("pass");
 
         return user;
     }

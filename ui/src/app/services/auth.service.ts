@@ -5,13 +5,15 @@ import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
 import jwtDecode from 'jwt-decode';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private router: Router) { }
 
   currentUser: User = new User();
 
@@ -19,6 +21,27 @@ export class AuthService {
 
   login(usernamePassword: object): Observable<any>{
     return this.http.post<any>(`${environment.baseUrl}/auth/login`, usernamePassword);
+  }
+
+  // login2(usernamePassword: object){
+  //   this.http.post<any>(`${environment.baseUrl}/auth/login`, usernamePassword).subscribe({
+  //     next: res => {
+  //       // save token
+  //       localStorage.setItem('token', res.token);
+
+  //       // get logged in user details and save 
+  //       this.fetchCurrentUserDetails().subscribe({
+  //         next: res => {
+  //           localStorage.setItem('currentUser', JSON.stringify(res));
+  //           this.router.navigate(['/books/list']);
+  //         }
+  //       });
+  //     }, 
+  //   });
+  // }
+
+  register(newAccountReq: object): Observable<any>{
+    return this.http.post<any>(`${environment.baseUrl}/auth/register`, newAccountReq);
   }
 
   fetchCurrentUserDetails(): Observable<User>{

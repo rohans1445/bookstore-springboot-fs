@@ -15,6 +15,7 @@ export class UserHeaderComponent implements OnInit {
   currentUser: User = new User();   // any user
   currentLoggedInUser: string = ''; // current logged in user
   viewingOtherProfile: boolean = false;
+  isLoadingHeader: boolean = false;
 
   constructor(private userService: UserService,
     private authService: AuthService,
@@ -34,14 +35,17 @@ export class UserHeaderComponent implements OnInit {
   }
   
   getUserDetails(){
+    this.isLoadingHeader = true;
     this.route.params.subscribe((param: Params)=>{
       this.userService.getUserByUsername(param['user']).subscribe({
         next: res => {
           this.currentUser = res;
           this.viewingOtherProfile = this.currentUser.username != this.currentLoggedInUser;
+          this.isLoadingHeader = false;
         },
         error: res => {
           this.router.navigate(['/not-found']);
+          this.isLoadingHeader = false;
         }
       })
     });

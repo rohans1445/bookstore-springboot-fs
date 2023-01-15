@@ -15,10 +15,13 @@ export class CartComponent implements OnInit {
 
   cart: Book[] = [];
   total: number = 0;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.cartService.getUserCart().subscribe({
       next: res => {
+        this.isLoading = false;
         this.cart = res;
         this.calculateTotal(this.cart);
       }

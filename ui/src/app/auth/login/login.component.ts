@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,9 +21,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   constructor(private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute,
+    private toast: ToastService) { }
 
   ngOnInit(): void {
+    let accCreated: boolean = this.route.snapshot.queryParams['accCreated'];
+    if(accCreated){
+      this.toast.showToast('Account created', '', 'success');
+    }
+
     this.userLogoutSubscription = this.authService.userHasLoggedOut.subscribe({
       next: loggedOut => {
         this.userLoggedOut = loggedOut;

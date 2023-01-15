@@ -30,6 +30,7 @@ export class ExchangeComponent implements OnInit {
   allBooks: Book[] = [];
   exchangeForm: FormGroup = new FormGroup({})
   isError: boolean = false;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
     this.getAllOpenExchanges();
@@ -43,8 +44,10 @@ export class ExchangeComponent implements OnInit {
   }
 
   getAllOpenExchanges(){
+    this.isLoading = true;
     this.exchangeService.getAllOpenExchanges().subscribe({
       next: (res: ExchangeRequest[]) => {
+        this.isLoading = false;
         this.exchanges = res;
       }
     });
@@ -72,37 +75,46 @@ export class ExchangeComponent implements OnInit {
   }
 
   onSubmit(){
+    this.isLoading = true;
     this.exchangeService.createExchange(this.exchangeForm.value).subscribe({
       next: res => {
+        this.isLoading = false;
         this.onCloseModal();
         this.toast.showToast('Exchange created', 'Your exchange has been created', 'success');
         this.getAllOpenExchanges();
       },
       error: (res:HttpErrorResponse) => {
+        this.isLoading = false;
         this.toast.showToast('Error', 'Could not create exchange', 'error');
       }
     });
   }
 
   onCancelExchange(id: number){
+    this.isLoading = true;
     this.exchangeService.cancelExchange(id).subscribe({
       next: res => {
+        this.isLoading = false;
         this.getAllOpenExchanges();
         this.toast.showToast('Success', 'Exchange request cancelled', 'success');
       },
       error: res => {
+        this.isLoading = false;
         this.toast.showToast('Error', 'Could not cancel', 'error');
       }
     });
   }
 
   processExchange(id: number){
+    this.isLoading = true;
     this.exchangeService.processExchange(id).subscribe({
       next: res => {
+        this.isLoading = false;
         this.getAllOpenExchanges();
         this.toast.showToast('Success', 'Books exchanged', 'success');
       },
       error: res => {
+        this.isLoading = false;
         this.toast.showToast('Error', 'Error exchanging', 'error');
       }
     });

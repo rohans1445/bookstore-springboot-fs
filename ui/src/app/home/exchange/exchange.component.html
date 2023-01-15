@@ -1,5 +1,6 @@
 <div class="p-0 p-sm-3"></div>
-<div class="bg-white border rounded-2">
+<app-loader *ngIf="isLoading"></app-loader>
+<div *ngIf="!isLoading" class="bg-white border rounded-2">
     <div>
         <h2 class="p-3 pb-0"><i class="bi bi-arrow-left-right me-2"></i>Exchanges</h2>
         <p class="p-3 pt-0 pb-0 text-muted">All exchange requests. Click 'exchange' on the book you would like to exchange with a user.</p>

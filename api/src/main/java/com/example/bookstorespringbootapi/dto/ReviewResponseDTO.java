@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class ReviewResponseDTO {
     private int reviewId;
     private String username;
+    private String userImg;
     private String title;
     private String content;
     private int rating;
