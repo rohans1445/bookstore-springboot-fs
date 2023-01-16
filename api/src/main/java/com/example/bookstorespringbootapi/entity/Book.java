@@ -58,6 +58,9 @@ public class Book {
             CascadeType.PERSIST, CascadeType.REFRESH}, mappedBy = "userInventory")
     private List<ApplicationUser> ownedBy;
 
+    @Column(name = "tags")
+    private String tags;
+
     @JsonIgnore
     @CreationTimestamp
     private LocalDateTime createdAt;

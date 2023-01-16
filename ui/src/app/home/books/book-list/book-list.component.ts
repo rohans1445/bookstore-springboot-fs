@@ -26,6 +26,7 @@ export class BookListComponent implements OnInit {
   isLast: boolean = false;
   totalResults: number = 0;
   currentUser: User = new User();
+  loggedIn: boolean = false;
 
   constructor(private bookService: BookService,
     private currentRoute: ActivatedRoute,
@@ -33,7 +34,10 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBooks(this.currentPage, this.pageSize);
-    if(this.auth.isLoggedIn()) this.currentUser = this.auth.getCurrentUser();
+    if(this.auth.isLoggedIn()) {
+      this.currentUser = this.auth.getCurrentUser();
+      this.loggedIn = true;
+    }
   }
 
   getAllBooks(page: number, size: number){

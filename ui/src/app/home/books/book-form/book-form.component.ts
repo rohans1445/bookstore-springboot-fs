@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Book } from 'src/app/models/book.model';
 import { BookService } from 'src/app/services/book.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-book-form',
@@ -17,7 +18,8 @@ export class BookFormComponent implements OnInit {
   editBookId: number = 0;
   
   constructor(private bookService: BookService,
-    private currentRoute: ActivatedRoute) { }
+    private currentRoute: ActivatedRoute,
+    private toast: ToastService) { }
   
   @Input()
   editMode: boolean = false;
@@ -36,10 +38,12 @@ export class BookFormComponent implements OnInit {
         price: new FormControl(this.book.price, Validators.required),
         shortDesc: new FormControl(this.book.shortDesc, Validators.required),
         imgPath: new FormControl(this.book.imgPath, Validators.required),
+        tags: new FormControl(this.book.tags),
         bookDetail: new FormGroup({
           isbn: new FormControl(this.book.bookDetail.isbn, Validators.required),
           language: new FormControl(this.book.bookDetail.language, Validators.required),
           publisher: new FormControl(this.book.bookDetail.publisher, Validators.required),
+          longDesc: new FormControl(this.book.bookDetail.longDesc)
         })
       })
     } else {
@@ -49,10 +53,12 @@ export class BookFormComponent implements OnInit {
         price: new FormControl('', Validators.required),
         shortDesc: new FormControl('', Validators.required),
         imgPath: new FormControl('', Validators.required),
+        tags: new FormControl(''),
         bookDetail: new FormGroup({
           isbn: new FormControl('', Validators.required),
           language: new FormControl('', Validators.required),
           publisher: new FormControl('', Validators.required),
+          longDesc: new FormControl('', Validators.maxLength(500))
         })
       });
     }
@@ -69,16 +75,18 @@ export class BookFormComponent implements OnInit {
         next: res => {
           this.isSaving = false;
           this.onCloseModal();
+          this.toast.showToast('Book saved', '', 'success');
         },
         error: error => {
           console.log(error.message);
+          this.toast.showToast('Error', 'Error saving book', 'error');
         }
       })
     } else {
       this.currentRoute.params.subscribe((params)=>{
         this.editBookId = +params['id'];
       })
-
+      
       let bookToSave: Book = this.bookForm.value;
       bookToSave.id = this.editBookId;
       
@@ -86,9 +94,12 @@ export class BookFormComponent implements OnInit {
         next: res => {
           this.isSaving = false;
           this.onCloseModal();
+          this.toast.showToast('Book saved', '', 'success');
         },
         error: error => {
+          this.isSaving = false;
           console.log(error.message);
+          this.toast.showToast('Error', 'Error saving book', 'error');
         }
       })
     }
@@ -106,6 +117,7 @@ export class BookFormComponent implements OnInit {
           shortDesc: res.shortDesc,
           imgPath: res.imgPath,
           bookDetail: res.bookDetail,
+          tags: res.tags
         })
       },
       error: error => {

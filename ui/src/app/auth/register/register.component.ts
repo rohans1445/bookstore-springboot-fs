@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit {
     private toast: ToastService) { }
 
   registerForm!: FormGroup;
+  isLoadingRandomData: boolean = false;
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -34,20 +35,7 @@ export class RegisterComponent implements OnInit {
   onRegisterSubmit(){
     let username = this.registerForm.get('username');
     let password = this.registerForm.get('password');
-    // this.auth.register(this.registerForm.value).subscribe({
-    //   next: res => {
-    //     this.auth.login({username: this.registerForm.get('username'), password: this.registerForm.get('password')}).subscribe({
-    //       next: res => {
-    //         localStorage.setItem('token', res.token);
-    //         this.auth.fetchCurrentUserDetails().subscribe({
-    //           next: res => {
-    //             localStorage.setItem('currentUser', JSON.stringify(res));
-    //             this.router.navigate(['/books/list']);
-    //           }
-    //         })
-    //       }
-    //     })
-    //   });
+    
     console.log(this.registerForm.value)
     this.auth.register(this.registerForm.value).subscribe({
       next: res => {
@@ -64,8 +52,10 @@ export class RegisterComponent implements OnInit {
   }
 
   generateUser(){
+    this.isLoadingRandomData = true;
     this.userService.getRandomUser().subscribe({
       next: res => {
+        this.isLoadingRandomData = false;
         this.registerForm.setValue({
           username: res.username,
           firstName: res.firstName,

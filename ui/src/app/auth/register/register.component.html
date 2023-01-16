@@ -9,7 +9,8 @@
             </div>
             <div class="bg-white col-xl-4 col-lg-5 col-md-7 col-sm-9" style="box-shadow: 0 0 25px 0 #a0331b; border-radius: 0.5rem;">
                 <div>
-                    <i class="bi bi-arrow-repeat fs-5 ms-auto ps-2" id="rnd" (click)="generateUser()"></i>
+                    <i *ngIf="!isLoadingRandomData" class="bi bi-arrow-repeat fs-5 ms-auto ps-2" id="rnd" (click)="generateUser()"></i>
+                    <span *ngIf="isLoadingRandomData" class="spinner-border spinner-border-sm ms-2 mt-2" role="status" aria-hidden="true"></span>
                 </div>
                 <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" class="p-4 ps-3 pe-3 p-sm-5 pt-sm-2 pb-sm-4 ">
                     <h4 class="fw-normal text-center text-custom-orange pb-4">Registration</h4>

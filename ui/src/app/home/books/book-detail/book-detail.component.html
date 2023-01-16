@@ -63,12 +63,8 @@
                                 </h3>
 
                                 <div class="col m-3 text-start">
-                                    <p style="white-space: pre-line;" th:text="${book.bookDetail.longDesc}">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Inventore accusantium possimus veritatis consequatur esse temporibus
-                                        quaerat,
-                                        commodi iusto perferendis beatae. Veniam nemo odio ipsam possimus.
-                                        Consequatur labore nulla sapiente architecto!
+                                    <p style="white-space: pre-line;">
+                                        {{ book.bookDetail.longDesc }}
                                     </p>
                                 </div>
                             </div>
@@ -87,9 +83,9 @@
                                         </li>
                                         <li class="py-1">
                                             <strong>Tags:</strong>
-                                            <span th:if="${not #lists.isEmpty(tags)}">
-                                                <span th:each="tag : ${tags}" class="badge bg-custom-orange rounded-pill m-1">
-                                                    <a th:text="${tag}" class="text-decoration-none text-white" href="">Java</a>
+                                            <span>
+                                                <span *ngFor="let tag of book?.tags?.split(',')" class="badge bg-custom-orange rounded-pill m-1">
+                                                    <a class="text-decoration-none text-white" href="">{{ tag }}</a>
                                                 </span>
                                             </span>
                                         </li>

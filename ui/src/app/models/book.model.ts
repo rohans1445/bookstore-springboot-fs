@@ -7,6 +7,7 @@ export interface Book {
     shortDesc: string;
     price: number;
     imgPath: string;
+    tags: string;
     bookDetail: BookDetail;
     createdAt: Date;
 }

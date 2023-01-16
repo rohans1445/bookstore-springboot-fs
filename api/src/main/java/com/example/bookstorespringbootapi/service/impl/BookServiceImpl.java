@@ -59,6 +59,7 @@ public class BookServiceImpl implements BookService {
                     .timesPurchased(book.getOwnedBy().size())
                     .avgReviews(getAvgRatingForABook(book))
                     .productPurchased(checkIfProductPurchased(book))
+                    .tags(book.getTags())
                     .title(book.getTitle())
                     .build();
         }).collect(Collectors.toList());
@@ -96,6 +97,7 @@ public class BookServiceImpl implements BookService {
         book.setTitle(bookDTO.getTitle());
         book.setPrice(bookDTO.getPrice());
         book.setImgPath(bookDTO.getImgPath());
+        book.setTags(bookDTO.getTags());
 
         return bookRepository.save(book);
     }
