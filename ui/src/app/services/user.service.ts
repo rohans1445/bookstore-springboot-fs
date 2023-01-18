@@ -53,4 +53,8 @@ export class UserService {
   getUserExchanges(username: string): Observable<ExchangeRequest[]>{
     return this.http.get<ExchangeRequest[]>(`${environment.baseUrl}/user/${username}/exchanges`);
   }
+
+  getRandomUser():Observable<User>{
+    return this.http.get<User>(`${environment.baseUrl}/rnd-user`);
+  }
 }

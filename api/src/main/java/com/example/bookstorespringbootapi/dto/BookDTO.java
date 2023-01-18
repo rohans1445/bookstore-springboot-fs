@@ -24,11 +24,11 @@ public class BookDTO {
     private int id;
 
     @NotBlank(message = "Title cannot be empty")
-    @Size(min = 4, max = 50, message = "Title must be between 4 to 50 characters")
+    @Size(min = 4, max = 100, message = "Title must be between 4 to 50 characters")
     private String title;
 
     @NotBlank(message = "Author cannot be empty")
-    @Size(max = 45, message = "Author name must be between upto 45 characters")
+    @Size(max = 100, message = "Author name must be between upto 45 characters")
     private String author;
 
     @Min(value = 0)
@@ -38,7 +38,8 @@ public class BookDTO {
     private String shortDesc;
     private String imgPath;
 
-    @NotNull(message = "Details should not be null")
     private BookDetail bookDetail;
+
+    private String tags;
 
 }

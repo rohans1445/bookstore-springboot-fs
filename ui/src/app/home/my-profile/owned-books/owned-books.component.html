@@ -1,4 +1,5 @@
-<ul class="list-group">
+<app-loader *ngIf="isLoading"></app-loader>
+<ul *ngIf="!isLoading" class="list-group">
     <li class="list-group-item bg-light">
         <div class="p-0 text-start d-flex align-items-center">
             <h4 class="m-0" id="reviews">Owned books</h4>

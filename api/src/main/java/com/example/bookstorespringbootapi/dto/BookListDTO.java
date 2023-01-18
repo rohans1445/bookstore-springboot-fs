@@ -27,4 +27,5 @@ public class BookListDTO{
     private int reviewCount;
     private double avgReviews;
     private int timesPurchased;
+    private String tags;
 }

@@ -14,14 +14,14 @@
           <li class="nav-item"><a routerLink="/books/list" class="nav-link">Home</a></li>
           <li class="nav-item"><a routerLink="/exchange" class="nav-link">Exchange</a></li>
           <li class="nav-item"><a class="nav-link">About</a></li>
-          <li class="nav-item"><a class="nav-link">Contact</a></li>
+          <!-- <li class="nav-item"><a class="nav-link">Contact</a></li> -->
         </ul>
         <div class="ms-auto d-md-flex">
           <div class="pt-2 pt-sm-0 align-self-center text-muted" *ngIf="loggedIn">
             <span class="">Logged in as: </span>
             <span class="me-2">{{currentUser.username}}</span>
-            <span class="">User roles: </span>
-            <span class="me-3">{{currentUser.roles}}</span>
+            <!-- <span class="">User roles: </span>
+            <span class="me-3">{{currentUser.roles}}</span> -->
           </div>
           <div class="pt-3 pt-md-0 d-flex">
             <a *ngIf="!loggedIn" class="btn btn-primary me-2" routerLink="/login">Login</a>

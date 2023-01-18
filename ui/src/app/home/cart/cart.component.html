@@ -1,4 +1,5 @@
-<section class="p-0 pt-5 p-sm-5 text-center text-md-start">
+<app-loader *ngIf="isLoading"></app-loader>
+<section *ngIf="!isLoading" class="p-0 pt-5 p-sm-5 text-center text-md-start">
     <div class="container" id="cart-container">
         <ul class="list-group">
             <li class="list-group-item bg-light">
@@ -36,7 +37,7 @@
                                 <small class="ms-auto">Quantity: 1</small>
                             </div>
                             <div class="d-sm-flex mt-1">
-                                <h5 class="p-0 m-0">Item Price: <span>${{item.price}}</span>
+                                <h5 class="p-0 m-0">Item Price: <span>{{item.price | currency}}</span>
                                 </h5>
                                 <button class="ms-auto btn btn-secondary btn-sm" (click)="onRemoveFromCart(item.id!)">
                                     <i class="bi bi-cart-x"></i> Remove from cart

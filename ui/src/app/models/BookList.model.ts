@@ -13,4 +13,5 @@ export interface BookList {
     avgReviews: number;
     reviewCount: number;
     productPurchased: boolean;
+    tags: string;
 }

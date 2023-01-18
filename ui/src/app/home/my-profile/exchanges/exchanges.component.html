@@ -1,8 +1,8 @@
-<!-- <app-loader *ngIf="isLoading"></app-loader> -->
-<div class="list-group" *ngIf="true">
+<app-loader *ngIf="isLoading"></app-loader>
+<div class="list-group" *ngIf="!isLoading">
     <li class="list-group-item bg-light">
         <div class="p-0 text-start d-flex align-items-center">
-            <h4 class="m-0" id="reviews">Exchanges</h4>
+            <h4 class="m-0" id="reviews">Exchanges <small class="text-muted fs-6">(created exchanges)</small></h4>
         </div>
     </li>
     <li class="list-group-item">

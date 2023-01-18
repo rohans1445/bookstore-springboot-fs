@@ -16,9 +16,8 @@ public class BookstoreFaker {
         Book b = new Book();
         BookDetail bd = new BookDetail();
         bd.setIsbn(faker.number().digits(10));
-//        bd.setLongDesc(faker.lorem().paragraph(15));
+        bd.setLongDesc(faker.lorem().paragraph(15));
         bd.setPublisher(faker.book().publisher());
-//        bd.setTags(faker.book().genre() + "," + faker.book().genre() + "," + faker.book().genre());
         bd.setLanguage("English");
 //        bd.setPageCount(faker.number().numberBetween(100,1000));
 //        bd.setItemWeight(Float.parseFloat(faker.commerce().price(0.05,2.00)));
@@ -26,6 +25,7 @@ public class BookstoreFaker {
 
         b.setTitle(faker.book().title());
         b.setAuthor(faker.book().author());
+        b.setTags(faker.book().genre() + "," + faker.book().genre() + "," + faker.book().genre());
         b.setPrice(Float.parseFloat(faker.commerce().price(5.99, 99.99)));
         b.setImgPath(dataGenerator.generateImage());
         b.setShortDesc(faker.lorem().paragraph(4));

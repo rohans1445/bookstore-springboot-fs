@@ -42,9 +42,9 @@ export class CheckoutComponent implements OnInit {
     amount: 0
   };
   userCredit: number = 0;
-  loadingCart: boolean = true;
-  loadingCredit: boolean = true;
   loadingCardCheckout: boolean = false;
+  isLoadingPromo: boolean = false;
+  isLoadingYourOrder: boolean = false;
 
   cancelledCardPayment: boolean = false;
   cancelledOrderId: number = -1;
@@ -82,11 +82,12 @@ export class CheckoutComponent implements OnInit {
   }
   
   getUserCart(){
+    this.isLoadingYourOrder = true;
     this.cartService.getUserCart().subscribe({
       next: res => {
         this.cart = res;
         this.calculateTotal(this.cart);
-        this.loadingCart = false;
+        this.isLoadingYourOrder = false;
       }
     });
   }
@@ -102,8 +103,11 @@ export class CheckoutComponent implements OnInit {
     if(this.promo.code === form.value.promo) return;
     // reset to original price every time user enters new code
     this.onRemoveDiscount();
+
+    this.isLoadingPromo = true;
     this.promoService.getPromo(form.value.promo).subscribe({
       next: res => {
+        this.isLoadingPromo = false;
         this.invalidPromo = false;
         this.promoApplied = true;
         this.promo = res;
@@ -112,6 +116,7 @@ export class CheckoutComponent implements OnInit {
         this.toast.showToast('Promo applied', this.promo.code+': '+this.promo.amount+'$ off', 'success');
       },
       error: res => {
+        this.isLoadingPromo = false;
         console.error(res);
         this.invalidPromo = true;
       }
@@ -122,34 +127,12 @@ export class CheckoutComponent implements OnInit {
     this.userService.getUserCredit(username).subscribe({
       next: res => {
         this.userCredit = res.amount;
-        this.loadingCredit = false;
       },
       error: res => {
         console.error(res);
       }
     });
   }
-
-  // onPlaceOrder() {
-  //   if(this.total > this.userCredit) {
-  //     this.insufficientBalance = true;
-  //     return;
-  //   }
-  //   let orderItems: number[] = [];
-  //   this.cart.forEach(book => {
-  //     orderItems.push(book.id);
-  //   });
-  //   this.orderService.createOrder(orderItems, this.promoApplied ? this.promo.code : "")
-  //     .subscribe({
-  //       next: res => {
-  //         this.router.navigate(['/books/list'], {queryParams: {orderSuccess: ''}});
-  //         console.log(res);
-  //       },
-  //       error: res => {
-  //         console.error(res);
-  //       }
-  //     });
-  // }
 
   onRemoveDiscount(){
     this.promo = {id: 0, amount: 0, code: ''}

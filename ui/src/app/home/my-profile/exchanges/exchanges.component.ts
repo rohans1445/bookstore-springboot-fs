@@ -17,14 +17,17 @@ export class ExchangesComponent implements OnInit {
 
   
   exchanges: ExchangeRequest[] = [];
+  isLoading = false;
 
   ngOnInit(): void {
     this.getUserExchanges();
   }
 
   getUserExchanges(){
+    this.isLoading = true;
     this.userService.getUserExchanges(this.auth.getCurrentLoggedInUsername()).subscribe({
       next: res => {
+        this.isLoading = false;
         this.exchanges = res;
       }
     });

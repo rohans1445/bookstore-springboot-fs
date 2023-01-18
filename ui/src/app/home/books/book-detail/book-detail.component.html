@@ -63,12 +63,8 @@
                                 </h3>
 
                                 <div class="col m-3 text-start">
-                                    <p style="white-space: pre-line;" th:text="${book.bookDetail.longDesc}">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Inventore accusantium possimus veritatis consequatur esse temporibus
-                                        quaerat,
-                                        commodi iusto perferendis beatae. Veniam nemo odio ipsam possimus.
-                                        Consequatur labore nulla sapiente architecto!
+                                    <p style="white-space: pre-line;">
+                                        {{ book.bookDetail.longDesc }}
                                     </p>
                                 </div>
                             </div>
@@ -86,32 +82,10 @@
                                             <strong>Language: </strong> <span>English</span>
                                         </li>
                                         <li class="py-1">
-                                            <strong>Page Count: </strong> <span>325 pages</span>
-                                        </li>
-                                        <li class="py-1">
-                                            <strong>Item Weight: </strong> <span>1.56 pounds</span>
-                                        </li>
-                                        <li class="py-1">
-                                            <div class="d-flex">
-                                                <div class="align-self-center">
-                                                    <strong>Avg. Rating: </strong>
-                                                </div>
-                                                <div class="ps-2">
-                                                    <a th:if="${avgRating == 0}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 0-star"></div></a>
-                                                    <a th:if="${avgRating >= 1 and avgRating < 2}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 1-star"></div></a>
-                                                    <a th:if="${avgRating >= 2 and avgRating < 3}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 2-star"></div></a>
-                                                    <a th:if="${avgRating >= 3 and avgRating < 4}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 3-star"></div></a>
-                                                    <a th:if="${avgRating >= 4 and avgRating < 5}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 4-star"></div></a>
-                                                    <a th:if="${avgRating == 5}" class="text-warning fs-5 text-decoration-none" href="#reviews"><div th:replace="fragments/elements :: 5-star"></div></a>
-                                                </div>
-                                                <span th:text="|(${avgRating})|" class="ps-2 align-self-center">(4.5)</span>
-                                            </div>
-                                        </li>
-                                        <li class="py-1">
                                             <strong>Tags:</strong>
-                                            <span th:if="${not #lists.isEmpty(tags)}">
-                                                <span th:each="tag : ${tags}" class="badge bg-custom-orange rounded-pill m-1">
-                                                    <a th:text="${tag}" class="text-decoration-none text-white" href="">Java</a>
+                                            <span>
+                                                <span *ngFor="let tag of book?.tags?.split(',')" class="badge bg-custom-orange rounded-pill m-1">
+                                                    <a class="text-decoration-none text-white" href="">{{ tag }}</a>
                                                 </span>
                                             </span>
                                         </li>

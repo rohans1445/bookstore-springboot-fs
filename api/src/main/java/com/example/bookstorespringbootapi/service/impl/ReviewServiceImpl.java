@@ -6,7 +6,6 @@ import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.exception.InvalidInputException;
 import com.example.bookstorespringbootapi.exception.ResourceNotFoundException;
-import com.example.bookstorespringbootapi.payload.ReviewRequest;
 import com.example.bookstorespringbootapi.repository.ReviewRepository;
 import com.example.bookstorespringbootapi.service.BookService;
 import com.example.bookstorespringbootapi.service.ReviewService;

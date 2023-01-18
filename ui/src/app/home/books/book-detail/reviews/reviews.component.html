@@ -17,7 +17,7 @@
             <div class="bg-white">
                 <div>
                     <div class="p-2 d-flex">
-                        <img class="rounded-circle align-self-center" src="https://dummyimage.com/50x50/bdbdbd/fff&text=placeholder" width="50" height="50" alt="">
+                        <img class="rounded-circle align-self-center" [src]="review.userImg" width="50" height="50" alt="">
                         <div class="ms-1 row text-start">
                             <div>
                                 <a [routerLink]="['/user', review.username]" class="text-black text-decoration-none">
@@ -74,8 +74,8 @@
                     <input type="text" id="review-title" class="form-control form-control-custom-orange" formControlName="title" placeholder="Review Title">
                 </div>
                 <div class="col-12">
-                    <label class="form-label">Your Review <small class="text-muted">(max chars: 300)</small></label>
-                    <textarea type="text" maxlength="300" id="review-content" class="form-control form-control-custom-orange" formControlName="content" placeholder="Enter your review here"></textarea>
+                    <label class="form-label">Your Review <small class="text-muted">(max chars: 500)</small></label>
+                    <textarea type="text" maxlength="500" id="review-content" class="form-control form-control-custom-orange" formControlName="content" placeholder="Enter your review here"></textarea>
                 </div>
             </div>
         </form>

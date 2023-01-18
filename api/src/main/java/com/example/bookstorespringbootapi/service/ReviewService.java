@@ -2,7 +2,6 @@ package com.example.bookstorespringbootapi.service;
 
 import com.example.bookstorespringbootapi.dto.ReviewCreateDTO;
 import com.example.bookstorespringbootapi.entity.Review;
-import com.example.bookstorespringbootapi.payload.ReviewRequest;
 
 import java.util.List;
 

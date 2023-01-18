@@ -15,9 +15,13 @@ export class OwnedBooksComponent implements OnInit {
   constructor(private authService: AuthService,
     private userService: UserService) { }
 
+    isLoading = false;
+
   ngOnInit(): void {
+    this.isLoading = true;
     this.userService.getUsersBooks(this.authService.getCurrentLoggedInUsername()).subscribe({
       next: res => {
+        this.isLoading = false;
         this.ownedBooks = res;
       }
     });

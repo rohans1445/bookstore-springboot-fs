@@ -49,9 +49,9 @@
                             <p class="m-0 text-muted d-none d-sm-block" align="justify" th:text="${book.shortDesc}">
                                 {{ book.shortDesc }}
                             </p>
-                            <div class="pt-4 d-none d-sm-block" th:with="tagList=${#strings.arraySplit(book.bookDetail.tags,',')}">
-                                <span th:each="tag : ${tagList}" class="badge bg-custom-orange rounded-pill m-1">
-                                    <a th:text="${tag}" class="text-decoration-none text-light" href="">Java</a>
+                            <div class="pt-4 d-none d-sm-block">
+                                <span *ngFor="let tag of book?.tags?.split(',')" class="badge bg-custom-orange rounded-pill m-1">
+                                    <a class="text-decoration-none text-light" href="">{{ tag }}</a>
                                 </span>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
             </li>
         </ul>
         <div class="pb-3">
-            <div *ngIf="currentUser.roles?.indexOf('ROLE_ADMIN') !== -1" class="bg-white col p-5 mt-3 text-center" style="border: dashed; border-width: thin; border-color: darkgray; border-radius: 3px;">
+            <div *ngIf="loggedIn && currentUser.roles?.indexOf('ROLE_ADMIN') !== -1" class="bg-white col p-5 mt-3 text-center" style="border: dashed; border-width: thin; border-color: darkgray; border-radius: 3px;">
                 <h4>
                     <a class="text-muted text-decoration-none p-5 mb-3" (click)="onOpenModal()" style="cursor: pointer;">+ Add a book</a>
                 </h4>

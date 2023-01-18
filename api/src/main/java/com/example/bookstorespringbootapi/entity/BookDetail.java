@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
@@ -23,8 +24,9 @@ public class BookDetail {
     @Column(name = "id")
     private int id;
 
-//    @Column(name = "long_desc")
-//    private String longDesc;
+    @Column(name = "long_desc")
+    @Size(max = 2048)
+    private String longDesc;
 
     @NotBlank(message = "ISBN cannot be empty")
     @Column(name = "isbn")
@@ -35,14 +37,5 @@ public class BookDetail {
 
     @Column(name = "language")
     private String language;
-
-//    @Column(name = "page_count")
-//    private int pageCount;
-//
-//    @Column(name = "item_weight")
-//    private float itemWeight;
-//
-//    @Column(name = "tags")
-//    private String tags;
-
+    
 }

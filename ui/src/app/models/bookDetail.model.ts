@@ -3,4 +3,5 @@ export class BookDetail {
     isbn?: string
     publisher?: string
     language?: string
+    longDesc?:string
 }

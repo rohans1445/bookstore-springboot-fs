@@ -79,6 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .addAllLineItem(lineItems)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setCurrency("usd")
+                .setAllowPromotionCodes(true)
                 .setSuccessUrl(baseUrl + "/payment/success")
                 .setCancelUrl(baseUrl + "/checkout?cancelled=true&orderId="+order.getId())
                 .putAllMetadata(convertUserDataToMap(currentUser, order))

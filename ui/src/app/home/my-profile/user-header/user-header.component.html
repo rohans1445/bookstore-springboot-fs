@@ -1,4 +1,5 @@
-<div class="bg-white p-4 rounded rounded-2 d-sm-flex border">
+<app-loader *ngIf="isLoadingHeader"></app-loader>
+<div *ngIf="!isLoadingHeader" class="bg-white p-4 rounded rounded-2 d-sm-flex border">
     <div class="align-self-center text-center">
         <img class="rounded-circle" [src]="currentUser.userImg" width="150" height="150" alt="userimage" id="user_image">
     </div>

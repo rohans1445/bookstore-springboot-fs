@@ -1,30 +1,34 @@
 <div class="d-md-flex justify-content-center pt-4">
     <!-- your order -->
     <div class="order-md-last col-md-5 col-lg-3 m-2">
-        <h4>Your order</h4>
-        <ul class="list-group">
-            <li *ngFor="let cartItem of cart" class="list-group-item">
-                <div class="d-flex">
-                    <h6 class="p-0 m-0">{{cartItem.title}}</h6>
-                    <h6 class="m-0 ms-auto fw-light">{{cartItem.price | currency}}</h6>
-                </div>
-                <small class="text-muted">{{cartItem.author}}</small>
-            </li>
-            <li class="list-group-item bg-light" *ngIf="promoApplied"> <!-- Promo -->
-                <div class="d-flex text-success">
-                    <h6 class="p-0 m-0">Discount <i (click)="onRemoveDiscount()" class="bi bi-x-circle-fill text-danger"></i></h6>
-                    
-                    <h6 class="m-0 ms-auto fw-light">-{{promo.amount | currency}}</h6>
-                </div>
-                <small class="text-success">{{promo.code}}</small>
-            </li>
-            <li class="list-group-item">
-                <div class="d-flex">
-                    <h6 class="p-0 m-0">Total (usd)</h6>
-                    <h6 class="m-0 ms-auto fw-bold">{{ total | currency }}</h6>
-                </div>
-            </li>
-        </ul>
+        <app-loader *ngIf="isLoadingYourOrder"></app-loader>
+        <div *ngIf="!isLoadingYourOrder">
+            <h4>Your order</h4>
+            <ul class="list-group">
+                <li *ngFor="let cartItem of cart" class="list-group-item">
+                    <div class="d-flex">
+                        <h6 class="p-0 m-0">{{cartItem.title}}</h6>
+                        <h6 class="m-0 ms-auto fw-light">{{cartItem.price | currency}}</h6>
+                    </div>
+                    <small class="text-muted">{{cartItem.author}}</small>
+                </li>
+                <li class="list-group-item bg-light" *ngIf="promoApplied"> <!-- Promo -->
+                    <div class="d-flex text-success">
+                        <h6 class="p-0 m-0">Discount <i (click)="onRemoveDiscount()" class="bi bi-x-circle-fill text-danger"></i></h6>
+                        
+                        <h6 class="m-0 ms-auto fw-light">-{{promo.amount | currency}}</h6>
+                    </div>
+                    <small class="text-success">{{promo.code}}</small>
+                </li>
+                <li class="list-group-item">
+                    <div class="d-flex">
+                        <h6 class="p-0 m-0">Total (usd)</h6>
+                        <h6 class="m-0 ms-auto fw-bold">{{ total | currency }}</h6>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- Promo -->
         <div class="pt-3 pb-4">
             <h5>Promo</h5>
             <ul class="list-group">
@@ -32,9 +36,12 @@
                     <form (ngSubmit)="onApplyPromo(promoForm)" #promoForm="ngForm">
                         <div class="d-flex">
                             <div class="me-2">
-                                <input type="text" id="promo" name="promo" ngModel class="form-control" placeholder="PROMO">
+                                <input type="text" id="promo" name="promo" ngModel class="form-control" placeholder="PROMO" [disabled]="form.get('paymentMode')?.value === 'card'">
                             </div>
-                            <button id="apply-promo" type="submit" class="btn btn-success ms-auto">Apply</button>
+                            <button id="apply-promo" type="submit" class="btn btn-success ms-auto" [disabled]="form.get('paymentMode')?.value === 'card' || isLoadingPromo">
+                                {{ isLoadingPromo ? '' : 'Apply'}}
+                                <span *ngIf="isLoadingPromo" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            </button>
                         </div>
                     </form>
                 </li>

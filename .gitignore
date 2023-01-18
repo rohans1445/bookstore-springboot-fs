@@ -3,6 +3,7 @@ api/target/
 api/!.mvn/wrapper/maven-wrapper.jar
 api/!**/src/main/**/target/
 api/!**/src/test/**/target/
+api/.env
 
 ### STS ###
 api/.apt_generated
@@ -70,6 +71,7 @@ ui/coverage
 ui/libpeerconnection.log
 ui/testem.log
 ui/typings
+ui/.env
 
 # System files
 ui/.DS_Store
