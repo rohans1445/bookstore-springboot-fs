@@ -36,9 +36,9 @@
                     <form (ngSubmit)="onApplyPromo(promoForm)" #promoForm="ngForm">
                         <div class="d-flex">
                             <div class="me-2">
-                                <input type="text" id="promo" name="promo" ngModel class="form-control" placeholder="PROMO">
+                                <input type="text" id="promo" name="promo" ngModel class="form-control" placeholder="PROMO" [disabled]="form.get('paymentMode')?.value === 'card'">
                             </div>
-                            <button id="apply-promo" type="submit" class="btn btn-success ms-auto" [disabled]="isLoadingPromo">
+                            <button id="apply-promo" type="submit" class="btn btn-success ms-auto" [disabled]="form.get('paymentMode')?.value === 'card' || isLoadingPromo">
                                 {{ isLoadingPromo ? '' : 'Apply'}}
                                 <span *ngIf="isLoadingPromo" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             </button>

@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         } catch (Exception e){
-            logger.error("Error occurred while authenticating with JWT");
+            logger.error("Error occurred while authenticating with JWT {}", e);
         }
         filterChain.doFilter(request, response);
     }

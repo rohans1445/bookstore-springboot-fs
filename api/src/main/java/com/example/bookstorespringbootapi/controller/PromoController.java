@@ -30,4 +30,11 @@ public class PromoController {
         DiscountDTO res = new DiscountDTO(createdDiscount.getId(), createdDiscount.getCode(), createdDiscount.getAmount());
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
+
+    @Operation(summary = "Delete a discount")
+    @DeleteMapping("/promo/{code}")
+    public ResponseEntity<?> deleteDiscount(@PathVariable("code") String code){
+        promoService.deleteDiscount(code);
+        return new ResponseEntity<>("Deleted promo", HttpStatus.OK);
+    }
 }

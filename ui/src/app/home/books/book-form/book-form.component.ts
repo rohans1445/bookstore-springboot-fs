@@ -51,14 +51,14 @@ export class BookFormComponent implements OnInit {
         title: new FormControl('', Validators.required),
         author: new FormControl('', Validators.required),
         price: new FormControl('', Validators.required),
-        shortDesc: new FormControl('', Validators.required),
+        shortDesc: new FormControl('', [Validators.required, Validators.maxLength(250)]),
         imgPath: new FormControl('', Validators.required),
         tags: new FormControl(''),
         bookDetail: new FormGroup({
           isbn: new FormControl('', Validators.required),
           language: new FormControl('', Validators.required),
           publisher: new FormControl('', Validators.required),
-          longDesc: new FormControl('', Validators.maxLength(500))
+          longDesc: new FormControl('', Validators.maxLength(1024))
         })
       });
     }

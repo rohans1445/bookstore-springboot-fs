@@ -5,7 +5,6 @@ import com.example.bookstorespringbootapi.entity.ApplicationUser;
 import com.example.bookstorespringbootapi.entity.Book;
 import com.example.bookstorespringbootapi.mapper.BookMapper;
 import com.example.bookstorespringbootapi.payload.ApiResponse;
-import com.example.bookstorespringbootapi.payload.BookResponse;
 import com.example.bookstorespringbootapi.payload.CartRequest;
 import com.example.bookstorespringbootapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")

@@ -7,20 +7,16 @@ import com.example.bookstorespringbootapi.entity.Review;
 import com.example.bookstorespringbootapi.exception.InvalidInputException;
 import com.example.bookstorespringbootapi.mapper.ReviewMapper;
 import com.example.bookstorespringbootapi.payload.ApiResponse;
-import com.example.bookstorespringbootapi.payload.ReviewRequest;
-import com.example.bookstorespringbootapi.payload.ReviewResponse;
 import com.example.bookstorespringbootapi.service.ReviewService;
 import com.example.bookstorespringbootapi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")

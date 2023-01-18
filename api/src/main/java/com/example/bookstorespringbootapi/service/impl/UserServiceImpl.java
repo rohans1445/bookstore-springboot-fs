@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isBalanceIsSufficient(ApplicationUser user, double amount) {
-        return user.getCredits() > amount;
+        return user.getCredits() >= amount;
     }
 
     @Override

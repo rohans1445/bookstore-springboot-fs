@@ -9,4 +9,6 @@ public interface PromoService {
 
     Discount createDiscount(DiscountDTO discountDTO);
 
+    void deleteDiscount(String discount);
+
 }
