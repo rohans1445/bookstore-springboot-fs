@@ -26,11 +26,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private toast: ToastService) { }
 
   ngOnInit(): void {
-    let accCreated: boolean = this.route.snapshot.queryParams['accCreated'];
-    if(accCreated){
-      this.toast.showToast('Account created', '', 'success');
-    }
-
     this.userLogoutSubscription = this.authService.userHasLoggedOut.subscribe({
       next: loggedOut => {
         this.userLoggedOut = loggedOut;

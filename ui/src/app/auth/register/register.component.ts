@@ -39,7 +39,8 @@ export class RegisterComponent implements OnInit {
     console.log(this.registerForm.value)
     this.auth.register(this.registerForm.value).subscribe({
       next: res => {
-        this.router.navigate(['/login'], {queryParams: {'accCreated':true}});
+        this.router.navigate(['/login']);
+        this.toast.showToast('Account created', '', 'success');
       },
       error: res => {
         if(res.error.message.indexOf('That username has been taken') !== -1){
