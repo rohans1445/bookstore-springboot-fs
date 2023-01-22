@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(registrationRequest.getFirstName());
         user.setLastName(registrationRequest.getLastName());
         user.setRoles("ROLE_USER");
+        user.setCredits(30.0);
 
         return applicationUserRepository.save(user);
     }

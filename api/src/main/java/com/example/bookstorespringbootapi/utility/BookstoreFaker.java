@@ -15,7 +15,7 @@ public class BookstoreFaker {
         Faker faker = new Faker();
         Book b = new Book();
         double price = Double.parseDouble(faker.commerce().price(5.99, 99.99));
-        price = Math.round(price);
+        price = Math.round(price*100);
         price = price / 100;
 
         BookDetail bd = new BookDetail();
