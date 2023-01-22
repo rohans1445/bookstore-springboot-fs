@@ -14,19 +14,21 @@ public class BookstoreFaker {
         RandomDataGenerator dataGenerator  = new RandomDataGenerator();
         Faker faker = new Faker();
         Book b = new Book();
+        double price = Double.parseDouble(faker.commerce().price(5.99, 99.99));
+        price = Math.round(price);
+        price = price / 100;
+
         BookDetail bd = new BookDetail();
         bd.setIsbn(faker.number().digits(10));
         bd.setLongDesc(faker.lorem().paragraph(15));
         bd.setPublisher(faker.book().publisher());
         bd.setLanguage("English");
-//        bd.setPageCount(faker.number().numberBetween(100,1000));
-//        bd.setItemWeight(Float.parseFloat(faker.commerce().price(0.05,2.00)));
 
 
         b.setTitle(faker.book().title());
         b.setAuthor(faker.book().author());
         b.setTags(faker.book().genre() + "," + faker.book().genre() + "," + faker.book().genre());
-        b.setPrice(Float.parseFloat(faker.commerce().price(5.99, 99.99)));
+        b.setPrice(price);
         b.setImgPath(dataGenerator.generateImage());
         b.setShortDesc(faker.lorem().paragraph(4));
         b.setBookDetail(bd);
@@ -50,7 +52,7 @@ public class BookstoreFaker {
         u.setEmail(email.toLowerCase());
         u.setRoles("ROLE_USER");
         u.setPassword("1");
-        u.setCredits(100);
+        u.setCredits(100.0);
 
         return u;
     }

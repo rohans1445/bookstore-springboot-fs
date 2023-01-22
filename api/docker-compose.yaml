@@ -17,6 +17,8 @@ services:
       MYSQL_PORT: ${MYSQL_PORT}
       STRIPE_KEY: ${STRIPE_KEY}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      UI_BASE_URL: ${UI_BASE_URL}
     ports:
       - "80:8081"
     networks:

@@ -120,15 +120,20 @@ public class UserServiceImpl implements UserService {
         ApplicationUser user = getUserById(id);
         if(amount > user.getCredits())
             throw new InvalidInputException("Insufficient balance - cannot debit for user with id: " + id);
-
-        user.setCredits(user.getCredits() - amount);
+        double balance = user.getCredits() - amount;
+        balance = Math.round(balance * 100);
+        balance = balance/100;
+        user.setCredits(balance);
     }
 
     @Override
     @Transactional
     public void credit(int id, double amount){
         ApplicationUser user = getUserById(id);
-        user.setCredits(user.getCredits() + amount);
+        double balance = user.getCredits() + amount;
+        balance = Math.round(balance * 100);
+        balance = balance/100;
+        user.setCredits(balance);
     }
 
     @Override
