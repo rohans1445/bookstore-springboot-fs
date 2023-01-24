@@ -128,6 +128,7 @@ public class UserController {
 
     @GetMapping("/{username}/exchanges")
     @PreAuthorize("#username == authentication.name")
+    @Operation(summary = "Get users exchanges")
     public ResponseEntity<List<ExchangeRequestDTO>> getUsersExchanges(@PathVariable("username") String username){
         ApplicationUser user = userService.getUserByUserName(username);
         List<ExchangeRequest> exchangeRequests = user.getExchangeRequests();

@@ -41,6 +41,7 @@ public class ExchangeController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get all exchanges")
     @GetMapping("/exchange")
     public ResponseEntity<List<ExchangeRequestDTO>> getAllExchanges(){
         ApplicationUser currentUser = userService.getCurrentUser();
@@ -56,6 +57,7 @@ public class ExchangeController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @Operation(summary = "Cancel an exchange")
     @GetMapping("/exchange/{id}/cancel")
     public ResponseEntity<ApiResponse> cancelExchange(@PathVariable("id") int id){
         ApplicationUser currentUser = userService.getCurrentUser();
@@ -71,6 +73,7 @@ public class ExchangeController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @Operation(summary = "Process exchange request")
     @GetMapping("/exchange/{id}/process")
     public ResponseEntity<ApiResponse> processExchange(@PathVariable("id") int exId){
         exchangeService.processExchangeRequest(exId);
