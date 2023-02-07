@@ -30,7 +30,7 @@ public class BookstoreFaker {
         b.setTags(faker.book().genre() + "," + faker.book().genre() + "," + faker.book().genre());
         b.setPrice(price);
         b.setImgPath(dataGenerator.generateImage());
-        b.setShortDesc(faker.lorem().paragraph(4));
+        b.setShortDesc(faker.lorem().paragraph(3));
         b.setBookDetail(bd);
 //        b.setHidden(false);
 

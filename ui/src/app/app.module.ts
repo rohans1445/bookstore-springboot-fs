@@ -36,6 +36,7 @@ import { ExchangeComponent } from './home/exchange/exchange.component';
 import { ExchangesComponent } from './home/my-profile/exchanges/exchanges.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AboutComponent } from './home/about/about.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ToastrModule } from 'ngx-toastr';
     ExchangeComponent,
     ExchangesComponent,
     NotFoundComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

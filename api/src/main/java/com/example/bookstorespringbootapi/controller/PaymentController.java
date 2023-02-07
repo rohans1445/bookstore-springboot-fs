@@ -22,6 +22,7 @@ import com.stripe.param.checkout.SessionListLineItemsParams;
 import com.stripe.param.checkout.SessionRetrieveParams;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentController {
 
     private final OrderService orderService;
@@ -146,11 +148,11 @@ public class PaymentController {
             //fulfill order
             orderService.fulfillOrder(order);
 
-            System.out.println(">>>>>>>>>>> Order fulfilled!");
-            System.out.println(session);
+            log.info(">>>>>>>>>>> Order fulfilled! order id - " + order.getId());
+            log.info(String.valueOf(session));
         }
 
-        return new ResponseEntity<>("test", HttpStatus.OK);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 
 }

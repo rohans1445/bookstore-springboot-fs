@@ -28,7 +28,7 @@ public class ExchangeService {
     public void createNewExchange(ExchangeCreateDTO exchangeCreateDTO){
         ApplicationUser currentUser = userService.getCurrentUser();
 
-        // throw ex if user does owns target book
+        // throw ex if user owns target book
         if(userService.itemExistsInUserInventory(exchangeCreateDTO.getOpenerExchangeBookId(), currentUser.getId())){
             throw new InvalidInputException("Target book is owned by user");
         }
@@ -79,9 +79,8 @@ public class ExchangeService {
     }
 
     public void processExchangeRequest(int exId) {
-        ApplicationUser currentUser = userService.getCurrentUser();
+        ApplicationUser closerUser = userService.getCurrentUser();
         ExchangeRequest exchangeRequest = getExchangeById(exId);
-        ApplicationUser closerUser = userService.getUserById(currentUser.getId());
 
         // check if closer owns the openers exchange book
         if(!userService.itemExistsInUserInventory(exchangeRequest.getOpenerExchangeBook().getId(), closerUser.getId())){
@@ -94,7 +93,7 @@ public class ExchangeService {
         }
 
         userService.removeFromInventory(exchangeRequest.getExchangeOpener().getId(), exchangeRequest.getOpenerOwnedBook().getId());
-        userService.removeFromInventory(currentUser.getId(), exchangeRequest.getOpenerExchangeBook().getId());
+        userService.removeFromInventory(closerUser.getId(), exchangeRequest.getOpenerExchangeBook().getId());
 
         userService.addToInventory(exchangeRequest.getExchangeOpener().getId(), exchangeRequest.getOpenerExchangeBook().getId());
         userService.addToInventory(closerUser.getId(), exchangeRequest.getOpenerOwnedBook().getId());

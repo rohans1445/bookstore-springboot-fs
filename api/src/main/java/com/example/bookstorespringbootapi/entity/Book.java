@@ -31,7 +31,7 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @Column(name = "short_desc")
+    @Column(name = "short_desc", length = 400)
     private String shortDesc;
 
     @Column(name = "price")

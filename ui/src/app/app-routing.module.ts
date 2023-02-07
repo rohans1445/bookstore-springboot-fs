@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { AboutComponent } from './home/about/about.component';
 import { BookDetailComponent } from './home/books/book-detail/book-detail.component';
 import { BookListComponent } from './home/books/book-list/book-list.component';
 import { BooksComponent } from './home/books/books.component';
@@ -39,6 +40,7 @@ const routes: Routes = [
     ]},
     {path: 'payment/success', component: PaymentSuccessComponent, canActivate: [AuthGuard]},
     {path: 'exchange', component: ExchangeComponent, canActivate: [AuthGuard]},
+    {path: 'about', component: AboutComponent},
     {path: 'not-found', component: NotFoundComponent},
   ]},
   {path: 'login', component: LoginComponent},

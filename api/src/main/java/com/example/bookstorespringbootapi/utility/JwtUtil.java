@@ -48,7 +48,7 @@ public class JwtUtil {
                     .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            log.info(":::::::: Error validating the token.");
+            log.info(":::::::: Error validating the token. {}", e.getMessage());
         }
         return false;
     }
