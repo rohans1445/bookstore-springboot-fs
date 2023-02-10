@@ -5,9 +5,9 @@ Bookstore application made using Spring Boot and Angular, featuring ability for 
 ![demo-2](https://user-images.githubusercontent.com/101462549/181914393-f2c7e15c-ac99-470f-ae51-bd55a20115c1.gif)
 
 ## Demo
-Live demo for this application can be found [here](https://example.com).
+Live demo for this application can be found [here](http://d18joqudyse9m9.cloudfront.net).
 
-API documentation can be found [here](https://example.com).
+API documentation can be found [here](http://bsngapi947.ddns.net/swagger-ui.html).
 
 Credentials:
 | Username | Password |
@@ -63,6 +63,3 @@ An exchange request can go through the following stages:
 
 ## Libraries used
 - Bootstrap 5
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
