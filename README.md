@@ -15,8 +15,38 @@ Credentials:
 | `user1`   | `pass`  |
 | `user2`   | `pass`  |
 | `user3`   | `pass`  |
-| `admin1`   | `test123admin` |
+| `admin1`   | `pass` |
 
+## Steps to setup API
+
+1. **Clone the repository**
+
+`git clone https://github.com/rohans1445/bookstore-springboot-fs.git`
+
+2. **Create MySQL Database**
+
+`create database bookstore-springboot-api`
+- Setup initial data by running SQL script from `src/main/resources/bs.sql`
+
+3. **Provide env variables**
+
+- Set the following environment variables:
+  - MYSQL_HOST
+  - MYSQL_PORT
+  - MYSQL_PASSWORD
+  - STRIPE_KEY
+  - STRIPE_WEBHOOK_KEY
+  - JWT_SECRET
+  - UI_BASE_URL
+
+4. **Start the app using maven**
+- `mvn spring-boot:run`
+- App will be running on http://localhost:8081
+
+## Steps to setup UI
+1. `cd` into `/ui` from command prompt
+2. Run `ng serve`
+3. App will be running on http://localhost:4200
 
 ##  Account Types and Abilities
 A `user` can...
