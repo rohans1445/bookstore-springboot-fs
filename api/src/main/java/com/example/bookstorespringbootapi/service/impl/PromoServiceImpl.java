@@ -6,6 +6,7 @@ import com.example.bookstorespringbootapi.exception.InvalidInputException;
 import com.example.bookstorespringbootapi.exception.PaymentException;
 import com.example.bookstorespringbootapi.repository.PromoRepository;
 import com.example.bookstorespringbootapi.service.PromoService;
+import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Coupon;
 import com.stripe.model.PromotionCode;
@@ -13,6 +14,7 @@ import com.stripe.model.PromotionCodeCollection;
 import com.stripe.param.CouponCreateParams;
 import com.stripe.param.PromotionCodeCreateParams;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,6 +27,9 @@ public class PromoServiceImpl implements PromoService {
 
     private final PromoRepository promoRepository;
 
+    @Value("${stripe.key}")
+    private String stripeKey;
+
     @Override
     public Discount getDiscount(String code) {
         Optional<Discount> discountOptional = promoRepository.findByCode(code);
@@ -34,10 +39,12 @@ public class PromoServiceImpl implements PromoService {
 
     @Override
     public Discount createDiscount(DiscountDTO discountDTO) {
+        Stripe.apiKey = stripeKey;
         Discount dsc = new Discount();
         dsc.setId(0);
         dsc.setAmount(discountDTO.getAmount());
         dsc.setCode(discountDTO.getCode());
+        Discount createdDiscount;
 
         try{
             CouponCreateParams params = CouponCreateParams.builder()
@@ -55,15 +62,17 @@ public class PromoServiceImpl implements PromoService {
                     .build();
 
             PromotionCode promotionCode = PromotionCode.create(promoParams);
+            createdDiscount = promoRepository.save(dsc);
         } catch (Exception e){
             throw new PaymentException("Error creating promotion code. "+e);
         }
 
-        return promoRepository.save(dsc);
+        return createdDiscount;
     }
 
     @Override
     public void deleteDiscount(String code) {
+        Stripe.apiKey = stripeKey;
         Discount discount = getDiscount(code);
         try {
             Map<String, Object> params = new HashMap<>();
