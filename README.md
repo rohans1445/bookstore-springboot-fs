@@ -2,7 +2,7 @@
 
 Bookstore application made using Spring Boot and Angular, featuring ability for users to purchase, review, rate and exchange books.
 
-![demo-2](https://user-images.githubusercontent.com/101462549/181914393-f2c7e15c-ac99-470f-ae51-bd55a20115c1.gif)
+![demo800](https://user-images.githubusercontent.com/101462549/222181355-5d80cce6-fc98-4fc4-b1e7-7632b3193ba6.gif)
 
 ## Demo
 Live demo for this application can be found [here](http://d18joqudyse9m9.cloudfront.net).
